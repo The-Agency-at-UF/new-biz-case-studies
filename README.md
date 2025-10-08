@@ -38,12 +38,17 @@ See images below to aid you:
   <img src="https://github.com/user-attachments/assets/e3c023de-42d5-4328-9b28-9189e903d8ac" width="70%" alt="image">
 </p>
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/492bdd36-b185-4597-801e-5b254b2bb970" width="70%" alt="step 2"/>
+</p>
+
 # How to contribute
 1) Create a branch in the terminal with `git branch <firstinitiallastinitial>/<feature>`
 2) To make sure you are on that branch and not main, do  `git branch` or check via GitHub Desktop
 3) Publish your branch via GitHub Desktop and then make your edits in VSCode
 4) Go to GitHub Desktop when done, add  `conventional commit : <feature>` as your title and a description
-5) Submit a PR and go to the GitHub wesbite page for your PR and request people to review!
+5) Make sure you are updated with main to prevent merge conflicts! 
+6) Submit a PR and go to the GitHub wesbite page for your PR and request people to review!
 
 # How to review code
 1) GitHub Desktop lets you choose a branch from another person to bring locally
