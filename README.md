@@ -43,12 +43,14 @@ See images below to aid you:
 </p>
 
 # How to contribute
-1) Create a branch in the terminal with `git branch <firstinitiallastinitial>/<feature>`
+1) Create a branch in the terminal with `git checkout -b <firstinitiallastinitial>/<feature>`
 2) To make sure you are on that branch and not main, do  `git branch` or check via GitHub Desktop
 3) Publish your branch via GitHub Desktop and then make your edits in VSCode
 4) Go to GitHub Desktop when done, add  `conventional commit : <feature>` as your title and a description
 5) Make sure you are updated with main to prevent merge conflicts! 
 6) Submit a PR and go to the GitHub wesbite page for your PR and request people to review!
+
+Link to Conventional Commits Cheat Sheet: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
 
 # How to review code
 1) GitHub Desktop lets you choose a branch from another person to bring locally
