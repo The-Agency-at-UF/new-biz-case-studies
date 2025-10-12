@@ -1,0 +1,20 @@
+# Ignore environment files
+.env
+
+# Ignore build artifacts and binaries
+*.exe
+*.out
+*.log
+
+# Dependency caches
+/vendor/
+/bin/
+/tmp/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# IDE configs
+.vscode/
+.idea/
