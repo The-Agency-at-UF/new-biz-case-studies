@@ -12,7 +12,14 @@ export default function PortfolioPage() {
                 <div>Portfolio Page</div>
             </div>
             
-            <div> {/* Buttons for category */} </div>
+            <div className="flex flex-wrap gap-3"> {/* Buttons for category */} 
+
+                <button className="px-4 py-2 bg-white text-black rounded-full">All</button>
+                <button className="px-4 py-2 bg-white text-black rounded-full">Category</button>
+                <button className="px-4 py-2 bg-white text-black rounded-full">Category</button>
+                <button className="px-4 py-2 bg-white text-black rounded-full">Category</button>
+                <button className="px-4 py-2 bg-white text-black rounded-full">Category</button>
+            </div>
             <div className="flex flex-wrap gap-10"> 
                 <PortfolioCard /> 
                 <PortfolioCard /> 
