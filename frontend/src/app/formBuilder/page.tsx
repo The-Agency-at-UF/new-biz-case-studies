@@ -12,13 +12,8 @@ export default function FormPage() {
   const [tags, setTags] = useState("");
   //Stores the case stuides as an array so users can pick multiple to be displayed
   const [caseStudies, setCaseStudies] = useState<string[]>([]);
-  // Stores dynamic blocks in state array - each block can be text, image, or animation
+  //Stores the dynamic content blocks
   const [blocks, setBlocks] = useState<Block[]>([]);
-
-  // Handler for blocks state changes from DynamicBlocks component
-  const handleBlocksChange = (newBlocks: Block[]) => {
-    setBlocks(newBlocks);
-  };
 
   // Handler for submitted form data
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,9 +24,13 @@ export default function FormPage() {
       company,
       tags: tags.split(",").map((t) => t.trim()),
       caseStudies,
-      blocks, // text paragraphs, images, animations
+      blocks,
     };
-  // TODO: Send formData to backend API for storage instead
+
+    // TODO: Send formData to backend API for storage instead
+    // Note: File objects in blocks.content.imageFile cannot be serialized to JSON
+    // Handle image file uploads separately when implementing S3 upload functionality
+    
     console.log("Form submitted: ", formData);
   };
 
@@ -107,7 +106,7 @@ export default function FormPage() {
             >
               Case Studies (select all that apply)
             </label>
-            <div className="flex flex-col gap-2 max-h-25 overflow-y-auto border rounded-md p-2">
+            <div className="flex flex-col gap-2 max-h-25 overflow-y-auto border rounded-md p-2 bg-gray-50">
               {/* Later, update with all our case studies */}
               {["Amazon", "Disney", "Uber", "AWS", "Lyft"].map((option) => (
                 <label key={option} className="flex items-center gap-2">
@@ -130,15 +129,14 @@ export default function FormPage() {
             </div>
           </div>
 
-          {/* Dynamic Blocks Section - allows users to add text, image, or animation blocks */}
-          <DynamicBlocks 
-            blocks={blocks} 
-            onBlocksChange={handleBlocksChange} 
-          />
+          {/* Dynamic Blocks Field */}
+          <div>
+            <DynamicBlocks blocks={blocks} onBlocksChange={setBlocks} />
+          </div>
 
           <button
             type="submit"
-            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 transition-colors cursor-pointer"
+            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 transition-colors"
             style={{ backgroundColor: "#5302D5" }}
           >
             Submit

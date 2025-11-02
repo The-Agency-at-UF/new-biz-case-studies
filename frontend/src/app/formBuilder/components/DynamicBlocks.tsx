@@ -11,7 +11,9 @@ export interface Block {
   type: BlockType;
   content: {
     text?: string;           // For text blocks - stores paragraph content
-    imageUrl?: string;       // For image blocks - stores image URL. May change this to file upload depending on how we want to store it in db.
+    imageUrl?: string;       // For image blocks - stores preview data URL for display
+    imageFile?: File;        // For image blocks - stores the uploaded file object (for future S3 upload)
+    imageFileName?: string;   // For image blocks - stores the file name
     imageAlt?: string;        // For image blocks - stores alt text for accessibility
     animationType?: string;   // For animation blocks - stores animation type (fadeIn, slideIn, etc.)
     animationDuration?: number; // For animation blocks - stores duration in seconds
@@ -49,13 +51,49 @@ export default function DynamicBlocks({ blocks, onBlocksChange }: DynamicBlocksP
     ));
   };
 
-  const updateBlockContent = (blockId: string, field: string, value: string | number) => {
+  const updateBlockContent = (blockId: string, field: string, value: string | number | File) => {
     // Updates specific content fields for a block (text, imageUrl, etc.)
     onBlocksChange(blocks.map(block => 
       block.id === blockId 
         ? { ...block, content: { ...block.content, [field]: value } }
         : block
     ));
+  };
+
+  const handleImageUpload = (blockId: string, file: File | null) => {
+    if (!file) {
+      // Clear the image if no file is selected
+      onBlocksChange(blocks.map(block => 
+        block.id === blockId 
+          ? { ...block, content: { ...block.content, imageFile: undefined, imageUrl: undefined, imageFileName: undefined } }
+          : block
+      ));
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file');
+      return;
+    }
+
+    // Create preview using FileReader
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const previewUrl = reader.result as string;
+      onBlocksChange(blocks.map(block => 
+        block.id === blockId 
+          ? { ...block, content: { ...block.content, imageFile: file, imageUrl: previewUrl, imageFileName: file.name } }
+          : block
+      ));
+      
+      // TODO: Upload image to S3 bucket here
+      // - Use block.content.imageFile to upload to S3
+      // - Store the S3 URL in block.content.imageUrl instead of the data URL
+      // - Handle upload progress and error states
+      
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -122,16 +160,47 @@ export default function DynamicBlocks({ blocks, onBlocksChange }: DynamicBlocksP
             <div className="space-y-3">
               <div>
                 <label className="block text-xs font-medium mb-1 text-gray-600">
-                  Image URL
+                  Upload Image
                 </label>
-                <input
-                  type="url"
-                  value={block.content.imageUrl || ""}
-                  onChange={(e) => updateBlockContent(block.id, "imageUrl", e.target.value)}
-                  placeholder="https://example.com/image.jpg"
-                  className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="flex items-center gap-2">
+                  <label className="flex-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        handleImageUpload(block.id, file);
+                      }}
+                      className="hidden"
+                      id={`file-input-${block.id}`}
+                    />
+                    <span className="inline-block w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 text-center font-medium">
+                      {block.content.imageFileName ? "Change Image" : "Choose Image"}
+                    </span>
+                  </label>
+                </div>
+                {block.content.imageFileName && (
+                  <div className="mt-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-md">
+                    <p className="text-xs font-medium text-gray-700">
+                      Selected: <span className="text-gray-900">{block.content.imageFileName}</span>
+                    </p>
+                  </div>
+                )}
               </div>
+              {block.content.imageUrl && (
+                <div>
+                  <label className="block text-xs font-medium mb-1 text-gray-600">
+                    Preview
+                  </label>
+                  <div className="border rounded-md p-2 bg-gray-50">
+                    <img
+                      src={block.content.imageUrl}
+                      alt={block.content.imageAlt || "Preview"}
+                      className="max-w-full h-auto max-h-64 rounded-md"
+                    />
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="block text-xs font-medium mb-1 text-gray-600">
                   Alt Text
