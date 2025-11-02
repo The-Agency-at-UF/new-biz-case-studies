@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DynamicBlocks, { Block } from "./components/DynamicBlocks";
 
 // Form page - TODO: update UI/design later to match Agency's theme
 export default function FormPage() {
@@ -11,6 +12,8 @@ export default function FormPage() {
   const [tags, setTags] = useState("");
   //Stores the case stuides as an array so users can pick multiple to be displayed
   const [caseStudies, setCaseStudies] = useState<string[]>([]);
+  //Stores the dynamic content blocks
+  const [blocks, setBlocks] = useState<Block[]>([]);
 
   // Handler for submitted form data
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,8 +24,13 @@ export default function FormPage() {
       company,
       tags: tags.split(",").map((t) => t.trim()),
       caseStudies,
+      blocks,
     };
-  // TODO: Send formData to backend API for storage instead
+
+    // TODO: Send formData to backend API for storage instead
+    // Note: File objects in blocks.content.imageFile cannot be serialized to JSON
+    // Handle image file uploads separately when implementing S3 upload functionality
+    
     console.log("Form submitted: ", formData);
   };
 
@@ -119,6 +127,11 @@ export default function FormPage() {
                 </label>
               ))}
             </div>
+          </div>
+
+          {/* Dynamic Blocks Field */}
+          <div>
+            <DynamicBlocks blocks={blocks} onBlocksChange={setBlocks} />
           </div>
 
           <button
