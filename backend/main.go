@@ -114,6 +114,57 @@ func main() {
 		c.JSON(http.StatusCreated, gin.H{"key": key, "location": out.Location})
 	})
 
+	// --- Delete company ---
+	r.DELETE("/api/company/:id", func(c *gin.Context) {
+		companyID := c.Param("id")
+
+		if err := help.DeleteCompany(companyID); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Company %s deleted successfully", companyID)})
+	})
+
+	// --- Delete case study ---
+	r.DELETE("/api/casestudy/:companyid/:templateid", func(c *gin.Context) {
+		companyID := c.Param("companyid")
+		templateID := c.Param("templateid")
+
+		fmt.Println("DELETE called for", companyID, templateID)
+
+		if err := help.DeleteCaseStudy(companyID, templateID); err != nil {
+			fmt.Println("Error deleting case study:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Case study deleted successfully"})
+	})
+
+
+
+	// --- Get all case studies for one company ---
+	r.GET("/api/company/:id/casestudies", func(c *gin.Context) {
+		companyID := c.Param("id")
+
+		studies, err := help.GetCaseStudiesForCompany(companyID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, studies)
+	})
+
+	// --- Get all companies and their case studies (overview) ---
+	r.GET("/api/overview", func(c *gin.Context) {
+		fullData, err := help.GetAllCompaniesWithCaseStudies()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, fullData)
+	})
+
 	// --- Run server ---
 	r.Run(":8080")
 }
