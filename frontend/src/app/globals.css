@@ -36,12 +36,11 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 2px; 
+  padding: 3px; 
   background: linear-gradient(90deg, #f34d4e, #b053bc, #f6b530);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-}}
-
+}
