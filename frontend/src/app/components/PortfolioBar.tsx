@@ -1,39 +1,76 @@
+
+"use client"; 
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function PortfolioBar() {
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // handle scroll logic
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      // scrolling down will hide navbar
+      setShow(false);
+    } else {
+      // scrolling up will show navbar
+      setShow(true);
+    }
+    setLastScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
     <nav
-      className="
+      className={`
         fixed top-0 left-0 w-full z-50
-        bg-[var(--background)] text-[var(--foreground)]
-        shadow-md border-b border-gray-200 dark:border-gray-800
-      "
+        bg-black/80 backdrop-blur-md text-white
+        transition-transform duration-500 ease-in-out
+        ${show ? "translate-y-0" : "-translate-y-full"}
+      `}
     >
-      {/* Full-width container */}
-      <div className="flex justify-between items-center px-10 py-3">
-        {/* Left side (title) */}
-        <h1 className="text-2xl font-bold">The Agency Case Studies</h1>
-        
-        {/* Right side (navigation) */}
-        {/* Use Link for other nav links once pages are added. Provides faster navigation for internal routes */}
-        <ul className="flex space-x-8 text-[var(--foreground)]">
+      <div className="flex justify-between items-center px-12 py-9">
+        {/* Title */}
+        <h1 className="text-4xl text-white font-[Times_New_Roman] tracking-wide">
+          The Agency Case Studies
+        </h1>
+
+        {/* Nav buttons */}
+        <ul className="flex space-x-8 font-[Times_New_Roman] text-xl tracking-wide">
           <li>
-            <Link href="/" className="hover:text-[#f34d4e] transition-colors">
+            <Link
+              href="/"
+              className="text-white font-medium hover:text-[#f34d4e] transition-colors duration-300 ease-in-out hover:scale-110 transform"
+            >
               Home
             </Link>
           </li>
           <li>
-            <a href="#projects" className="hover:text-[#b053bc] transition-colors">
+            <a
+              href="#projects"
+              className="text-white font-medium hover:text-[#b053bc] transition-colors duration-300 ease-in-out hover:scale-110 transform"
+            >
               About
             </a>
           </li>
           <li>
-            <Link href="/portfolio" className="hover:text-[#f6b530] transition-colors">
+            <Link
+              href="/portfolio"
+              className="text-white font-medium hover:text-[#f6b530] transition-colors duration-300 ease-in-out hover:scale-110 transform"
+            >
               Case Studies
             </Link>
           </li>
           <li>
-            <a href="#contact" className="hover:text-[#f34d4e] transition-colors">
+            <a
+              href="#contact"
+              className="text-white font-medium hover:text-[#f34d4e] transition-colors duration-300 ease-in-out hover:scale-110 transform"
+            >
               Contact
             </a>
           </li>
