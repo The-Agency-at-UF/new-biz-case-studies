@@ -14,10 +14,16 @@ export default function FormPage() {
   const [caseStudies, setCaseStudies] = useState<string[]>([]);
   //Stores the dynamic content blocks
   const [blocks, setBlocks] = useState<Block[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<string | null>(null);
 
   // Handler for submitted form data
-  const handleSubmit = (e: React.FormEvent) => {
+  // Sends the current form state to the backend. Note: image file uploads are not
+  // implemented here yet.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitResult(null);
+    setSubmitting(true);
 
     const formData = {
       title,
@@ -30,8 +36,39 @@ export default function FormPage() {
     // TODO: Send formData to backend API for storage instead
     // Note: File objects in blocks.content.imageFile cannot be serialized to JSON
     // Handle image file uploads separately when implementing S3 upload functionality
-    
+  
     console.log("Form submitted: ", formData);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        console.error("Submit failed", errBody);
+        setSubmitResult("Submission failed. See console for details.");
+        setSubmitting(false);
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      console.log("Form submitted successfully:", data);
+      setSubmitResult(`Created company ${data.companyID} template ${data.templateID}`);
+      // To clear the form after submission
+      setTitle("");
+      setCompany("");
+      setTags("");
+      setCaseStudies([]);
+      setBlocks([]);
+    } catch (err) {
+      console.error("Network error while submitting form:", err);
+      setSubmitResult("Network error while submitting form. See console.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Render section
@@ -136,11 +173,18 @@ export default function FormPage() {
 
           <button
             type="submit"
-            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md py-2 transition-colors"
+            disabled={submitting}
+            aria-busy={submitting}
+            className={`mt-2 ${submitting ? 'opacity-60 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold rounded-md py-2 transition-colors`}
             style={{ backgroundColor: "#5302D5" }}
           >
-            Submit
+            {submitting ? 'Submitting...' : 'Submit'}
           </button>
+          {submitResult && (
+            <div className="mt-3 text-sm text-gray-700">
+              {submitResult}
+            </div>
+          )}
         </form>
       </main>
       {/* Footer */}

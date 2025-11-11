@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"time"
-	
+
 	help "new-biz-case-studies-backend/helpfunc"
 
 	"github.com/gin-contrib/cors"
@@ -40,7 +40,9 @@ func main() {
 
 	// --- Initialize S3  ---
 	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	uploader := manager.NewUploader(s3.NewFromConfig(cfg))
 	bucket := "new-biz-case-studies-bucket"
 
@@ -99,7 +101,9 @@ func main() {
 
 		key := "case-studies/" + fmt.Sprintf("%d-%s", time.Now().Unix(), filepath.Base(fh.Filename))
 		ct := fh.Header.Get("Content-Type")
-		if ct == "" { ct = "application/octet-stream" }
+		if ct == "" {
+			ct = "application/octet-stream"
+		}
 
 		out, err := uploader.Upload(c, &s3.PutObjectInput{
 			Bucket:      &bucket,
@@ -114,7 +118,54 @@ func main() {
 		c.JSON(http.StatusCreated, gin.H{"key": key, "location": out.Location})
 	})
 
+	// --- Submit form endpoint (POST /api/submit-form) ---
+	// Accepts JSON from the frontend form and inserts a Company and CaseStudy into DynamoDB.
+	r.POST("/api/submit-form", func(c *gin.Context) {
+		var formData struct {
+			Title       string      `json:"title"`
+			Company     string      `json:"company"`
+			Tags        []string    `json:"tags"`
+			CaseStudies []string    `json:"caseStudies"`
+			Blocks      interface{} `json:"blocks"`
+		}
+
+		if err := c.BindJSON(&formData); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		// Timestamp-based IDs; replace with UUIDs in the future if desired,
+		// this can cause collisions if multiple writes happen at the same second
+		ts := time.Now().Unix()
+		companyID := fmt.Sprintf("COMP%v", ts)
+		templateID := fmt.Sprintf("CS%v", ts)
+
+		// Insert company record
+		company := help.Company{
+			CompanyID:   companyID,
+			Name:        formData.Company,
+			Industry:    "",
+			CaseStudies: []string{templateID},
+		}
+		if err := help.InsertCompany(company); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		// Insert case study record
+		cs := help.CaseStudy{
+			CompanyID:  companyID,
+			TemplateID: templateID,
+			Blocks:     formData.Blocks,
+		}
+		if err := help.InsertCaseStudy(cs); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{"companyID": companyID, "templateID": templateID})
+	})
+
 	// --- Run server ---
 	r.Run(":8080")
 }
-
