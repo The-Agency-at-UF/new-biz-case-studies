@@ -49,6 +49,15 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Backend is up and DynamoDB tables are ready!"})
 	})
 
+	// --- Seed mock data (POST /api/seed-mock-data) ---
+	r.POST("/api/seed-mock-data", func(c *gin.Context) {
+		if err := help.SeedMockData(); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Mock data for Amazon, Uber, and Google seeded successfully!"})
+	})
+
 	// --- Insert company test (POST /api/test-company) ---
 	r.POST("/api/test-company", func(c *gin.Context) {
 		testCompany := help.Company{

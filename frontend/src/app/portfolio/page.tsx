@@ -35,6 +35,9 @@ async function fetchCompanies(): Promise<CompanyWithStudies[]> {
 export default async function PortfolioPage() {
 
   const companies = await fetchCompanies();
+  const companiesWithCaseStudies = companies.filter(
+    (company) => company.CaseStudies && company.CaseStudies.length > 0
+  );
 
   return (
     <div className="relative bg-black min-h-screen text-white pt-40 pl-12 overflow-hidden">
@@ -92,10 +95,12 @@ export default async function PortfolioPage() {
 
         {/* Portfolio cards */}
         <div className="flex flex-wrap gap-10 pb-20">
-          {companies.map((company) =>
+          {companiesWithCaseStudies.map((company) =>
             <Link href={`/portfolio/${company.CompanyID}`} key={company.CompanyID}>
               <PortfolioCard
                 key={company.CompanyID}
+                projectTitle={company.Name}
+                industry={company.Industry}
               />
             </Link>
           )}

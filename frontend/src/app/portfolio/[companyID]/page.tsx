@@ -39,6 +39,24 @@ export default async function CompanySpecificCaseStudies({params,}: {params: { c
   if (!company) {
     return (
       <div className="text-white pt-40 pl-12">
+
+        {/* Background blobs */}
+        <img
+          src="/Blob(1).png"
+          alt=""
+          className="absolute top-0 left-0 w-[600px] opacity-40 blur-lg pointer-events-none select-none"
+        />
+        <img
+          src="/Blob(2).png"
+          alt=""
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] opacity-40 blur-lg pointer-events-none select-none"
+        />
+        <img
+          src="/Blob(3).png"
+          alt=""
+          className="absolute bottom-0 right-0 w-[800px] opacity-40 blur-lg pointer-events-none select-none"
+        />
+
         <PortfolioBar />
         <p>Company has no case studies!</p>
       </div>
@@ -83,9 +101,9 @@ export default async function CompanySpecificCaseStudies({params,}: {params: { c
         {/* Case study cards for this company */}
         <div className="flex flex-wrap gap-10 pb-20">
           {company.CaseStudies.map((study) => (
-            <PortfolioCard
+            <div>
               key={study.CaseStudyID}
-            />
+            </div>
           ))}
         </div>
       </div>
