@@ -2,6 +2,8 @@ package helpfunc
 
 import "fmt"
 
+// TODO: Remove the mock data + delete it
+
 // SeedMockData inserts mock data for Amazon, Uber, and Google
 func SeedMockData() error {
 	// Create Amazon

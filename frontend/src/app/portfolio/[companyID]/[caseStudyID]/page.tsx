@@ -1,10 +1,11 @@
-import PortfolioCard from "../../components/PortfolioCard";
-import PortfolioBar from "../../components/PortfolioBar";
+import PortfolioCard from "../../../components/PortfolioCard";
+import PortfolioBar from "../../../components/PortfolioBar";
+
+// TODO: UPDATE this function to display specific case studies
 
 type CaseStudy = {
-  CompanyID: string;
-  TemplateID: string;
-  Blocks: any; // array of block objects
+  CaseStudyID: string;
+  Title: string;
 };
 
 type CompanyWithStudies = {
@@ -15,31 +16,27 @@ type CompanyWithStudies = {
 };
 
 // TODO: Replace to env url when deploying
-async function fetchCompanyWithCaseStudies(
+async function fetchCompany(
   companyID: string
 ): Promise<CompanyWithStudies | null> {
-  // Fetch all companies to get the company info
-  const companiesRes = await fetch(
-    `http://localhost:8080/api/overview`,
+  const res = await fetch(
+    `http://localhost:8080/api/companies/${companyID}/casestudies`,
     {
       cache: "no-store",
     }
   );
 
-  if (!companiesRes.ok) {
-    console.error("Failed to fetch companies", companiesRes.statusText);
+  if (!res.ok) {
+    console.error("Failed to fetch company's case studies", res.statusText);
     return null;
   }
 
-  const companies: CompanyWithStudies[] = await companiesRes.json();
-  const company = companies.find((c) => c.CompanyID === companyID);
-
-  return company || null;
+  return res.json();
 }
 
 export default async function CompanySpecificCaseStudies({params,}: {params: { companyID: string };}) {
   const { companyID } = params;
-  const company = await fetchCompanyWithCaseStudies(companyID);
+  const company = await fetchCompany(companyID);
 
   if (!company) {
     return (
@@ -105,12 +102,9 @@ export default async function CompanySpecificCaseStudies({params,}: {params: { c
 
         {/* Case study cards for this company */}
         <div className="flex flex-wrap gap-10 pb-20">
-          {company.CaseStudies.map((caseStudy: CaseStudy) => (
-            <div key={caseStudy.TemplateID}>
-              <PortfolioCard
-                projectTitle={caseStudy.TemplateID}
-                industry={null}
-              />
+          {company.CaseStudies.map((study) => (
+            <div>
+              key={study.CaseStudyID}
             </div>
           ))}
         </div>

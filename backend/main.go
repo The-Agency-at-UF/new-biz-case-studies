@@ -49,6 +49,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Backend is up and DynamoDB tables are ready!"})
 	})
 
+	// TODO: Remove the mock data + delete it
 	// --- Seed mock data (POST /api/seed-mock-data) ---
 	r.POST("/api/seed-mock-data", func(c *gin.Context) {
 		if err := help.SeedMockData(); err != nil {

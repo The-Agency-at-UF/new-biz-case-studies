@@ -2,10 +2,10 @@ import PortfolioCard from "../components/PortfolioCard";
 import PortfolioBar from "../components/PortfolioBar";
 import Link from "next/link";
 
-// TODO: Replace with correct fields in CaseStudy Type
 type CaseStudy = {
-  CaseStudyID: string;
-  Title: string;
+  CompanyID: string;
+  TemplateID: string;
+  Blocks: any; // array of block objects
 };
 
 type CompanyWithStudies = {

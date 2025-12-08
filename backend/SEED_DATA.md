@@ -1,3 +1,5 @@
+# TODO: Delete this file
+
 # Seeding Mock Data
 
 This guide shows how to populate the database with mock data for Amazon, Uber, and Google.
