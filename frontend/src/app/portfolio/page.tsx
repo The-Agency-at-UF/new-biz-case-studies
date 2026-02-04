@@ -13,12 +13,12 @@ export default function PortfolioPage() {
         alt=""
         className="absolute top-0 left-0 w-[600px] opacity-40 blur-lg pointer-events-none select-none"
       />
-
+{/* 
       <img
         src="/Blob(2).png"
         alt=""
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] opacity-40 blur-lg pointer-events-none select-none"
-      />
+      /> */}
 
       <img
         src="/Blob(3).png"
