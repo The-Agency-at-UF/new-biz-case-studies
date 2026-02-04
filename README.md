@@ -22,7 +22,8 @@ See our inspo: https://www.monks.com/work-inventory
 4) You should see the repository open now in your GitHub desktop
 5) Go into your Files Explorer and right click the project folder and "Open with VSCode"
 6) Use terminal to go inside the frontend folder `cd frontend` and then do `npm run dev`
-7) Once you click on the http://localhost:3000 you can see the project! 
+7) From the root directory, open another terminal and enter the backend folder `cd backend` and then do `go run .`
+8) Once you click on the http://localhost:3000 you can see the project! 
 
 See images below to aid you: 
 
