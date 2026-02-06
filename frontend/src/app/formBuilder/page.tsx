@@ -106,10 +106,10 @@ export default function FormPage() {
             >
               Case Studies (select all that apply)
             </label>
-            <div className="flex flex-col gap-2 max-h-25 overflow-y-auto border rounded-md p-2 bg-gray-50">
+            <div className="flex flex-col gap-2 max-h-25 overflow-y-auto border rounded-md p-2">
               {/* Later, update with all our case studies */}
               {["Amazon", "Disney", "Uber", "AWS", "Lyft"].map((option) => (
-                <label key={option} className="flex items-center gap-2">
+                <label key={option} className="flex items-center gap-2 text-foreground">
                   <input
                     type="checkbox"
                     value={option}

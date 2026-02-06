@@ -1,13 +1,11 @@
+import NavBar from "../components/NavBar";
 
-import PortfolioBar from "./components/PortfolioBar";
-
-export default function PortfolioPage() {
+export default function HomePage() {
   return (
-    <div>
-      <PortfolioBar />
-
-      <div className="pt-20 px-6">
-        <div>Under construction... Check back soon!</div>
+    <div className="min-h-screen flex flex-col items-center justify-center text-white">
+      <NavBar />
+      <div>
+        <h1 className="text-foreground">Under construction... Check back soon!</h1>
       </div>
     </div>
   );
