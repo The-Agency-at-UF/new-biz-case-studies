@@ -1,7 +1,44 @@
 import PortfolioCard from "../components/PortfolioCard";
 import PortfolioBar from "../components/PortfolioBar";
+import Link from "next/link";
 
-export default function PortfolioPage() {
+type CaseStudy = {
+  CompanyID: string;
+  TemplateID: string;
+  Blocks: any; // array of block objects
+};
+
+type CompanyWithStudies = {
+  CompanyID: string;
+  Name: string;
+  Industry: string;
+  CaseStudies: CaseStudy[];
+};
+
+async function fetchCompanies(): Promise<CompanyWithStudies[]> {
+  const res = await fetch(
+    // TODO: update env to production URL when deploying
+    `http://localhost:8080/api/overview`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    console.error("Failed to fetch companies", res.statusText);
+    return [];
+  }
+
+  return res.json();
+}
+
+export default async function PortfolioPage() {
+
+  const companies = await fetchCompanies();
+  const companiesWithCaseStudies = companies.filter(
+    (company) => company.CaseStudies && company.CaseStudies.length > 0
+  );
+
   return (
     <div className="relative bg-black min-h-screen text-white pt-40 pl-12 overflow-hidden">
       {/* Navbar */}
@@ -52,9 +89,15 @@ export default function PortfolioPage() {
 
         {/* Portfolio cards */}
         <div className="flex flex-wrap gap-10 pb-20">
-          {[...Array(15)].map((_, i) => (
-            <PortfolioCard key={i} />
-          ))}
+          {companiesWithCaseStudies.map((company) =>
+            <Link href={`/portfolio/${company.CompanyID}`} key={company.CompanyID}>
+              <PortfolioCard
+                key={company.CompanyID}
+                projectTitle={company.Name}
+                industry={company.Industry}
+              />
+            </Link>
+          )}
         </div>
       </div>
     </div>
