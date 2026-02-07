@@ -13,19 +13,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const gentona = localFont({
+export const gentona = localFont({
   src: [
-    { path: "../fonts/Gentona Thin.otf", weight: "100" },
-    { path: "../fonts/Gentona ExtraLight.otf", weight: "200" },
-    { path: "../fonts/Gentona Light.otf", weight: "300" },
-    { path: "../fonts/Gentona Book.otf", weight: "400" },
-    { path: "../fonts/Gentona Medium.otf", weight: "500" },
-    { path: "../fonts/Gentona SemiBold.otf", weight: "600" },
-    { path: "../fonts/Gentona Bold.otf", weight: "700" },
-    { path: "../fonts/Gentona ExtraBold.otf", weight: "800" },
-    { path: "../fonts/Gentona Heavy.otf", weight: "900" },
+    { path: "./fonts/gentona/Gentona Thin.otf", weight: "100" },
+    { path: "./fonts/gentona/Gentona ExtraLight.otf", weight: "200" },
+    { path: "./fonts/gentona/Gentona Light.otf", weight: "300" },
+    { path: "./fonts/gentona/Gentona Book.otf", weight: "400" },
+    { path: "./fonts/gentona/Gentona Medium.otf", weight: "500" },
+    { path: "./fonts/gentona/Gentona SemiBold.otf", weight: "600" },
+    { path: "./fonts/gentona/Gentona Bold.otf", weight: "700" },
+    { path: "./fonts/gentona/Gentona ExtraBold.otf", weight: "800" },
+    { path: "./fonts/gentona/Gentona Heavy.otf", weight: "900" },
   ],
 });
+
+
 
 
 

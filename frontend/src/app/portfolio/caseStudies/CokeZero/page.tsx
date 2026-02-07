@@ -5,11 +5,14 @@ import cokeAsset5 from "./assets/CokeAsset5.png";
 import agencyLogo from "./assets/AgencyLogoFull.png";
 import NavBar from "../../../../components/NavBar";
 
+import { gentona } from "@/app/layout";
+
+
 export default function CokeZeroPage() {
   return (
     <>
       <NavBar />
-      <div className="mx-20">
+      <div className={`mx-20 ${gentona.className}`}>
 
         <section
           id="coke-landing"
