@@ -3,9 +3,12 @@ import NavBar from "../../../../components/NavBar";
 
 export default function CokeZeroPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-        <NavBar />
-        <h1>Coming Soon!</h1>
-    </div>
+    
+    <section className="min-h-screen flex items-center justify-center">
+      <NavBar />
+      <h1 className="text-5xl font-bold text-white">
+        Coming Soon!
+      </h1>
+    </section>
   );
 }
