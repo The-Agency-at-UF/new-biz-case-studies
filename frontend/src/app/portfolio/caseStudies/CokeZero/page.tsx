@@ -59,22 +59,30 @@ export default function CokeZeroPage() {
             </h3>
           </div>
         </section>
+        <div className="flex flex-col gap-4">
+          <div className="w-50 h-[3px] bg-[#ED1C24] ml-auto" />
+          <div className="w-20 h-[3px] bg-[#ED1C24] ml-auto" />
+          <div className="w-200 h-[3px] bg-[#ED1C24] ml-auto" />
+          <div className="w-100 h-[3px] bg-[#ED1C24] ml-auto" />
+          <div className="w-20 h-[3px] bg-[#ED1C24] ml-auto" />
+        </div>
+        
         <section className="relative min-h-screen items-center overflow-hidden ml-2 ">
           <div className="py-6">
-            <h1 className="text-5xl font-black">THE</h1>
-            <h1 className="text-5xl text-[#DA2028] font-black">OPPORTUNITY</h1>
+            <h1 className="text-6xl font-extrabold">THE</h1>
+            <h1 className="text-6xl text-[#DA2028] font-extrabold">OPPORTUNITY</h1>
           </div>
           
           <div className="flex">
             <div className="w-150">
-              <p>In 2020, the possibility of a safe and normal college football season was 
+              <p className="text-lg">In 2020, the possibility of a safe and normal college football season was 
               intercepted by the COVID-19 pandemic. Fans watched their favorite players test
               positive, their favorite teams pull out and anticipated games get cancelled
               indefinitely. Many had to say goodbye to their game-day favorites, namely rowdy
               crowds and over-the-top tailgates.
               </p>
               <br></br>
-              <p>
+              <p className="text-lg">
                 Like the rest of us, Coca-Cola did not anticipate a pandemic, much less one that would 
                 leave an impact for years to come. Coke's internal marketing agency, KO:OP, had planned
                 various in-person activations inside college football stadiums for the 2020 season and 
