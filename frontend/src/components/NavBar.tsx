@@ -1,5 +1,3 @@
-// // // nav bar
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -42,7 +40,7 @@ export default function PortfolioBar() {
     >
       <div className="flex justify-between items-center px-12 py-5 border-b border-white/10">
         
-        {/* Logo and case studies subtitle */}
+        {/* logo*/}
         <div className="flex flex-col items-start gap-1">
           <Link href="/" className="relative h-10 w-44">
             <Image 
@@ -54,16 +52,12 @@ export default function PortfolioBar() {
             />
           </Link>
 
-          <Link 
-            href="/portfolio" 
-            className="group relative inline-block font-sans text-[15px] uppercase tracking-[0.35em] font-black hover:text-[#f6b530] transition-all duration-300"
-          >
+          <span className="font-sans text-[14px] uppercase tracking-[0.4em] font-black text-white select-none pointer-events-none">
             Case Studies
-            <span className="absolute left-0 bottom-0 w-full h-[1px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-          </Link>
+          </span>
         </div>
 
-        {/* Navigation links */}
+        {/*navigation links*/}
         <ul className="flex space-x-12 font-sans text-sm uppercase tracking-[0.3em] font-black">
           <li>
             <Link 
@@ -80,6 +74,15 @@ export default function PortfolioBar() {
               className="group relative py-1 hover:text-[#b053bc] transition-all duration-300"
             >
               About
+              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </Link>
+          </li>
+          <li>
+            <Link 
+              href="/portfolio" 
+              className="group relative py-1 hover:text-[#f6b530] transition-all duration-300"
+            >
+              Case Studies
               <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
