@@ -52,7 +52,7 @@ export default function PortfolioBar() {
             />
           </Link>
 
-          <span className="font-sans text-[14px] uppercase tracking-[0.4em] font-black text-white select-none pointer-events-none">
+          <span className="font-sans text-[15px] uppercase tracking-[0.4em] font-black text-white select-none pointer-events-none">
             Case Studies
           </span>
         </div>
