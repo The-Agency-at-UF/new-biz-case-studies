@@ -47,7 +47,7 @@ export default function UberPage() {
                 </div>
                 
                 {/* x separator */}
-                <span className="text-5xl font-extralight text-white pb-4">×</span>
+                <span className="text-7xl font-extralight text-white pb-10">×</span>
 
                 <div className="relative w-[500px] h-36">
                     <Image 
