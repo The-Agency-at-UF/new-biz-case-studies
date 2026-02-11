@@ -38,10 +38,10 @@ export default function PortfolioBar() {
         ${show ? "translate-y-0" : "-translate-y-full"}
       `}
     >
-      <div className="flex justify-between items-center px-12 py-5 border-b border-white/10">
+      <div className="flex justify-between items-center px-12 border-b border-white/10">
         
-        {/* logo*/}
-        <div className="flex flex-col items-start gap-1">
+        {/* logo section */}
+        <div className="flex flex-col items-start gap-1 py-4">
           <Link href="/" className="relative h-10 w-44">
             <Image 
               src="/Agency_logo.png" 
@@ -52,47 +52,50 @@ export default function PortfolioBar() {
             />
           </Link>
 
-          <span className="font-sans text-[15px] uppercase tracking-[0.4em] font-black text-white select-none pointer-events-none">
+          <span className="font-sans text-[15px] uppercase tracking-[0.4em] font-bold text-white select-none pointer-events-none">
             Case Studies
           </span>
         </div>
 
-        {/*navigation links*/}
-        <ul className="flex space-x-12 font-sans text-sm uppercase tracking-[0.3em] font-black">
-          <li>
+        {/* navigation links */}
+        <ul className="flex space-x-12 font-sans text-sm uppercase tracking-[0.3em] font-bold self-stretch">
+          <li className="flex">
             <Link 
               href="/" 
-              className="group relative py-1 hover:text-[#f34d4e] transition-all duration-300"
+              className="group relative flex items-center px-2 hover:text-[#f34d4e] transition-all duration-300"
             >
               Home
-              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
-          <li>
+          
+          <li className="flex">
             <Link 
               href="/about" 
-              className="group relative py-1 hover:text-[#b053bc] transition-all duration-300"
+              className="group relative flex items-center px-2 hover:text-[#b053bc] transition-all duration-300"
             >
               About
-              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
-          <li>
+          
+          <li className="flex">
             <Link 
               href="/portfolio" 
-              className="group relative py-1 hover:text-[#f6b530] transition-all duration-300"
+              className="group relative flex items-center px-2 hover:text-[#f6b530] transition-all duration-300"
             >
               Case Studies
-              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
-          <li>
+          
+          <li className="flex">
             <Link 
               href="/contact" 
-              className="group relative py-1 hover:text-[#f34d4e] transition-all duration-300"
+              className="group relative flex items-center px-2 hover:text-[#f34d4e] transition-all duration-300"
             >
               Contact
-              <span className="absolute left-0 bottom-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
         </ul>
