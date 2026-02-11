@@ -1,11 +1,15 @@
-//import Image from "next/image"; // use Next.js Image component for any images
 import NavBar from "../../../../components/NavBar";
+import UberHero from "./components/hero"; 
+
+
 
 export default function UberPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
+    <div className="min-h-screen text-white bg-[#1a2a2f]">
+      <div className="w-full">
         <NavBar />
-        <h1>Coming Soon!</h1>
+      </div>
+        <UberHero />
     </div>
   );
 }
