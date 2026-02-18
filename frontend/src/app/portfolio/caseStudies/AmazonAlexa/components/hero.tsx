@@ -13,7 +13,7 @@ export default function AmazonAlexaHero() {
       transition: { 
         duration: 0.8, 
         delay: custom * 0.15, 
-        ease: [0.21, 0.47, 0.32, 0.98] 
+        ease: [0.21, 0.47, 0.32, 0.98] as const
       }
     })
   };
