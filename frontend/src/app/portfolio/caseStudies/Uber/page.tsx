@@ -1,35 +1,7 @@
-// // import NavBar from "../../../../components/NavBar";
-// // import UberHero from "./components/hero"; 
-
-
-
-// // export default function UberPage() {
-// //   return (
-// //     <div className="min-h-screen text-white bg-[#1a2a2f]">
-// //       <div className="w-full">
-// //         <NavBar />
-// //       </div>
-// //         <UberHero />
-// //     </div>
-// //   );
-// // }
-
-// import NavBar from "../../../../components/NavBar";
-// import UberHero from "./components/hero";
-
-// export default function UberPage() {
-//   return (
-//     <div className="min-h-screen text-white bg-[#1a2a2f]">
-//       <div className="w-full">
-//         <NavBar />
-//       </div>
-//       <UberHero />
-//     </div>
-//   );
-// }
 
 import NavBar from "../../../../components/NavBar";
 import UberHero from "./components/hero"; 
+import OpportunitySection from "./components/opportunity";
 
 export default function UberPage() {
   return (
@@ -46,7 +18,7 @@ export default function UberPage() {
         <UberHero />
         
         {/* Any future components added here will now line up perfectly */}
-        {/* <OpportunitySection /> */}
+        <OpportunitySection />
         {/* <UberBlackSection /> */}
       </main>
     </div>
