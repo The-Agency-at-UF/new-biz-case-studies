@@ -131,6 +131,7 @@ export default function AmazonAlexaHero() {
           left: '7.135%', top: '72%', width: '61.4vw', 
           fontFamily: 'var(--font-gentona), sans-serif',
           fontWeight: 500, fontSize: '3.125vw', lineHeight: '3.385vw', 
+          textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         }}
       >
         Showcasing Alexa&apos;s Personality, One Gen Z Answer at a Time
