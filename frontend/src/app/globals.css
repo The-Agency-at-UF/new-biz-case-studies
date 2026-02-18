@@ -44,3 +44,14 @@ body {
   -webkit-mask-composite: xor;
           mask-composite: exclude;
 }
+
+.scrollHide {
+  /* Hide for Chrome, Safari, Edge */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide for Firefox */
+  scrollbar-width: none;
+  /* Hide for IE and legacy Edge */
+  -ms-overflow-style: none;
+}
