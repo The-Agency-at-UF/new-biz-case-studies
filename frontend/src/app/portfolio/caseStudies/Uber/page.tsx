@@ -2,6 +2,7 @@
 import NavBar from "../../../../components/NavBar";
 import UberHero from "./components/hero"; 
 import OpportunitySection from "./components/opportunity";
+import UberBlackSection from "./components/uberblacksection";
 
 export default function UberPage() {
   return (
@@ -19,7 +20,7 @@ export default function UberPage() {
         
         {/* Any future components added here will now line up perfectly */}
         <OpportunitySection />
-        {/* <UberBlackSection /> */}
+        <UberBlackSection />
       </main>
     </div>
   );
