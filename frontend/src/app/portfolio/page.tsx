@@ -1,11 +1,11 @@
-import PortfolioCard from "../components/PortfolioCard";
-import PortfolioBar from "../components/PortfolioBar";
+import PortfolioGrid from "./components/PortfolioGrid";
+import NavBar from "../../components/NavBar";
 
 export default function PortfolioPage() {
   return (
     <div className="relative bg-black min-h-screen text-white pt-40 pl-12 overflow-hidden">
       {/* Navbar */}
-      <PortfolioBar />
+      <NavBar />
 
       {/* Background blobs */}
       <img
@@ -50,12 +50,8 @@ export default function PortfolioPage() {
           </button>
         </div>
 
-        {/* Portfolio cards */}
-        <div className="flex flex-wrap gap-10 pb-20">
-          {[...Array(15)].map((_, i) => (
-            <PortfolioCard key={i} />
-          ))}
-        </div>
+        {/* Portfolio Grid */}
+        <PortfolioGrid />
       </div>
     </div>
   );
