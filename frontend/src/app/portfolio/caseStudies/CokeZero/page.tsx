@@ -1,11 +1,20 @@
-//import Image from "next/image"; // use Next.js Image component for any images
-import NavBar from "../../../../components/NavBar";
+import NavBar from "@/components/NavBar";
+import { gentona } from "@/app/layout";
+import CokeAccentLines from "./components/CokeAccentLines";
+import CokeLandingSection from "./components/CokeLandingSection";
+import CokeOpportunitySection from "./components/CokeOpportunitySection";
 
 export default function CokeZeroPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-        <NavBar />
-        <h1>Coming Soon!</h1>
-    </div>
+    <>
+      <NavBar />
+      <div className={`${gentona.className} bg-black text-white overflow-x-hidden`}>
+        <CokeLandingSection />
+        <CokeAccentLines />
+        <div className="mx-20">
+          <CokeOpportunitySection />
+        </div>
+      </div>
+    </>
   );
 }
