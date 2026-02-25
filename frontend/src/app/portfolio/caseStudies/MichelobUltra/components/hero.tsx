@@ -1,6 +1,6 @@
 export default function MichelobUltra_Hero() {
   return (
-      <div className="pt-40 px-12 pb-20 bg-[url(/assets/MichelobUltra/ultrabg.jpg)] bg-cover bg-center bg-no-repeat w-full">
+      <div className="pt-40 px-12 pb-20 bg-[url(/assets/TheBartram/BG Photo.jpg)] bg-cover bg-center bg-no-repeat w-full">
         <div className="bg-linear-to-b from-cyan-500/500 to-blue-500 w-full h-full"></div>
         {/*Case Study rectangle */}
         <div className="mb-6">
