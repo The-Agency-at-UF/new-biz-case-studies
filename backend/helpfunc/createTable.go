@@ -55,6 +55,22 @@ func CreateTables() error {
 			},
 			BillingMode: types.BillingModePayPerRequest,
 		},
+		"WhitelistedEmails": {
+			TableName: aws.String("WhitelistedEmails"),
+			AttributeDefinitions: []types.AttributeDefinition{
+				{
+					AttributeName: aws.String("Email"),
+					AttributeType: types.ScalarAttributeTypeS,
+				},
+			},
+			KeySchema: []types.KeySchemaElement{
+				{
+					AttributeName: aws.String("Email"),
+					KeyType:       types.KeyTypeHash,
+				},
+			},
+			BillingMode: types.BillingModePayPerRequest,
+		},
 	}
 
 	// Fetch existing tables
