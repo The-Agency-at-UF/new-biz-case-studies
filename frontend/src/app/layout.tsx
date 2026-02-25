@@ -27,11 +27,6 @@ export const gentona = localFont({
   ],
 });
 
-
-
-
-
-
 export const metadata: Metadata = {
   title: "The Agency at UF, Case Studies",
   description: "Marketing and Communications Agency",

@@ -8,10 +8,12 @@ export default function CokeZeroPage() {
   return (
     <>
       <NavBar />
-      <div className={`mx-20 ${gentona.className}`}>
+      <div className={`${gentona.className} bg-black text-white overflow-x-hidden`}>
         <CokeLandingSection />
         <CokeAccentLines />
-        <CokeOpportunitySection />
+        <div className="mx-20">
+          <CokeOpportunitySection />
+        </div>
       </div>
     </>
   );

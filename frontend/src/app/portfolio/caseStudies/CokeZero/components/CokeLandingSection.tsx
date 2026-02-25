@@ -10,18 +10,36 @@ export default function CokeLandingSection() {
       className="relative min-h-screen flex items-center overflow-hidden"
     >
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${cokeBackdrop.src})` }}
       />
 
       <div
-        className="absolute inset-0 bg-gradient-to-b
+        // Global dark wash over the backdrop image.
+        className="absolute inset-0 z-10 bg-gradient-to-b
         from-black/40
         via-black/70
         to-[#0E0E0E]"
       />
 
-      <div className="relative z-10 text-white w-full max-w-6xl px-8">
+      {/* Extra bottom fade to blend into the next section. */}
+      <div className="absolute inset-x-0 bottom-0 z-20 h-56 bg-gradient-to-b from-transparent to-black" />
+
+      <div aria-hidden className="absolute inset-0 z-20 pointer-events-none">
+        {/* Blob A (top-left): red glow */}
+        <div className="absolute -top-24 left-15 h-200 w-70 rounded-full bg-[#ED1C24]/25 blur-[130px] -rotate-10" />
+        {/* TO TEST <div className="absolute -top-24 -left-12 h-72 w-72 rounded-full bg-[#ED1C24]/45 blur-3xl" /> */}
+
+
+        {/* Blob B (upper-mid): deep maroon glow */}
+        <div className="absolute top-12 left-1/3 h-80 w-80 rounded-full bg-[#4A0F26]/40 blur-3xl" />
+        {/* Blob C (bottom-right): cool blue glow */}
+        <div className="absolute -bottom-8 right-8 h-64 w-64 rounded-full bg-[#1F254F]/35 blur-3xl" />
+
+        <div className="absolute bottom-100 -right-25 h-80 w-74 rounded-full bg-[#1F254F]/45 blur-[90px]" />
+      </div>
+
+      <div className="relative z-30 text-white w-full max-w-6xl pl-20 pr-8 md:pl-25">
         <p className="inline-block font-bold outline outline-[3px] outline-[#ED1C24] px-3 py-1">
           Case Study
         </p>
