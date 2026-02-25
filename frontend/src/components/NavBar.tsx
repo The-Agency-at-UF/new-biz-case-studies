@@ -64,17 +64,7 @@ export default function PortfolioBar() {
               href="/" 
               className="group relative flex items-center px-2 hover:text-[#f34d4e] transition-all duration-300"
             >
-              Home
-              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link>
-          </li>
-          
-          <li className="flex">
-            <Link 
-              href="/about" 
-              className="group relative flex items-center px-2 hover:text-[#b053bc] transition-all duration-300"
-            >
-              About
+              Presentation
               <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>
@@ -91,10 +81,10 @@ export default function PortfolioBar() {
           
           <li className="flex">
             <Link 
-              href="/contact" 
+              href="/admin" 
               className="group relative flex items-center px-2 hover:text-[#f34d4e] transition-all duration-300"
             >
-              Contact
+              Admin
               <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </li>

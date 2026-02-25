@@ -1,12 +1,5 @@
-import NavBar from "../components/NavBar";
+import HomePage from "./presentation/page";
 
-export default function HomePage() {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center text-white">
-      <NavBar />
-      <div>
-        <h1 className="text-foreground">Under construction... Check back soon!</h1>
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <HomePage />;
 }
