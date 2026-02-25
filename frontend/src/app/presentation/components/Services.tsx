@@ -1,4 +1,3 @@
-
 export default function OurServices() {
     return (
         <section className={"w-full h-dvh flex flex-col justify-center items-center bg-gradient-to-t from-[#9E8FED] from-35% to-[#000] to-65% m-auto"}>

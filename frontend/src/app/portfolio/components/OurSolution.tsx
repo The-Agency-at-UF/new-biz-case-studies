@@ -3,12 +3,7 @@
 // The styling is designed to be consistent with the rest of the site
 "use client";
 
-import localFont from "next/font/local";
-
-const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf", 
-  display: "swap",
-});
+import { gentonaMedium } from "@/app/fonts";
 
 export default function OpportunitySection() {
   return (
