@@ -2,6 +2,7 @@
 import NavBar from "../../../../components/NavBar";
 import Bartram_Footer from "./components/bartramFooter";
 import Bartram_Hero from "./components/bartramHero";
+import BartramImpact from "./components/bartramImpact";
 import BartramOpportunity from "./components/bartramOpportunity";
 import BartramPhotoGallery from "./components/bartramPhotoGallery";
 import BartramSolution from "./components/bartramSolution";
@@ -15,6 +16,7 @@ export default function TheBartramPage() {
           <BartramOpportunity />
           <BartramPhotoGallery />
           <BartramSolution />
+          <BartramImpact />
           <Bartram_Footer />
         </div>
     </div>
