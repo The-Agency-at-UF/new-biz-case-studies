@@ -100,7 +100,7 @@ export default function UberHero() {
           src="/assets/Uber/uberbg.png"
           alt="Uber Background Banner"
           fill
-          className="object-cover scale-x-[-1] object-center"
+          className="object-cover object-center"
           priority
         />
         <div className="absolute inset-0 bg-black/10 bg-gradient-to-t from-[#1a2a2f] via-transparent to-transparent" />
