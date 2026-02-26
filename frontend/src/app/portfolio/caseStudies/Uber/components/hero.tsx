@@ -83,12 +83,7 @@
 "use client";
 
 import Image from "next/image";
-import localFont from "next/font/local";
-
-const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf", 
-  display: "swap",
-});
+import { gentonaMedium } from "@/app/fonts";
 
 export default function UberHero() {
   return (
