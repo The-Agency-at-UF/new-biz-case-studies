@@ -14,11 +14,14 @@ export default function AdminPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
-    } else if (status === "authenticated") {
+    } else if (status === "authenticated" && session?.user?.email) {
       // In a real application, you would call your backend here to check if the user is whitelisted
       // For now, we'll simulate a check
       const checkWhitelist = async () => {
         setIsLoadingWhitelist(true);
+
+        if (status !== "authenticated" || !session?.user?.email) return;
+        
         try {
           // Replace with your actual backend call
           const response = await fetch(
