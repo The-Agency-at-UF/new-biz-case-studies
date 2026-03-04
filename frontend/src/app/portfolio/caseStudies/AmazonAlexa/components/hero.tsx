@@ -27,11 +27,24 @@ export default function AmazonAlexaHero() {
         style={{ background: 'linear-gradient(to bottom, #1D3B56 0%, #3F81BC00 100%)' }} 
       />
 
-      <div className="absolute inset-0 z-10 opacity-40">
-        <Image src="/assets/AmazonAlexa/bg-gradient.png" alt="" fill priority className="object-cover" />
+      {/* This gradient sits on top of the Echo photo to blend it into the background */}
+      <div 
+        className="absolute top-0 left-0 w-full z-[12]"
+        style={{
+          height: '58.96vw', 
+        }}
+      >
+        <Image 
+          src="/assets/AmazonAlexa/hero-gradient.svg" 
+          alt="" 
+          fill 
+          priority 
+          className="object-contain object-top" 
+          style={{ top: '-2.752vw' }} 
+        />
       </div>
 
-      {/* 2. Echo Photo - Now strictly 1920x1321 proportional */}
+      {/* 2. Echo Photo}
       <motion.div 
         initial={{ opacity: 0, scale: 1.02 }}
         animate={{ opacity: 0.9, scale: 1 }}
