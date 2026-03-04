@@ -6,12 +6,12 @@ export default function PrivateHireBadges() {
       <img
         src="/assets/Uber/blackprivate.png"
         alt="Uber Private Hire Only - Dark"
-        className="w-[40%] min-w-[200px] h-auto object-contain"
+        className="w-[41%] min-w-[200px] h-auto object-contain"
       />
       <img
         src="/assets/Uber/whiteprivate.png"
         alt="Uber Private Hire Only - Light"
-        className="w-[40%] min-w-[200px] h-auto object-contain"
+        className="w-[41%] min-w-[200px] h-auto object-contain"
       />
     </div>
   );
