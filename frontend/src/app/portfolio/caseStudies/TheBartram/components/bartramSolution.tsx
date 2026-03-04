@@ -19,7 +19,7 @@ export default function BartramSolution() {
       {/* <img src="/assets/TheBartram/background.png" className="bg-[url('/assets/TheBartram/background.png')] bg-cover bg-no-repeat w-full h-auto"></img> */}
       {/*Case Study rectangle */}
       <div className="max-w-none flex flex-col gap-6 lg:gap-18">
-        <h2 className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal`}>
+        <h2 className={`${gentonaMedium.className} text-[2rem] md:text-[4rem] lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal`}>
           <span className="block text-white">The</span>
           <span className="block text-[#84AE6B]">Solution</span>
         </h2>
