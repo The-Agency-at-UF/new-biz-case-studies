@@ -1,7 +1,7 @@
 "use client";
 
 import NavBar from "../../components/NavBar";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,11 +14,14 @@ export default function AdminPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
-    } else if (status === "authenticated") {
+    } else if (status === "authenticated" && session?.user?.email) {
       // In a real application, you would call your backend here to check if the user is whitelisted
       // For now, we'll simulate a check
       const checkWhitelist = async () => {
         setIsLoadingWhitelist(true);
+
+        if (status !== "authenticated" || !session?.user?.email) return;
+        
         try {
           // Replace with your actual backend call
           const response = await fetch(
@@ -74,6 +77,19 @@ export default function AdminPage() {
         <h1 className="text-foreground">Welcome to the Admin Page!</h1>
         <p>You are logged in as: {session?.user?.email}</p>
         {/* Admin content goes here */}
+        <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="
+              px-6 py-2
+              bg-red-600
+              hover:bg-red-700
+              transition-colors
+              rounded
+              cursor-pointer
+            "
+          >
+            Logout
+        </button>
       </div>
     </div>
   );

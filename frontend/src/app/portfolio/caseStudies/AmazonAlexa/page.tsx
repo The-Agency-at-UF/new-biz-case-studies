@@ -1,12 +1,13 @@
 import NavBar from "../../../../components/NavBar";
-import AmazonAlexaHero from "./components/hero";
+import NewHero from "./components/newHero";
+import OpportunitySection from "./components/Opportunity";
 
 export default function AmazonAlexaPage() {
   return (
-    <main className="min-h-screen bg-[#1D3B57] text-white">
+    <main className="min-h-screen bg-[#1D3B57]">
       <NavBar />
-      <AmazonAlexaHero />
-      {/* Next components will go here */}
+      <NewHero />
+      <OpportunitySection />
     </main>
   );
 }
