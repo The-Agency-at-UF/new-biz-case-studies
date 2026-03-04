@@ -4,10 +4,11 @@ import MichelobUltra_Hero from "./components/hero";
 
 export default function MichelobUltraPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-      <NavBar />
+    <div className="min-h-screen text-foreground bg-[#00346D]">
+      {/* <NavBar /> */}
       <MichelobUltra_Hero />
-      <h1>Coming Soon!</h1>
+                    <img src="/assets/MichelobUltra/red_chevron (1).png" className="bg-cover bg-no-repeat"></img>
+
     </div>
   );
 }

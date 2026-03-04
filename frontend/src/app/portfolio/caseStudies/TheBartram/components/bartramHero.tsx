@@ -20,12 +20,8 @@ export default function Bartram_Hero() {
                 case study</p>
                 <img src="/assets/TheBartram/header_logos.png" className="w-full h-auto"></img>
                 <hr className="border-[#85AE6B] border-t-4 my-4 w-full"></hr>
-                <p className={`${gentonaBook.className} text-xl lg:text-4xl text-white`}>Distinguishing a local, luxury apartment complex from competitors in a saturated market</p>
+                <p className={`${gentonaBook.className} text-sm md:text-lg lg:text-4xl text-white`}>Distinguishing a local, luxury apartment complex from competitors in a saturated market</p>
             </div>
-            {/* <div className="flex flex-col flex-start justify-start mb-20">
-                <h1 className="text-xl md:text-4xl lg:text-8xl text-white font-bold">THE</h1>
-                <h1 className="text-xl md:text-4xl lg:text-8xl text-[#85AE6B] font-bold">OPPORTUNITY</h1>
-            </div> */}
         </div>
       </div>
     );
