@@ -38,7 +38,7 @@ import { gentonaMedium } from "@/app/fonts";
 
 export default function UberBlackSection() {
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 py-24 pb-48">
+    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 py-24 pb-68">
       <div className="max-w-none flex flex-row items-start items-center gap-6 lg:gap-18">
         <h2
           className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal`}
