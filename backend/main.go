@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"time"
-	
+
 	help "new-biz-case-studies-backend/helpfunc"
 
 	"github.com/gin-contrib/cors"
@@ -40,7 +40,9 @@ func main() {
 
 	// --- Initialize S3  ---
 	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	uploader := manager.NewUploader(s3.NewFromConfig(cfg))
 	bucket := "new-biz-case-studies-bucket"
 
@@ -99,7 +101,9 @@ func main() {
 
 		key := "case-studies/" + fmt.Sprintf("%d-%s", time.Now().Unix(), filepath.Base(fh.Filename))
 		ct := fh.Header.Get("Content-Type")
-		if ct == "" { ct = "application/octet-stream" }
+		if ct == "" {
+			ct = "application/octet-stream"
+		}
 
 		out, err := uploader.Upload(c, &s3.PutObjectInput{
 			Bucket:      &bucket,
@@ -141,7 +145,28 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Case study deleted successfully"})
 	})
 
+	// --- Delete image from S3 ---
+	r.DELETE("/api/delete-image", func(c *gin.Context) {
+		var req struct {
+			Key string `json:"key"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil || req.Key == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "missing or invalid 'key' field"})
+			return
+		}
 
+		s3Service, err := help.NewS3(context.Background())
+		if err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"error": "failed to initialize S3 client: " + err.Error()})
+			return
+		}
+		if err := s3Service.DeleteImageFromS3(c, bucket, req.Key); err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "deleted", "key": req.Key})
+	})
 
 	// --- Get all case studies for one company ---
 	r.GET("/api/company/:id/casestudies", func(c *gin.Context) {
@@ -168,4 +193,3 @@ func main() {
 	// --- Run server ---
 	r.Run(":8080")
 }
-
