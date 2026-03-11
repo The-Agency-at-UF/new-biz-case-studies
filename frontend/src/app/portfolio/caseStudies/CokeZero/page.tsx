@@ -3,6 +3,7 @@ import { gentona } from "@/app/layout";
 import cokeBackground from "./assets/Coke-Background.svg";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
+import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
 
@@ -33,6 +34,9 @@ export default function CokeZeroPage() {
         </div>
         <div className="relative z-10 mt-16 md:mt-24">
           <CokeSolutionSection />
+        </div>
+        <div className="relative z-10 mt-16 md:mt-24 px-6 md:px-12 lg:px-20">
+          <CokePhoneScreens />
         </div>
       </div>
     </>
