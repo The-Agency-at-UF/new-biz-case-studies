@@ -9,7 +9,28 @@ export default function CokeSolutionSection() {
             SOLUTION
           </h1>
         </div>
-
+        <div>
+          <div>
+            <p className="font-bold">To better understand fan sentiment, our team created and disseminated a survey.</p>
+            <p>In just 48 hours, we had 115 responses from students and alumni at nine football-oriented
+               universities across the United States. From these surveys, we discovered what fans missed 
+               most about their favorite game days. Respondents discussed rival-relations, apparel, atmosphere, 
+               sunburns, hoarseness–you name it.</p>
+          </div>
+          <div>
+            <p>After cleaning and coding the data, we used our insights to refine and adjust Coke’s current 
+              creative concepts. KO:OP planned a broad range of tactics for all three flagship brands–Diet Coke, 
+              Coke Red and Coke Zero. Our Gen Z perspective allowed us to develop ideas that resonated with
+               college students during an unprecedented time in their academic careers.</p>
+          </div>
+          <div>
+            <p>Using traditional and digital methods, we were able to adapt Coke’s strategy to fit the needs 
+              of the present moment. 
+              <br>
+              </br>We suggested entirely new directions, some traditional and some digital, 
+              through our Gen Z lens.</p>
+          </div>
+        </div>
         
       </div>
     </section>
