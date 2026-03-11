@@ -36,7 +36,7 @@ export default function FormPage() {
 
   // Render section
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-10 p-8 font-sans" style={{ backgroundColor: "#AB9BFF" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-10 p-8 font-sans">
       <header className="flex flex-col items-center gap-2">
         <h1 className="text-3xl font-bold">Agency NewBiz Form</h1>
       </header>

@@ -1,29 +1,28 @@
 // nav bar
 "use client"; 
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function PortfolioBar() {
   const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  // handle scroll logic
-  const handleScroll = () => {
-    if (window.scrollY > lastScrollY) {
-      // scrolling down will hide navbar
-      setShow(false);
-    } else {
-      // scrolling up will show navbar
-      setShow(true);
-    }
-    setLastScrollY(window.scrollY);
-  };
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    // Track scroll direction without re-subscribing on every scroll update.
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
+      lastScrollY = window.scrollY;
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <nav

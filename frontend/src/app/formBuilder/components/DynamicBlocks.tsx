@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
 
 // Block type definitions for dynamic content creation
 // Supports three types: text paragraphs, images, and animations
@@ -193,9 +193,11 @@ export default function DynamicBlocks({ blocks, onBlocksChange }: DynamicBlocksP
                     Preview
                   </label>
                   <div className="border rounded-md p-2 bg-gray-50">
-                    <img
+                    <Image
                       src={block.content.imageUrl}
                       alt={block.content.imageAlt || "Preview"}
+                      width={1024}
+                      height={768}
                       className="max-w-full h-auto max-h-64 rounded-md"
                     />
                   </div>
@@ -256,7 +258,7 @@ export default function DynamicBlocks({ blocks, onBlocksChange }: DynamicBlocksP
       {/* Empty state when no blocks are added */}
       {blocks.length === 0 && (
         <div className="text-center py-8 text-gray-500 text-sm">
-          No blocks added yet. Click "Add Block" to get started.
+          No blocks added yet. Click &quot;Add Block&quot; to get started.
         </div>
       )}
     </div>
