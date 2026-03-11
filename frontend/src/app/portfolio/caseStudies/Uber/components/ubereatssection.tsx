@@ -1,5 +1,3 @@
-"use client";
-
 import { gentonaMedium } from "@/app/fonts";
 
 export default function UberEatsSection() {
