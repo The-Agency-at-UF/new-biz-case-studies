@@ -1,11 +1,13 @@
-//import Image from "next/image"; // use Next.js Image component for any images
 import NavBar from "../../../../components/NavBar";
+import NewHero from "./components/newHero";
+import OpportunitySection from "./components/Opportunity";
 
 export default function AmazonAlexaPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-        <NavBar />
-        <h1>Coming Soon!</h1>
-    </div>
+    <main className="min-h-screen bg-[#1D3B57]">
+      <NavBar />
+      <NewHero />
+      <OpportunitySection />
+    </main>
   );
 }

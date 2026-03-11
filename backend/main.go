@@ -190,6 +190,29 @@ func main() {
 		c.JSON(http.StatusOK, fullData)
 	})
 
+	// --- Check Whitelist Endpoint ---
+	r.POST("/api/check-whitelist", func(c *gin.Context) {
+		var req CheckWhitelistRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		isWhitelisted, err := help.CheckIfEmailWhitelisted(req.Email)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"isWhitelisted": isWhitelisted})
+	})
+
 	// --- Run server ---
 	r.Run(":8080")
 }
+
+// CheckWhitelistRequest defines the structure for the whitelist check request body
+type CheckWhitelistRequest struct {
+	Email string `json:"email"`
+}
+
