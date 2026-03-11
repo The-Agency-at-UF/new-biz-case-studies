@@ -23,12 +23,15 @@ export default function CokeZeroPage() {
       >
         <div className="relative">
           <CokeLandingSection />
-          <CokeAccentLines />
+          <div className="relative z-10 mt-28 md:mt-36">
+            <CokeAccentLines />
+          </div>
+          
         </div>
-        <div className="relative z-10 -mt-6">
+        <div className="relative z-10 mt-28 md:mt-46">
           <CokeOpportunitySection />
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 mt-16 md:mt-24">
           <CokeSolutionSection />
         </div>
       </div>

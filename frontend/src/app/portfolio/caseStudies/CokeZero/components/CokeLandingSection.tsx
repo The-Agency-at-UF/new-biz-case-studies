@@ -1,6 +1,7 @@
 import Image from "next/image";
 import cokeZero from "../assets/CokeZeroWhite.png";
 import agencyLogo from "../assets/AgencyLogoFull.png";
+import cokeSpilling from "../assets/CokeSpilling.png";
 
 export default function CokeLandingSection() {
   return (
@@ -8,8 +9,18 @@ export default function CokeLandingSection() {
       id="coke-landing"
       className="relative min-h-screen flex items-center overflow-visible"
     >
+      
+      {/* Coke spill image: above background/gradients and splashing over headline text */}
+      <div aria-hidden className="absolute inset-0 z-38 pointer-events-none overflow-visible">
+        <Image
+          src={cokeSpilling}
+          alt=""
+          className="absolute -left-[16%] top-[40%] w-[840px] h-auto rotate-[45deg]"
+        />
+      </div>
+
       <div className="relative z-35 text-white w-full max-w-6xl pl-20 pr-8 md:pl-25">
-        <p className="inline-flex h-[50px] w-[140px] items-center justify-center bg-black/50 text-xl font-bold text-white outline outline-[4px] outline-[#ED1C24]">
+        <p className="inline-flex h-[50px] w-[160px] items-center justify-center bg-black/40 text-xl font-bold text-white outline outline-[4px] outline-[#ED1C24] mb-5">
           Case Study
         </p>
 

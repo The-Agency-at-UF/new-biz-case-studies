@@ -4,8 +4,8 @@ export default function CokeSolutionSection() {
 
       <div className="relative z-10 px-6 md:px-12 lg:px-20">
         <div className="py-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold">THE</h1>
-          <h1 className="text-5xl md:text-6xl text-[#DA2028] font-extrabold">
+          <h1 className="text-6xl md:text-7xl font-extrabold">THE</h1>
+          <h1 className="text-6xl md:text-7xl text-[#DA2028] font-extrabold">
             SOLUTION
           </h1>
         </div>
