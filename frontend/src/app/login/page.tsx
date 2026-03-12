@@ -24,9 +24,9 @@ export default function LoginPage() {
   }, [error]);
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-black overflow-hidden">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-black">
       {/* Background Collage */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none max-w-3xl">
         <div className="grid grid-cols-3 gap-5 h-full w-full">
           <img src="/blobs/Agency Blobs Graphic-02.png" className="w-full h-full object-cover" />
           <img src="/blobs/Agency Blobs Graphic-08.png" className="w-full h-full object-cover" />
