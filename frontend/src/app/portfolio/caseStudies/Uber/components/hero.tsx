@@ -1,6 +1,3 @@
-"use client";
-
-import Image from "next/image";
 import { gentonaMedium } from "@/app/fonts";
 
 export default function UberHero() {
