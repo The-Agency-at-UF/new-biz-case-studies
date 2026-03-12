@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -35,6 +35,10 @@ export const authOptions = {
         }
       }
       return false; // Deny sign in if no email
+    },
+      async redirect({ url, baseUrl }) {
+      // After successful login, send to admin
+      return `${baseUrl}/admin`;
     },
   },
 };
