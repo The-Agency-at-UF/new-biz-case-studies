@@ -10,7 +10,7 @@ import BartramSolution from "./components/bartramSolution";
 export default function TheBartramPage() {
   return (
     <div className="min-h-screen text-foreground bg-[#A4D1D9]">
-        {/* <NavBar /> */}
+        <NavBar />
         <Bartram_Hero />
         <div className="space-y-40">
           <BartramOpportunity />
