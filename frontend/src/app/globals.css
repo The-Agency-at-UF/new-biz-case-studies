@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #171717;
   --foreground: #171717;
 }
 
@@ -22,7 +22,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* Gradient outline effect */
@@ -43,4 +43,15 @@ body {
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
+}
+
+.scrollHide {
+  /* Hide for Chrome, Safari, Edge */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide for Firefox */
+  scrollbar-width: none;
+  /* Hide for IE and legacy Edge */
+  -ms-overflow-style: none;
 }

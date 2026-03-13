@@ -1,11 +1,19 @@
-//import Image from "next/image"; // use Next.js Image component for any images
 import NavBar from "../../../../components/NavBar";
+import UberHero from "./components/hero"; 
+import OpportunitySection from "./components/opportunity";
+import UberBlackSection from "./components/uberblacksection";
+import PrivateHireBadge from "./components/privatehirebadge";
+import UberEatsSection from "./components/ubereatssection";
 
 export default function UberPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-        <NavBar />
-        <h1>Coming Soon!</h1>
+    <div className="min-h-screen w-full text-foreground bg-[#142328]">
+      <NavBar />
+      <UberHero />
+      <OpportunitySection />
+      <UberBlackSection />
+      <PrivateHireBadge />
+      <UberEatsSection />
     </div>
   );
 }
