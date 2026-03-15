@@ -6,6 +6,7 @@ import CokeLandingSection from "./components/CokeLandingSection";
 import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
+import CokeFooter from "./components/CokeFooter";
 
 export default function CokeZeroPage() {
   return (
@@ -37,6 +38,9 @@ export default function CokeZeroPage() {
         </div>
         <div className="relative z-10 mt-16 md:mt-24 px-6 md:px-12 lg:px-20">
           <CokePhoneScreens />
+        </div>
+        <div>
+          <CokeFooter />
         </div>
       </div>
     </>
