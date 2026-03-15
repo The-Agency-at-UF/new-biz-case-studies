@@ -36,7 +36,7 @@ export default function CokeOpportunitySection() {
               src={cokeAsset5}
               alt="Game day coke advertisement"
               fill
-              className="object-cover object-[20%_50%]"
+              className="relative object-cover object-[20%_50%] "
             />
           </div>
         </div>
