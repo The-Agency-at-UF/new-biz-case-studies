@@ -6,6 +6,7 @@ import CokeLandingSection from "./components/CokeLandingSection";
 import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
+import CokeFooter from "./components/CokeFooter";
 
 export default function CokeZeroPage() {
   return (
@@ -24,19 +25,22 @@ export default function CokeZeroPage() {
       >
         <div className="relative">
           <CokeLandingSection />
-          <div className="relative z-10 mt-28 md:mt-36">
+          <div className="relative z-10 mt-28 md:mt-40">
             <CokeAccentLines />
           </div>
           
         </div>
-        <div className="relative z-10 mt-28 md:mt-46">
+        <div className="relative z-10 mt-35 md:mt-65">
           <CokeOpportunitySection />
         </div>
-        <div className="relative z-10 mt-16 md:mt-24">
+        <div className="relative z-10 mt-16 md:-mt-7">
           <CokeSolutionSection />
         </div>
-        <div className="relative z-10 mt-16 md:mt-24 px-6 md:px-12 lg:px-20">
+        <div className="relative z-10 mt-18 md:mt-26 px-6 md:px-12 lg:px-20">
           <CokePhoneScreens />
+        </div>
+        <div className="relative z-10 mt-25 md:mt-45">
+          <CokeFooter />
         </div>
       </div>
     </>
