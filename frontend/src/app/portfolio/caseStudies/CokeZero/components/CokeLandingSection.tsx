@@ -15,7 +15,7 @@ export default function CokeLandingSection() {
         <Image
           src={cokeSpilling}
           alt=""
-          className="absolute -left-[16%] top-[40%] w-[840px] h-auto rotate-[45deg]"
+          className="absolute -left-[16%] top-[40%] w-[860px] h-auto rotate-[43deg]"
         />
       </div>
 
