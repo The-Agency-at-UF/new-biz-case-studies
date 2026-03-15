@@ -30,16 +30,16 @@ export default function CokeZeroPage() {
           </div>
           
         </div>
-        <div className="relative z-10 mt-28 md:mt-46">
+        <div className="relative z-10 mt-28 md:mt-60">
           <CokeOpportunitySection />
         </div>
-        <div className="relative z-10 mt-5 md:mt-10">
+        <div className="relative z-10 mt-16 md:mt-5">
           <CokeSolutionSection />
         </div>
         <div className="relative z-10 mt-18 md:mt-26 px-6 md:px-12 lg:px-20">
           <CokePhoneScreens />
         </div>
-        <div className="relative z-10 mt-20 md:mt-32">
+        <div className="relative z-10 mt-25 md:mt-45">
           <CokeFooter />
         </div>
       </div>
