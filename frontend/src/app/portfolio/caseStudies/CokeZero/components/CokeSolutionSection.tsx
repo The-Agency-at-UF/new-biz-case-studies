@@ -29,7 +29,7 @@ export default function CokeSolutionSection() {
             <Image
               src={Hat1}
               alt="Coke Bucket Hat"
-              className="absolute -top-[2.5rem] -right-[5rem] z-20 h-auto w-[10rem] md:-top-[3.25rem] md:-right-[9rem] md:w-[13rem] lg:-top-16 lg:-right-55 lg:w-70"
+              className="absolute -top-[2.5rem] -right-[5rem] z-20 h-auto w-[10rem] md:-top-[3.25rem] md:-right-[9rem] md:w-[13rem] lg:-top-20 lg:-right-72 lg:w-85"
             />
           </div>
           <div className="relative z-10 ml-auto mr-8 -mt-10 max-w-3xl rounded-3xl border-[2px] border-[#ED1C24] bg-black p-10 text-left md:-mt-12 md:p-12">

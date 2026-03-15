@@ -31,7 +31,7 @@ export default function CokeOpportunitySection() {
             nuance its means of refreshing football fanatics in 2021.
             </p>
           </div>
-          <div className="relative mx-auto -mt-12 aspect-square w-[24rem] overflow-hidden rounded-full sm:w-[30rem] lg:ml-auto lg:mr-[-12rem] lg:w-[34rem]">
+          <div className="relative mx-auto -mt-14 aspect-square w-[24rem] overflow-hidden rounded-full sm:w-[30rem] lg:ml-auto lg:mr-[-12rem] lg:w-[34rem]">
             <Image
               src={cokeAsset5}
               alt="Game day coke advertisement"
