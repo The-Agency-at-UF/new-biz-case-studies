@@ -24,10 +24,10 @@ export const deleteCompany = async (companyID: string) => {
 
 export const deleteCaseStudy = async (
   companyID: string,
-  templateID: string
+  caseStudyID: string
 ) => {
   return fetch(
-    `http://localhost:8080/api/casestudy/${companyID}/${templateID}`,
+    `http://localhost:8080/api/casestudy/${companyID}/${caseStudyID}`,
     {
       method: "DELETE",
     }

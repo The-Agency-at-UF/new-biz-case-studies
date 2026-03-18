@@ -91,13 +91,13 @@ export default function AdminPage() {
 
   const handleDeleteCaseStudy = async (
     companyID: string,
-    templateID: string,
+    caseStudyID: string,
   ) => {
-    if (!confirm(`Are you sure you want to delete case study ${templateID}?`))
+    if (!confirm(`Are you sure you want to delete case study ${caseStudyID}?`))
       return;
 
     try {
-      const response = await deleteCaseStudy(companyID, templateID);
+      const response = await deleteCaseStudy(companyID, caseStudyID);
       if (response.ok) {
         fetchData();
       } else {
