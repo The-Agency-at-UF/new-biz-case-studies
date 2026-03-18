@@ -35,6 +35,8 @@ export default function AdminPage() {
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [search, setSearch] = useState("");
+  const [selectedCaseStudyTags, setSelectedCaseStudyTags] = useState<string[]>([]);
+  const [selectedCompanyTag, setSelectedCompanyTag] = useState<string | null>(null);
 
   const email = session?.user?.email ?? undefined; 
 
@@ -136,55 +138,81 @@ export default function AdminPage() {
 
   const caseStudyCount = caseStudies.length;
 
-  const filteredData =
-  search.trim() === ""
-    ? data
-    : data.filter((company) =>
-        company.Name.toLowerCase().includes(search.toLowerCase())
-      );
+  const allCaseStudyTags = Array.from(
+    new Set(caseStudies.flatMap(cs => cs.Tags || []))
+  );
 
-  const filteredCaseStudies = 
-  search.trim() === ""
-      ? caseStudies
-      : caseStudies.filter((caseStudy) =>
-        caseStudy.Name.toLowerCase().includes(search.toLowerCase())
-      );
+  const allCompanyTags = Array.from(
+    new Set(data.map(company => company.Industry).filter(Boolean))
+  );
+
+  const filteredCaseStudies = caseStudies
+    .filter(cs =>
+      cs.Name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter(cs =>
+      selectedCaseStudyTags.length === 0
+        ? true
+        : selectedCaseStudyTags.every(tag =>
+            cs.Tags?.includes(tag)
+          )
+    );
+
+  const filteredData = data
+    .filter(company =>
+      company.Name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter(company =>
+      selectedCompanyTag
+        ? company.Industry === selectedCompanyTag
+        : true
+    );
 
   return (
     <div className="max-h-screen flex flex-col text-foreground pt-30 pb-20 pl-10">
-    <NavBar />
-    <AdminBkgd />
+      <NavBar />
+      <AdminBkgd />
 
-    {/* MAIN ROW */}
-    <div className="flex gap-8">
+      <div className="flex gap-8">
 
-      {/* LEFT SIDE */}
-      <div className="flex flex-col gap-6">
-        <div className="flex gap-6">
-          <WelcomeCard
-            email={email}
-            onLogout={() => signOut({ callbackUrl: "/login" })}
-          />
+        {/* LEFT SIDE */}
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-6">
+            <WelcomeCard
+              email={email}
+              onLogout={() => signOut({ callbackUrl: "/login" })}
+            />
 
-          <SearchCard
-            search={search}
-            setSearch={setSearch}
-            companyCount={companyCount}
-            caseStudyCount={caseStudyCount}
+            <SearchCard
+              search={search}
+              setSearch={setSearch}
+              companyCount={companyCount}
+              caseStudyCount={caseStudyCount}
+            />
+          </div>
+
+          <CaseStudiesCard
+            caseStudies={filteredCaseStudies}
+            selectedTags={selectedCaseStudyTags}
+            setSelectedTags={setSelectedCaseStudyTags}
+            allTags={allCaseStudyTags}
           />
         </div>
 
-        <CaseStudiesCard caseStudies={filteredCaseStudies} />
-      </div>
+        {/* RIGHT SIDE */}
+        <div className="flex flex-col gap-6">
+          <AddCompanyButton />
 
-      {/* RIGHT SIDE */}
-      <div className="flex flex-col gap-6">
-        <AddCompanyButton />
-        <CompaniesCard companies={filteredData} />
-      </div>
+          <CompaniesCard
+            companies={filteredData}
+            selectedTag={selectedCompanyTag}
+            setSelectedTag={setSelectedCompanyTag}
+            allTags={allCompanyTags}
+          />
+        </div>
 
+      </div>
     </div>
-  </div>
     
   );
 }
