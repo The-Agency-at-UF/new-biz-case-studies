@@ -42,14 +42,27 @@ export default function AdminPage() {
 
   const email = session?.user?.email ?? undefined; 
 
-  const fetchData = async () => {
+const fetchData = async () => {
   setIsLoadingData(true);
   try {
     const overviewData = await fetchOverview();
     const caseStudyData = await fetchCaseStudies();
-
     setData(overviewData);
     setCaseStudies(caseStudyData);
+
+    if (selectedCompanyForEdit) {
+      const updated = overviewData.find(
+        (c: any) => c.CompanyID === selectedCompanyForEdit.CompanyID
+      );
+      if (updated) {
+        setSelectedCompanyForEdit(updated);
+        setSelectedCaseStudyIDs(
+          (updated.CaseStudies || []).map((cs: any) =>
+            typeof cs === "string" ? cs : cs.CaseStudyID
+          )
+        );
+      }
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
   } finally {
@@ -102,6 +115,31 @@ export default function AdminPage() {
       console.error("Error deleting company:", error);
     }
   };
+
+const handleToggleCaseStudy = async (caseStudyID: string, isChecked: boolean) => {
+  if (!selectedCompanyForEdit) return;
+
+  const currentIDs = selectedCaseStudyIDs.map((id: any) =>
+    typeof id === "string" ? id : id.CaseStudyID
+  );
+
+  const updatedIDs = isChecked
+    ? [...currentIDs, caseStudyID]
+    : currentIDs.filter((id) => id !== caseStudyID);
+
+  console.log("sending to backend:", updatedIDs); 
+
+  try {
+    await updateCompany(selectedCompanyForEdit.CompanyID, {
+      Name: selectedCompanyForEdit.Name,
+      Industry: selectedCompanyForEdit.Industry,
+      CaseStudies: updatedIDs, 
+    });
+    fetchData();
+  } catch (error) {
+    console.error("Error updating company case studies:", error);
+  }
+};
 
   useEffect(() => {
   if (selectedCompanyForEdit) {
@@ -208,6 +246,8 @@ export default function AdminPage() {
             allTags={allCaseStudyTags}
             selectedCaseStudyIDs={selectedCaseStudyIDs}
             setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
+            onToggleCaseStudy={handleToggleCaseStudy}
+            isEditingCompany={selectedCompanyForEdit !== null}
           />
         </div>
 

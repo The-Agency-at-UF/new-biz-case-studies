@@ -5,6 +5,8 @@ type CaseStudiesCardProps = {
   allTags: string[];
   selectedCaseStudyIDs: string[];
   setSelectedCaseStudyIDs: (ids: string[]) => void;
+  onToggleCaseStudy?: (caseStudyID: string, isChecked: boolean) => void;
+  isEditingCompany: boolean;
 };
 
 const TAG_COLORS = ["#AA9AFF", "#FF4D56", "#FFB13D", "#8B5CF6"];
@@ -16,6 +18,8 @@ export default function CaseStudiesCard({
   allTags,
   selectedCaseStudyIDs,
   setSelectedCaseStudyIDs,
+  onToggleCaseStudy, 
+  isEditingCompany,
 }: CaseStudiesCardProps) {
 
   
@@ -107,16 +111,17 @@ export default function CaseStudiesCard({
                   checked={isChecked}
                   readOnly
                   onClick={() => {
+                    if (!isEditingCompany) return;
+                    
+                    // Update local state
                     if (isChecked) {
-                      setSelectedCaseStudyIDs(
-                        cleanSelectedIDs.filter(id => id !== study.CaseStudyID)
-                      );
+                      setSelectedCaseStudyIDs(cleanSelectedIDs.filter(id => id !== study.CaseStudyID));
                     } else {
-                      setSelectedCaseStudyIDs([
-                        ...cleanSelectedIDs,
-                        study.CaseStudyID,
-                      ]);
+                      setSelectedCaseStudyIDs([...cleanSelectedIDs, study.CaseStudyID]);
                     }
+                    
+                    // Also update backend
+                    onToggleCaseStudy?.(study.CaseStudyID, !isChecked);
                   }}
                   className="accent-[#AA9AFF]"
                 />
