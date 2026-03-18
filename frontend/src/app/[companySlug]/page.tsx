@@ -1,4 +1,5 @@
 import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 import MainHero from "@/app/presentation/components/MainHero";
 import Choose from "@/app/presentation/components/ChooseYourAdventure";
 import WhatIsAgency from "@/app/presentation/components/WhatisAgency";
@@ -22,6 +23,7 @@ export default function CompanyPage({ params }: Props) {
       <Contact />
       <Logos />
       <DynamicCaseStudiesGrid companySlug={params.companySlug} />
+      <Footer />
     </div>
   );
 }
