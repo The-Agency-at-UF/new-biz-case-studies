@@ -193,7 +193,10 @@ export default function AddCompanyButton({ onCompanyAdded }: AddCompanyButtonPro
                 </button>
               </div>
               <button
-                onClick={handleClose}
+                onClick={() => {
+                  onCompanyAdded?.();
+                  handleClose();
+                }}
                 className="w-full py-3 rounded-lg border border-white/10 text-white/50 text-sm hover:text-white hover:border-white/30 transition"
               >
                 Done
