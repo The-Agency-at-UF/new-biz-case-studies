@@ -23,6 +23,7 @@ export default function CompaniesCard({
         p-6
         text-white
         overflow-y-auto
+        customScroll
       "
     >
       {/* HEADER + FILTER */}

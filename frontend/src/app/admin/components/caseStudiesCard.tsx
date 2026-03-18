@@ -25,6 +25,7 @@ export default function CaseStudiesCard({
         shadow-lg
         p-6
         text-white
+        customScroll
       "
     >
       {/* Glow */}
