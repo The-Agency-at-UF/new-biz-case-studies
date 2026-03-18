@@ -9,35 +9,35 @@ const caseStudies = [
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   }
 ];
 
