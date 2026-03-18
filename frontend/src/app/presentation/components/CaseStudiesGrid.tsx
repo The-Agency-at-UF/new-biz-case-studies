@@ -9,35 +9,35 @@ const caseStudies = [
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   },
   {
     title: "BLISS",
     description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
-    href: "/case-studies/bliss"
+    href: "/portfolio/caseStudies/Bliss"
   }
 ];
 
@@ -67,7 +67,7 @@ export default function CaseStudiesGrid() {
         <div className="w-full overflow-hidden">
             <div
             ref={scrollRef}
-            className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw]"
+            className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw] scrollHide"
             >
             {caseStudies.map((study, index) => (
                 <CaseStudyCard key={index} {...study} />
