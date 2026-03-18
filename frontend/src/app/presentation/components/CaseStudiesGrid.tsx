@@ -67,7 +67,7 @@ export default function CaseStudiesGrid() {
         <div className="w-full overflow-hidden">
             <div
             ref={scrollRef}
-            className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw]"
+            className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw] scrollHide"
             >
             {caseStudies.map((study, index) => (
                 <CaseStudyCard key={index} {...study} />
