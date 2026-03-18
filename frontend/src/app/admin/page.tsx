@@ -17,6 +17,12 @@ import {
   checkWhitelist,
   deleteCompany,
   deleteCaseStudy,
+  insertCompany,
+  insertCaseStudy,
+  updateCompany,
+  updateCaseStudy,
+  updateCaseStudyTags,
+  fetchCaseStudies,
 } from "./backend/backend";
 
 export default function AdminPage() {
@@ -26,22 +32,26 @@ export default function AdminPage() {
   const [isWhitelisted, setIsWhitelisted] = useState(false);
   const [isLoadingWhitelist, setIsLoadingWhitelist] = useState(true);
   const [data, setData] = useState<any[]>([]);
+  const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [search, setSearch] = useState("");
 
   const email = session?.user?.email ?? undefined; 
 
   const fetchData = async () => {
-    setIsLoadingData(true);
-    try {
-      const overviewData = await fetchOverview();
-      setData(overviewData); 
-    } catch (error) {
-      console.error("Error fetching overview data:", error);
-    } finally {
-      setIsLoadingData(false);
-    }
-  };
+  setIsLoadingData(true);
+  try {
+    const overviewData = await fetchOverview();
+    const caseStudyData = await fetchCaseStudies();
+
+    setData(overviewData);
+    setCaseStudies(caseStudyData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  } finally {
+    setIsLoadingData(false);
+  }
+};
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -90,14 +100,13 @@ export default function AdminPage() {
   };
 
   const handleDeleteCaseStudy = async (
-    companyID: string,
     caseStudyID: string,
   ) => {
     if (!confirm(`Are you sure you want to delete case study ${caseStudyID}?`))
       return;
 
     try {
-      const response = await deleteCaseStudy(companyID, caseStudyID);
+      const response = await deleteCaseStudy(caseStudyID);
       if (response.ok) {
         fetchData();
       } else {
@@ -125,16 +134,20 @@ export default function AdminPage() {
 
   const companyCount = data.length;
 
-  const caseStudyCount = data.reduce(
-    (total, company) => total + (company.CaseStudies?.length || 0),
-    0
-  );
+  const caseStudyCount = caseStudies.length;
 
   const filteredData =
   search.trim() === ""
     ? data
     : data.filter((company) =>
         company.Name.toLowerCase().includes(search.toLowerCase())
+      );
+
+  const filteredCaseStudies = 
+  search.trim() === ""
+      ? caseStudies
+      : caseStudies.filter((caseStudy) =>
+        caseStudy.Name.toLowerCase().includes(search.toLowerCase())
       );
 
   return (
@@ -161,7 +174,7 @@ export default function AdminPage() {
           />
         </div>
 
-        <CaseStudiesCard companies={filteredData} />
+        <CaseStudiesCard caseStudies={filteredCaseStudies} />
       </div>
 
       {/* RIGHT SIDE */}

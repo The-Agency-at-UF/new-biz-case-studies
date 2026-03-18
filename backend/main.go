@@ -178,6 +178,19 @@ func main() {
 		c.JSON(http.StatusOK, fullData)
 	})
 
+	// --- Get all case studies ---
+	r.GET("/api/casestudies", func(c *gin.Context) {
+		caseStudies, err := help.GetCaseStudies()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, caseStudies)
+	})
+
 	// --- Check Whitelist Endpoint ---
 	r.POST("/api/check-whitelist", func(c *gin.Context) {
 		var req CheckWhitelistRequest
