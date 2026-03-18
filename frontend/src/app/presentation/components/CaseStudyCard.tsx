@@ -40,11 +40,13 @@ export default function CaseStudyCard({
 
       </div>
 
-      <img
-        src={image}
-        alt={title}
-        className="rounded-lg object-cover w-full h-[180px]"
-      />
+      <div className="overflow-hidden rounded-lg h-[180px] w-full">
+        <img
+          src={image}
+          alt={title}
+          className="object-cover w-full h-full"
+        />
+      </div>
 
     </Link>
   );

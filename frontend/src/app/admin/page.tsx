@@ -253,7 +253,7 @@ const handleToggleCaseStudy = async (caseStudyID: string, isChecked: boolean) =>
 
         {/* RIGHT SIDE */}
         <div className="flex flex-col gap-6">
-          <AddCompanyButton />
+          <AddCompanyButton onCompanyAdded={fetchData}/>
 
           <CompaniesCard
             companies={filteredData}
