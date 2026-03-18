@@ -37,6 +37,8 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
   const [selectedCaseStudyTags, setSelectedCaseStudyTags] = useState<string[]>([]);
   const [selectedCompanyTag, setSelectedCompanyTag] = useState<string | null>(null);
+  const [selectedCompanyForEdit, setSelectedCompanyForEdit] = useState<any | null>(null);
+  const [selectedCaseStudyIDs, setSelectedCaseStudyIDs] = useState<string[]>([]);
 
   const email = session?.user?.email ?? undefined; 
 
@@ -100,6 +102,14 @@ export default function AdminPage() {
       console.error("Error deleting company:", error);
     }
   };
+
+  useEffect(() => {
+  if (selectedCompanyForEdit) {
+    setSelectedCaseStudyIDs(selectedCompanyForEdit.CaseStudies || []);
+  } else {
+    setSelectedCaseStudyIDs([]);
+  }
+  }, [selectedCompanyForEdit]);
 
   const handleDeleteCaseStudy = async (
     caseStudyID: string,
@@ -196,6 +206,8 @@ export default function AdminPage() {
             selectedTags={selectedCaseStudyTags}
             setSelectedTags={setSelectedCaseStudyTags}
             allTags={allCaseStudyTags}
+            selectedCaseStudyIDs={selectedCaseStudyIDs}
+            setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
           />
         </div>
 
@@ -208,6 +220,24 @@ export default function AdminPage() {
             selectedTag={selectedCompanyTag}
             setSelectedTag={setSelectedCompanyTag}
             allTags={allCompanyTags}
+            onCompanyClick={(company) => {
+
+              if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
+
+                setSelectedCompanyForEdit(null);
+                setSelectedCaseStudyIDs([]);
+
+              } else {
+
+                const extractedIDs = (company.CaseStudies || []).map((cs: any) => {
+                  return cs.CaseStudyID;
+                });
+
+                setSelectedCompanyForEdit(company);
+                setSelectedCaseStudyIDs(extractedIDs);
+              }
+            }}
+            selectedCompanyForEdit={selectedCompanyForEdit}
           />
         </div>
 

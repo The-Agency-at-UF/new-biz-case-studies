@@ -3,6 +3,8 @@ type CompaniesCardProps = {
   selectedTag: string | null;
   setSelectedTag: (tag: string | null) => void;
   allTags: string[];
+  onCompanyClick: (company: any) => void;
+  selectedCompanyForEdit: any | null;
 };
 
 export default function CompaniesCard({
@@ -10,6 +12,8 @@ export default function CompaniesCard({
   selectedTag,
   setSelectedTag,
   allTags,
+  onCompanyClick,
+  selectedCompanyForEdit,
 }: CompaniesCardProps) {
   return (
     <div
@@ -66,29 +70,50 @@ export default function CompaniesCard({
 
       {/* COMPANY LIST */}
       <div className="space-y-3">
-        {companies.map((company) => (
-          <div
-            key={company.CompanyID}
-            className="
-              flex items-center justify-between
-              border-b border-white/10
-              pb-2
-              text-sm
-              text-white/80
-              hover:text-white
-              transition
-              cursor-pointer
-            "
-          >
-            {/* Name */}
-            <span>{company.Name}</span>
+        {companies.map((company) => {
+          const isActive =
+            selectedCompanyForEdit?.CompanyID === company.CompanyID;
 
-            {/* Industry tag */}
-            <span className="text-xs bg-white/10 px-2 py-1 rounded-full">
-              {company.Industry}
-            </span>
-          </div>
-        ))}
+          return (
+            <div
+              key={company.CompanyID}
+
+              onClick={() => onCompanyClick(company)}
+
+              className={`
+                flex items-center justify-between
+                border-b border-white/10
+                pb-2
+                text-sm
+                transition
+                cursor-pointer
+
+                ${
+                  isActive
+                    ? "text-white bg-white/10 rounded px-2 py-1"
+                    : "text-white/80 hover:text-white"
+                }
+              `}
+            >
+              {/* Name */}
+              <span>{company.Name}</span>
+
+              {/* Industry tag */}
+              <span
+                className={`
+                  text-xs px-2 py-1 rounded-full
+                  ${
+                    isActive
+                      ? "bg-[#AA9AFF] text-white"
+                      : "bg-white/10"
+                  }
+                `}
+              >
+                {company.Industry}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
