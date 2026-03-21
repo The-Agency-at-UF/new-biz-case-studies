@@ -3,6 +3,7 @@ package helpfunc
 import (
 	"context"
 	"fmt"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -17,9 +18,9 @@ type Company struct {
 }
 
 type CaseStudy struct {
-	CompanyID  string      `dynamodbav:"CompanyID"`
-	TemplateID string      `dynamodbav:"TemplateID"`
-	Blocks     interface{} `dynamodbav:"Blocks"` // can be []map[string]interface{}
+	CaseStudyID string   `dynamodbav:"CaseStudyID"`
+	Name        string   `dynamodbav:"Name"`
+	Tags        []string `dynamodbav:"Tags"`
 }
 
 // --- Insert functions ---
@@ -59,6 +60,6 @@ func InsertCaseStudy(item CaseStudy) error {
 		return fmt.Errorf("failed to insert case study: %v", err)
 	}
 
-	fmt.Println("Case study inserted successfully:", item.TemplateID)
+	fmt.Println("Case study inserted successfully:", item.CaseStudyID)
 	return nil
 }

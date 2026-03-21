@@ -28,5 +28,5 @@ func CheckIfEmailWhitelisted(email string) (bool, error) {
 		return false, fmt.Errorf("failed to get item from WhitelistedEmails table: %v", err)
 	}
 
-	return result.Item != nil && len(result.Item) > 0, nil
+	return len(result.Item) > 0, nil
 }

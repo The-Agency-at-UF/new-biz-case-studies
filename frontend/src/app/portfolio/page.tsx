@@ -1,23 +1,28 @@
+import Image from "next/image";
 import PortfolioGrid from "./components/PortfolioGrid";
 import NavBar from "../../components/NavBar";
 
 export default function PortfolioPage() {
   return (
-    <div className="relative bg-black min-h-screen text-white pt-40 pl-12 overflow-hidden">
+    <div className="relative min-h-screen text-white pt-40 pl-12 overflow-hidden">
       {/* Navbar */}
       <NavBar />
 
       {/* Background blobs */}
-      <img
+      <Image
         src="/Blob(1).png"
         alt=""
-        className="absolute top-0 left-0 w-[600px] opacity-40 blur-lg pointer-events-none select-none"
+        width={600}
+        height={600}
+        className="absolute top-0 left-0 w-[600px] h-auto opacity-40 blur-lg pointer-events-none select-none"
       />
 
-      <img
+      <Image
         src="/Blob(3).png"
         alt=""
-        className="absolute bottom-0 right-0 w-[800px] opacity-40 blur-lg pointer-events-none select-none"
+        width={800}
+        height={800}
+        className="absolute bottom-0 right-0 w-[800px] h-auto opacity-40 blur-lg pointer-events-none select-none"
       />
 
       {/* Main Content */}
@@ -27,7 +32,7 @@ export default function PortfolioPage() {
           Our Portfolio
         </div>
         <p className="text-gray-300 text-xl leading-relaxed mb-12 max-w-3xl">
-          A selection of case studies showcasing The Agency's expertise in delivering
+          A selection of case studies showcasing The Agency&apos;s expertise in delivering
           creative and technical solutions across various industries.
         </p>
 

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #171717;
   --foreground: #171717;
 }
 
@@ -54,4 +54,23 @@ body {
   scrollbar-width: none;
   /* Hide for IE and legacy Edge */
   -ms-overflow-style: none;
+}
+
+.customScroll {
+    ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
 }

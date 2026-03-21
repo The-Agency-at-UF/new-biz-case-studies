@@ -113,7 +113,7 @@ export default function PortfolioBar() {
               </NavLink>
             </li>
             <li>
-              <NavLink href="/admin" underlineColor="group-hover:bg-[#f34d4e]">
+              <NavLink href="/admin" underlineColor="group-hover:bg-[#b053bc]">
                 Admin
               </NavLink>
             </li>
@@ -160,7 +160,7 @@ export default function PortfolioBar() {
                 <Link
                   href="/admin"
                   onClick={() => setMenuOpen(false)}
-                  className="block py-2 text-white hover:text-[#f34d4e]"
+                  className="block py-2 text-white hover:text-[#b053bc]"
                 >
                   Admin
                 </Link>
