@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 type BlobSelection = 1 | 2 | 3;
 type SectionKey = "whatIsAgency" | "services" | "caseStudies";
@@ -28,11 +28,15 @@ export function AdventureProvider({ children }: { children: React.ReactNode }): 
   function selectBlob(blob: BlobSelection) {
     setSelectedBlob(blob);
     setSectionOrder(BLOB_ORDER[blob]);
+  }
+
+  useEffect(() => {
+    if (!sectionOrder.length) return;
 
     requestAnimationFrame(() => {
-      firstSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+      firstSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  }
+  }, [sectionOrder]);
 
   return (
     <AdventureContext.Provider value={{ selectedBlob, sectionOrder, selectBlob, firstSectionRef }}>

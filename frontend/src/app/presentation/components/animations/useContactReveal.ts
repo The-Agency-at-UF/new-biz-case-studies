@@ -22,8 +22,8 @@ export function useContactReveal() {
         start: "top 50%",
         end: "top top",
         scrub: 1.2,
-        pin: true,
-        pinSpacing: false,
+        // pin: true,
+        // pinSpacing: false,
       },
     });
 
