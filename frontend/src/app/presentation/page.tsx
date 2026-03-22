@@ -6,6 +6,7 @@ import OurServices from "@/app/presentation/components/Services";
 import Contact from "@/app/presentation/components/ContactUs";
 import Logos from "@/app/presentation/components/Logos";
 import CaseStudiesGrid from "@/app/presentation/components/CaseStudiesGrid";
+import Footer from "@/components/Footer";
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Contact />
       <Logos />
       <CaseStudiesGrid />
+      <Footer />
     </div>
   );
 }
