@@ -38,7 +38,7 @@ export default function CaseStudiesCard({
       {/* FILTER HEADER */}
       <div className="relative z-10 mb-4">
         <div className="flex items-center gap-2 text-white/70 text-sm mb-3">
-          <img src="/assets/admin/FilterIcon.png" className="w-4 h-4" />
+          <img src="/assets/Admin/FilterIcon.png" className="w-4 h-4" />
           <span>Tags</span>
         </div>
 

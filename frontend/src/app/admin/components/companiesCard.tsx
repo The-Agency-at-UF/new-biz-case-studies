@@ -34,7 +34,7 @@ export default function CompaniesCard({
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-3 text-white/70 text-sm">
           <img
-            src="/assets/admin/FilterIcon.png"
+            src="/assets/Admin/FilterIcon.png"
             alt="filter"
             className="w-4 h-4 cursor-pointer hover:opacity-70"
           />

@@ -1,5 +1,6 @@
 "use client";
 import { useContactReveal } from "./animations/useContactReveal";
+import ContactCard from "./ContactCard";
 
 export default function Contact() {
   const { sectionRef, maskRef, contentRef } = useContactReveal();
@@ -39,6 +40,7 @@ export default function Contact() {
         <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold uppercase tracking-wide text-white text-center">
           Built By Gen Z, For Everyone.
         </h1>
+        <ContactCard />
       </div>
     </section>
   );
