@@ -9,6 +9,7 @@ import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
 import ContactUs from "./components/ContactUs";
 import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 
 // Dynamically import ChooseYourAdventure with no SSR
 // This isolates Spline's DOM from React's reconciler
@@ -57,6 +58,7 @@ function PresentationContent() {
       <div>
         <AdventureSections />
       </div>
+      <Footer />
     </SmoothScrollWrapper>
   );
 }

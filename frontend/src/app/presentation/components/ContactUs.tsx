@@ -14,21 +14,21 @@ export default function Contact() {
         ref={maskRef}
         className="absolute inset-0 origin-center"
         style={{
-          maskImage: "url('/contact_clipping_mask.png')",       
+          maskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
           maskSize: "cover",
           maskRepeat: "no-repeat",
           maskPosition: "center",
-          WebkitMaskImage: "url('/contact_clipping_mask.png')", // swap with your PNG mask shape
+          WebkitMaskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
           WebkitMaskSize: "cover",
           WebkitMaskRepeat: "no-repeat",
           WebkitMaskPosition: "center",
-          backgroundImage: "url('/AgencyPolaroids.png')", // your existing bg
+          backgroundImage: "url('/assets/Presentation/AgencyPolaroids.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
 
-      {/* Dark overlay — same as your current bg-black/75 */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/75 z-[1]" />
 
       {/* Content — fades in after mask fills section */}

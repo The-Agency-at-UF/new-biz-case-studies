@@ -2,7 +2,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import MainHero from "@/app/presentation/components/MainHero";
 import Choose from "@/app/presentation/components/ChooseYourAdventure";
-import WhatIsAgency from "@/app/presentation/components/WhatisAgency";
+import WhatIsAgency from "@/app/presentation/components/WhatIsAgency";
 import OurServices from "@/app/presentation/components/Services";
 import Contact from "@/app/presentation/components/ContactUs";
 import Logos from "@/app/presentation/components/Logos";
