@@ -66,7 +66,7 @@ export default function UberEatsScrollStrip() {
         {slides.map((slide, i) => (
           <div
             key={i}
-            className="relative shrink-0 w-[32vw] min-w-[220px] max-w-[360px]"
+            className="relative shrink-0 w-[44vw] min-w-[320px] max-w-[500px]"
           >
             <div className="relative rounded-[2.4rem] border-[2.5px] border-white/20 overflow-hidden shadow-2xl aspect-[9/19.5] bg-black">
               <img
