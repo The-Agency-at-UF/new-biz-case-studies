@@ -62,7 +62,7 @@ export default function ContactCard() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-black">
+    <div className="flex items-center justify-center">
 
       {/* Sucess Toast */}
       {success && (

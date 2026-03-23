@@ -8,6 +8,7 @@ import WhatIsAgency from "./components/WhatIsAgency";
 import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
 import ContactUs from "./components/ContactUs";
+import LogoShowcase from "./components/LogoShowcase";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 
@@ -36,11 +37,11 @@ function AdventureSections() {
       {sectionOrder.map((key, index) => {
         const Section = SECTION_MAP[key];
         return (
-          <div
-            key={key}
-            ref={index === 0 ? firstSectionRef : undefined}
-          >
-            <Section />
+          <div key={key}>
+            {key === "caseStudies" && <LogoShowcase />}
+            <div ref={index === 0 ? firstSectionRef : undefined}>
+              <Section />
+            </div>
           </div>
         );
       })}
