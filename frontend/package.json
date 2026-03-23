@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "logos:check": "node scripts/check-logo-sizes.mjs",
+    "logos:normalize": "node scripts/normalize-logos.mjs"
   },
   "dependencies": {
     "@splinetool/react-spline": "^4.1.0",
@@ -26,6 +28,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
+    "image-size": "^2.0.2",
+    "sharp": "^0.34.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

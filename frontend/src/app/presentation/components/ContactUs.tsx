@@ -12,22 +12,20 @@ export default function Contact() {
     >
       {/* Expanding mask — AgencyPolaroids.png is the background that gets revealed */}
       <div
-        ref={maskRef}
-        className="absolute inset-0 origin-center"
-        style={{
-          maskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
-          maskSize: "cover",
-          maskRepeat: "no-repeat",
-          maskPosition: "center",
-          WebkitMaskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
-          WebkitMaskSize: "cover",
-          WebkitMaskRepeat: "no-repeat",
-          WebkitMaskPosition: "center",
-          backgroundImage: "url('/assets/Presentation/AgencyPolaroids.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      ref={maskRef}
+      className="absolute inset-0 origin-center"
+      style={{
+        maskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
+        maskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskImage: "url('/assets/Presentation/contact_clipping_mask.png')",
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        backgroundImage: "url('/assets/Presentation/AgencyPolaroids.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    />
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/75 z-[1]" />

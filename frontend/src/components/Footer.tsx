@@ -43,7 +43,7 @@ export default function AgencyFooter({
   email = "theagency@jou.ufl.edu",
 }: Props) {
   return (
-    <footer className="w-full bg-black text-white mt-20">
+    <footer className="w-full bg-black text-white">
       
       {/* Gradient Bar */}
       <div className="h-[4px] w-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500" />

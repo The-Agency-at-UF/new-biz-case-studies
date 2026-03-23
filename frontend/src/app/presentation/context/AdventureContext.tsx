@@ -7,7 +7,7 @@ type SectionKey = "whatIsAgency" | "services" | "caseStudies";
 
 const BLOB_ORDER: Record<BlobSelection, SectionKey[]> = {
   1: ["whatIsAgency", "services", "caseStudies"],
-  2: ["services", "caseStudies", "whatIsAgency"],
+  2: ["services", "whatIsAgency", "caseStudies"],
   3: ["caseStudies", "whatIsAgency", "services"],
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
 
@@ -17,7 +17,9 @@ export default function SeeOurWork({ phoneHovered }: { phoneHovered: boolean }) 
     const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.4 });
     tl.to(path, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" })
       .to(path, { strokeDashoffset: -length, duration: 1.2, ease: "power2.inOut", delay: 0.3 });
-    return () => tl.kill();
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   return (
