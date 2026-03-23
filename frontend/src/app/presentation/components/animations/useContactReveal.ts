@@ -8,7 +8,7 @@ import { useScroller } from "../../SmoothScrollWrapper";
 gsap.registerPlugin(ScrollTrigger);
 
 export function useContactReveal() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scroller = useScroller();
