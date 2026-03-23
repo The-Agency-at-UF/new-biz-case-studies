@@ -262,6 +262,9 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Tags updated successfully"})
 	})
 
+	// --- Contact form submission ---
+	r.POST("/api/contact", help.ContactHandler)
+
 	// --- Run server ---
 	r.Run(":8080")
 }
