@@ -3,7 +3,7 @@ import { gentonaMedium } from "@/app/fonts";
 export default function UberEatsSection() {
   return (
     <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 py-38">
-      <div className="max-w-none flex flex-row items-start items-center gap-6 lg:gap-18">
+      <div className="max-w-none flex flex-row items-center gap-6 lg:gap-18">
         <h2
           className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal shrink-0`}
         >

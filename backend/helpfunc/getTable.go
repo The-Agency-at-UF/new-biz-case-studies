@@ -36,23 +36,30 @@ func GetAllCompaniesWithCaseStudies() ([]CompanyWithStudies, error) {
 
 	var fullData []CompanyWithStudies
 	for _, comp := range companies {
-		queryInput := &dynamodb.QueryInput{
-			TableName:              aws.String("CaseStudies"),
-			KeyConditionExpression: aws.String("CompanyID = :cid"),
-			ExpressionAttributeValues: map[string]types.AttributeValue{
-				":cid": &types.AttributeValueMemberS{Value: comp.CompanyID},
-			},
-		}
-
-		caseOut, err := client.Query(context.TODO(), queryInput)
-		if err != nil {
-			fmt.Printf("warning: failed to get case studies for company %s: %v\n", comp.CompanyID, err)
-			continue
-		}
-
 		var studies []CaseStudy
-		if err := attributevalue.UnmarshalListOfMaps(caseOut.Items, &studies); err != nil {
-			fmt.Printf("warning: failed to unmarshal case studies for company %s: %v\n", comp.CompanyID, err)
+
+		for _, caseStudyID := range comp.CaseStudies {
+			result, err := client.GetItem(context.TODO(), &dynamodb.GetItemInput{
+				TableName: aws.String("CaseStudies"),
+				Key: map[string]types.AttributeValue{
+					"CaseStudyID": &types.AttributeValueMemberS{Value: caseStudyID},
+				},
+			})
+			if err != nil {
+				fmt.Printf("warning: failed to get case study %s: %v\n", caseStudyID, err)
+				continue
+			}
+			if result.Item == nil {
+				fmt.Printf("warning: case study %s not found\n", caseStudyID)
+				continue
+			}
+
+			var study CaseStudy
+			if err := attributevalue.UnmarshalMap(result.Item, &study); err != nil {
+				fmt.Printf("warning: failed to unmarshal case study %s: %v\n", caseStudyID, err)
+				continue
+			}
+			studies = append(studies, study)
 		}
 
 		fullData = append(fullData, CompanyWithStudies{

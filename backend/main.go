@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"time"
-	
+
 	help "new-biz-case-studies-backend/helpfunc"
 
 	"github.com/gin-contrib/cors"
@@ -24,7 +24,7 @@ func main() {
 	// --- Allow local frontend access (optional but recommended) ---
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:3000"},
-		AllowMethods: []string{"GET", "POST", "DELETE"},
+		AllowMethods: []string{"GET", "POST", "DELETE", "PUT"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
 	}))
 
@@ -40,7 +40,9 @@ func main() {
 
 	// --- Initialize S3  ---
 	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	uploader := manager.NewUploader(s3.NewFromConfig(cfg))
 	bucket := "new-biz-case-studies-bucket"
 
@@ -49,38 +51,32 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Backend is up and DynamoDB tables are ready!"})
 	})
 
-	// --- Insert company test (POST /api/test-company) ---
-	r.POST("/api/test-company", func(c *gin.Context) {
-		testCompany := help.Company{
-			CompanyID:   "COMP001",
-			Name:        "Uber",
-			Industry:    "Transportation & Technology",
-			CaseStudies: []string{"CS001"},
+	// --- Insert company (POST /api/company) ---
+	r.POST("/api/company", func(c *gin.Context) {
+		var company help.Company
+		if err := c.ShouldBindJSON(&company); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
-		err := help.InsertCompany(testCompany)
-		if err != nil {
+		if err := help.InsertCompany(company); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "Uber inserted successfully into Companies table"})
+		c.JSON(http.StatusOK, gin.H{"message": "Company inserted successfully"})
 	})
 
-	// --- Insert case study test (POST /api/test-casestudy) ---
-	r.POST("/api/test-casestudy", func(c *gin.Context) {
-		testCaseStudy := help.CaseStudy{
-			CompanyID:  "COMP001",
-			TemplateID: "CS001",
-			Blocks: []map[string]interface{}{
-				{"type": "title", "content": "Reimagining Urban Mobility"},
-				{"type": "paragraph", "content": "Uber revolutionized transportation by using real-time data and dynamic pricing to connect riders and drivers efficiently."},
-			},
+	// --- Insert case study (POST /api/casestudy) ---
+	r.POST("/api/casestudy", func(c *gin.Context) {
+		var caseStudy help.CaseStudy
+		if err := c.ShouldBindJSON(&caseStudy); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
-		err := help.InsertCaseStudy(testCaseStudy)
-		if err != nil {
+		if err := help.InsertCaseStudy(caseStudy); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "Uber case study inserted successfully"})
+		c.JSON(http.StatusOK, gin.H{"message": "Case study inserted successfully"})
 	})
 
 	// --- Upload image to S3 ---
@@ -99,7 +95,9 @@ func main() {
 
 		key := "case-studies/" + fmt.Sprintf("%d-%s", time.Now().Unix(), filepath.Base(fh.Filename))
 		ct := fh.Header.Get("Content-Type")
-		if ct == "" { ct = "application/octet-stream" }
+		if ct == "" {
+			ct = "application/octet-stream"
+		}
 
 		out, err := uploader.Upload(c, &s3.PutObjectInput{
 			Bucket:      &bucket,
@@ -126,22 +124,37 @@ func main() {
 	})
 
 	// --- Delete case study ---
-	r.DELETE("/api/casestudy/:companyid/:templateid", func(c *gin.Context) {
-		companyID := c.Param("companyid")
-		templateID := c.Param("templateid")
-
-		fmt.Println("DELETE called for", companyID, templateID)
-
-		if err := help.DeleteCaseStudy(companyID, templateID); err != nil {
-			fmt.Println("Error deleting case study:", err)
+	r.DELETE("/api/casestudy/:casestudyid", func(c *gin.Context) {
+		caseStudyID := c.Param("casestudyid")
+		if err := help.DeleteCaseStudy(caseStudyID); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-
 		c.JSON(http.StatusOK, gin.H{"message": "Case study deleted successfully"})
 	})
 
+	// --- Delete image from S3 ---
+	r.DELETE("/api/delete-image", func(c *gin.Context) {
+		var req struct {
+			Key string `json:"key"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil || req.Key == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "missing or invalid 'key' field"})
+			return
+		}
 
+		s3Service, err := help.NewS3(context.Background())
+		if err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"error": "failed to initialize S3 client: " + err.Error()})
+			return
+		}
+		if err := s3Service.DeleteImageFromS3(c, bucket, req.Key); err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "deleted", "key": req.Key})
+	})
 
 	// --- Get all case studies for one company ---
 	r.GET("/api/company/:id/casestudies", func(c *gin.Context) {
@@ -165,6 +178,19 @@ func main() {
 		c.JSON(http.StatusOK, fullData)
 	})
 
+	// --- Get all case studies ---
+	r.GET("/api/casestudies", func(c *gin.Context) {
+		caseStudies, err := help.GetCaseStudies()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, caseStudies)
+	})
+
 	// --- Check Whitelist Endpoint ---
 	r.POST("/api/check-whitelist", func(c *gin.Context) {
 		var req CheckWhitelistRequest
@@ -182,6 +208,63 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"isWhitelisted": isWhitelisted})
 	})
 
+	// --- Update company ---
+	r.PUT("/api/company/:id", func(c *gin.Context) {
+		companyID := c.Param("id")
+		var req struct {
+			Name        string   `json:"Name"`
+			Industry    string   `json:"Industry"`
+			CaseStudies []string `json:"CaseStudies"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := help.UpdateCompany(companyID, req.Name, req.Industry, req.CaseStudies); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Company updated successfully"})
+	})
+
+	// --- Update case study ---
+	r.PUT("/api/casestudy/:casestudyid", func(c *gin.Context) {
+		caseStudyID := c.Param("casestudyid")
+		var req struct {
+			Name string   `json:"Name"`
+			Tags []string `json:"Tags"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := help.UpdateCaseStudy(caseStudyID, req.Name, req.Tags); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Case study updated successfully"})
+	})
+
+	// --- Update case study tags only ---
+	r.POST("/api/casestudy/:casestudyid/tags", func(c *gin.Context) {
+		caseStudyID := c.Param("casestudyid")
+		var req struct {
+			Tags []string `json:"Tags"`
+		}
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if err := help.UpdateCaseStudyTags(caseStudyID, req.Tags); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Tags updated successfully"})
+	})
+
+	// --- Contact form submission ---
+	r.POST("/api/contact", help.ContactHandler)
+
 	// --- Run server ---
 	r.Run(":8080")
 }
@@ -190,4 +273,3 @@ func main() {
 type CheckWhitelistRequest struct {
 	Email string `json:"email"`
 }
-

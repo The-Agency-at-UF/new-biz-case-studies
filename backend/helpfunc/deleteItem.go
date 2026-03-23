@@ -3,6 +3,7 @@ package helpfunc
 import (
 	"context"
 	"fmt"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -17,55 +18,14 @@ func convertToAttributeValueList(ids []string) []types.AttributeValue {
 	return list
 }
 
-
 func DeleteCompany(companyID string) error {
 	client := GetDynamoClient()
 
-	queryInput := &dynamodb.QueryInput{
-		TableName:              aws.String("CaseStudies"),
-		KeyConditionExpression: aws.String("CompanyID = :cid"),
-		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":cid": &types.AttributeValueMemberS{Value: companyID},
-		},
-	}
-
-	out, err := client.Query(context.TODO(), queryInput)
-	if err != nil {
-		return fmt.Errorf("failed to query case studies for company %s: %v", companyID, err)
-	}
-
-	for _, item := range out.Items {
-		var cs CaseStudy
-		if err := attributevalue.UnmarshalMap(item, &cs); err != nil {
-			fmt.Printf("warning: failed to unmarshal case study for company %s: %v\n", companyID, err)
-			continue
-		}
-
-		_, err = client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
-			TableName: aws.String("CaseStudies"),
-			Key: map[string]types.AttributeValue{
-				"CompanyID":  &types.AttributeValueMemberS{Value: cs.CompanyID},
-				"TemplateID": &types.AttributeValueMemberS{Value: cs.TemplateID},
-			},
-		})
-		if err != nil {
-			fmt.Printf("warning: failed to delete case study %s for company %s: %v\n", cs.TemplateID, companyID, err)
-		} else {
-			fmt.Printf("Deleted case study %s for company %s\n", cs.TemplateID, companyID)
-		}
-	}
-
-
-	key, err := attributevalue.MarshalMap(map[string]string{
-		"CompanyID": companyID,
-	})
-	if err != nil {
-		return fmt.Errorf("failed to marshal delete key: %v", err)
-	}
-
-	_, err = client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
+	_, err := client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		TableName: aws.String("Companies"),
-		Key:       key,
+		Key: map[string]types.AttributeValue{
+			"CompanyID": &types.AttributeValueMemberS{Value: companyID},
+		},
 	})
 	if err != nil {
 		return fmt.Errorf("failed to delete company: %v", err)
@@ -75,71 +35,67 @@ func DeleteCompany(companyID string) error {
 	return nil
 }
 
-
-func DeleteCaseStudy(companyID string, templateID string) error {
+func DeleteCaseStudy(caseStudyID string) error {
 	client := GetDynamoClient()
 
-	fmt.Println("Starting DeleteCaseStudy for", companyID, templateID)
-
-	
-	key, err := attributevalue.MarshalMap(map[string]string{
-		"CompanyID":  companyID,
-		"TemplateID": templateID,
-	})
-	if err != nil {
-		return fmt.Errorf("failed to marshal delete key: %v", err)
-	}
-
-	_, err = client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
+	// Delete from CaseStudies table
+	_, err := client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		TableName: aws.String("CaseStudies"),
-		Key:       key,
+		Key: map[string]types.AttributeValue{
+			"CaseStudyID": &types.AttributeValueMemberS{Value: caseStudyID},
+		},
 	})
 	if err != nil {
 		return fmt.Errorf("failed to delete case study: %v", err)
 	}
+	fmt.Println("Case study deleted from CaseStudies table:", caseStudyID)
 
-	fmt.Println("Case study deleted from CaseStudies table")
-
-	out, err := client.GetItem(context.TODO(), &dynamodb.GetItemInput{
+	// Scan all companies and remove this caseStudyID from any CaseStudies list that contains it
+	out, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String("Companies"),
-		Key: map[string]types.AttributeValue{
-			"CompanyID": &types.AttributeValueMemberS{Value: companyID},
-		},
 	})
 	if err != nil {
-		return fmt.Errorf("failed to get company: %v", err)
+		return fmt.Errorf("failed to scan companies: %v", err)
 	}
 
-	if out.Item == nil {
-		return fmt.Errorf("company %s not found", companyID)
+	var companies []Company
+	if err := attributevalue.UnmarshalListOfMaps(out.Items, &companies); err != nil {
+		return fmt.Errorf("failed to unmarshal companies: %v", err)
 	}
 
-	var company Company
-	if err := attributevalue.UnmarshalMap(out.Item, &company); err != nil {
-		return fmt.Errorf("failed to unmarshal company: %v", err)
-	}
+	for _, company := range companies {
+		// Check if this company references the deleted case study
+		found := false
+		filtered := []string{}
+		for _, id := range company.CaseStudies {
+			if id == caseStudyID {
+				found = true
+			} else {
+				filtered = append(filtered, id)
+			}
+		}
 
-	filtered := []string{}
-	for _, id := range company.CaseStudies {
-		if id != templateID {
-			filtered = append(filtered, id)
+		if !found {
+			continue
+		}
+
+		// Update the company's CaseStudies list
+		_, err = client.UpdateItem(context.TODO(), &dynamodb.UpdateItemInput{
+			TableName: aws.String("Companies"),
+			Key: map[string]types.AttributeValue{
+				"CompanyID": &types.AttributeValueMemberS{Value: company.CompanyID},
+			},
+			UpdateExpression: aws.String("SET CaseStudies = :newlist"),
+			ExpressionAttributeValues: map[string]types.AttributeValue{
+				":newlist": &types.AttributeValueMemberL{Value: convertToAttributeValueList(filtered)},
+			},
+		})
+		if err != nil {
+			fmt.Printf("warning: failed to update CaseStudies list for company %s: %v\n", company.CompanyID, err)
+		} else {
+			fmt.Printf("Removed case study %s from company %s\n", caseStudyID, company.CompanyID)
 		}
 	}
 
-	_, err = client.UpdateItem(context.TODO(), &dynamodb.UpdateItemInput{
-		TableName: aws.String("Companies"),
-		Key: map[string]types.AttributeValue{
-			"CompanyID": &types.AttributeValueMemberS{Value: companyID},
-		},
-		UpdateExpression: aws.String("SET CaseStudies = :newlist"),
-		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":newlist": &types.AttributeValueMemberL{Value: convertToAttributeValueList(filtered)},
-		},
-	})
-	if err != nil {
-		return fmt.Errorf("failed to update company CaseStudies list: %v", err)
-	}
-
-	fmt.Println("Company CaseStudies list updated successfully")
 	return nil
 }
