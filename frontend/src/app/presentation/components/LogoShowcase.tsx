@@ -1,0 +1,1 @@
+// horizonal showcase of logos with a vertical automatic scroll animation, used in section above case studies
