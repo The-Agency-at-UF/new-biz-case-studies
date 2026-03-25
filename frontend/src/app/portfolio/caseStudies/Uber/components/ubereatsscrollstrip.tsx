@@ -3,10 +3,10 @@
 import { useRef, useEffect } from "react";
 
 const PHONE_SLIDES = [
-  { src: "/assets/Uber/Uber_Mockup_1.png", label: "Uber mockup 1" },
-  { src: "/assets/Uber/Uber_Mockup_2.png", label: "Uber mockup 2" },
-  { src: "/assets/Uber/Uber_Mockup_4.png", label: "Uber mockup 4" },
-  { src: "/assets/Uber/Uber_Mockup_3.png", label: "Uber mockup 3" },
+  { src: "/assets/Uber/Uber_Mockup_1.svg", label: "Uber mockup 1" },
+  { src: "/assets/Uber/Uber_Mockup_2.svg", label: "Uber mockup 2" },
+  { src: "/assets/Uber/Uber_Mockup_4.svg", label: "Uber mockup 4" },
+  { src: "/assets/Uber/Uber_Mockup_3.svg", label: "Uber mockup 3" },
 ];
 
 export default function UberEatsScrollStrip() {
@@ -56,7 +56,8 @@ export default function UberEatsScrollStrip() {
 
   return (
     <div className="relative w-full overflow-hidden bg-[#142328] mt-10">
-      {/* Right fade only */}
+      {/* Left + right fades */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-48 z-10 bg-gradient-to-r from-[#142328] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-48 z-10 bg-gradient-to-l from-[#142328] to-transparent" />
 
       <div
