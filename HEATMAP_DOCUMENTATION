@@ -1,0 +1,191 @@
+# New Biz — Admin Heatmap Tracking Documentation
+
+## Overview
+
+The admin side of the platform will include a heatmap feature to help us understand how business visitors interact with each case study page. The goal is to identify what draws attention, what gets ignored, and what sections or interactive elements drive the most engagement.
+
+This feature is being explored with **heatmap.js**, a JavaScript library that creates heatmaps inside a DOM container and supports configurable radius, opacity, blur, gradient, and data updates. It creates heatmap instances with `h337.create(config)` and supports both live point updates with `addData()` and full dataset initialization with `setData()`. 
+
+---
+
+## Purpose
+
+The heatmap feature is intended to answer questions such as:
+
+- Which parts of a case study are clicked most often?
+- Which CTAs or interactive elements attract the most attention?
+- Which sections do visitors ignore?
+- Do users focus more on visuals, metrics, outcomes, testimonials, or navigation?
+- Are there differences in engagement between industries, companies, or case study layouts?
+
+This insight will help improve:
+
+- Case study layout and storytelling
+- CTA placement
+- Navigation structure
+- Visual hierarchy
+- Future client-facing presentation decisions
+
+---
+
+## Primary Use Case
+
+A visitor from a business or client company opens an interactive case study on the New Biz site. While they browse, the system tracks click positions and selected interactions on the page. The admin dashboard then visualizes those interactions as a heatmap overlay, making it easier to see where attention clusters.
+
+Example outcomes:
+
+- A metrics section gets repeated clicks, showing high interest in results
+- A CTA gets very little attention, suggesting poor placement or weak emphasis
+- Users repeatedly click images, tabs, or diagrams, showing which content formats are most engaging
+- Important proof points are being skipped, meaning the page structure may need improvement
+
+---
+
+## Feature Goals
+
+### Core Goal
+Visualize user click behavior on case study pages.
+
+### Secondary Goals
+- Compare engagement across case studies
+- Measure which page sections perform best
+- Support design and content decisions with behavioral data
+- Give admins a clear visual summary without needing to review raw event logs
+
+---
+
+## Proposed Scope
+
+### Phase 1 — Click Heatmap
+Track and display:
+- Click position
+- Page URL or case study ID
+- Timestamp
+- Element type, if available
+- Viewport size, if useful for normalization
+
+### Phase 2 — Interaction Context
+Expand tracking to include:
+- CTA clicks
+- Tab or accordion interactions
+- Carousel navigation
+- Video plays
+- Scroll depth by section
+- Time spent per section
+
+### Phase 3 — Filtering and Comparison
+Allow admins to filter by:
+- Case study
+- Date range
+- Company or industry
+- Device type
+- Visitor source, if available
+- Interaction type
+
+---
+
+## Technical Approach
+
+### Frontend Tracking
+On the case study page:
+1. Detect click events on the document or within the case study container
+2. Capture x/y coordinates relative to the rendered case study container
+3. Save interaction metadata
+4. Send the event to the backend
+
+### Backend Storage
+Store click events in a structured format such as:
+
+- `caseStudyId`
+- `sessionId` or anonymized visitor ID
+- `x`
+- `y`
+- `eventType`
+- `targetElement`
+- `timestamp`
+- `viewportWidth`
+- `viewportHeight`
+- `pagePath`
+
+### Admin Visualization
+On the admin page:
+1. Fetch click data for a selected case study
+2. Transform it into the format expected by heatmap.js
+3. Render a heatmap overlay above the case study preview or screenshot
+
+heatmap.js expects a container DOM node when creating an instance, and its common configuration options include `radius`, `opacity`, `maxOpacity`, `minOpacity`, `blur`, and `gradient`. For full dataset loading, `setData()` expects an object containing `min`, `max`, and `data`. For on-the-fly updates, `addData()` can be used. 
+---
+
+## heatmap.js Notes
+
+### Relevant API Methods
+
+#### `h337.create(config)`
+Creates a heatmap instance. The `container` field is required. Other supported options include background color, gradient, radius, opacity, max/min opacity, blur, custom coordinate field names, and an `onExtremaChange` callback.
+
+#### `heatmapInstance.setData({ min, max, data })`
+Best for initializing a full dataset. This replaces any previous points in the heatmap instance.
+
+#### `heatmapInstance.addData(point | points[])`
+Best for incrementally adding points after initialization, not as the primary way to load the full dataset.
+
+#### `heatmapInstance.configure(config)`
+Useful when admins need to adjust blur, radius, opacity, or gradient without rebuilding the entire component. 
+
+#### `heatmapInstance.getData()`
+Can return a persistable JSON structure that may be useful for debugging, exporting, or reloading heatmap states.
+
+---
+
+## Visual Design & Branding
+
+The heatmap visualization follows the agency’s official gradient system, transitioning from **orange → coral → pink → purple → periwinkle**.
+
+### Brand Gradient Reference
+
+Primary gradient progression:
+
+- Orange → #F7A531  
+- Coral → #FF7A4F  
+- Pink → #F9485F  
+- Magenta → #D85C8C  
+- Purple → #9B7FD1  
+- Periwinkle → #8C88D6  
+
+This gradient reflects the agency’s visual identity and will be used consistently across heatmap visualizations.
+
+---
+
+## Heatmap Gradient Configuration
+
+The heatmap uses a custom gradient aligned with the brand:
+
+```js
+const heatmap = h337.create({
+  container: document.getElementById('heatmap-container'),
+  gradient: {
+    0.1: "#8C88D6",  // periwinkle (low)
+    0.3: "#9B7FD1",  // purple
+    0.5: "#D85C8C",  // magenta
+    0.7: "#F9485F",  // pink/red
+    0.9: "#FF7A4F",  // coral
+    1.0: "#F7A531"   // orange (high intensity)
+  }
+});
+
+---
+## Data Model Draft
+
+```json
+{
+  "caseStudyId": "seagram",
+  "sessionId": "anon_12345",
+  "eventType": "click",
+  "x": 412,
+  "y": 268,
+  "targetElement": "cta_button",
+  "pagePath": "/case-studies/seagram",
+  "viewportWidth": 1440,
+  "viewportHeight": 900,
+  "timestamp": "2026-03-25T18:00:00Z"
+}
