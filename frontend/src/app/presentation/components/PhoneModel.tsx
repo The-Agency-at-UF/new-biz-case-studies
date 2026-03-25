@@ -2,17 +2,23 @@
 
 import { useEffect } from "react";
 
+const SPLINE_VIEWER_SRC =
+  "https://unpkg.com/@splinetool/viewer@1.12.71/build/spline-viewer.js";
+
 export default function PhoneModel() {
   useEffect(() => {
-    // dynamically load the spline viewer script once on mount
+    if (customElements.get("spline-viewer")) return;
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${SPLINE_VIEWER_SRC}"]`
+    );
+
+    if (existingScript) return;
+
     const script = document.createElement("script");
     script.type = "module";
-    script.src = "https://unpkg.com/@splinetool/viewer@1.12.70/build/spline-viewer.js";
+    script.src = SPLINE_VIEWER_SRC;
     document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
   }, []);
 
   return (
