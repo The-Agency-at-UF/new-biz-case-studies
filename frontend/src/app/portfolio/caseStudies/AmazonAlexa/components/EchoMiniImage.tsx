@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function EchoPlusImage() {
+export default function EchoMiniImage() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -11,15 +11,15 @@ export default function EchoPlusImage() {
       transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
       className="absolute z-20"
       style={{
-        width: "54.53vw", // 1047px on a 1920px screen
-        height: "70.16vw", // 1347px on a 1920px screen
-        right: "-10vw", // (1020.5px - 1047px/2) on a 1920px screen
-        top: "28vw", // 600.7px on a 1920px screen
+        width: "60%", 
+        aspectRatio: "1 / 1",
+        left: "-12%",
+        top: "0%", 
       }}
     >
       <Image
-        src="/assets/AmazonAlexa/amazon-echo-plus.svg"
-        alt="Amazon Echo Plus"
+        src="/assets/AmazonAlexa/amazon-echo-mini.svg"
+        alt="Amazon Echo Mini"
         fill
         className="object-contain"
       />

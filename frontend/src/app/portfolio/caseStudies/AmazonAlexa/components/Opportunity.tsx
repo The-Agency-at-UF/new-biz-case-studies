@@ -17,7 +17,7 @@ export default function OpportunitySection() {
     }),
   };
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 py-20 lg:py-40 md:-mt-24 lg:-mt-32">
+    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 pt-20 lg:pt-40 md:-mt-56 lg:-mt-80">
       <motion.div
         custom={1}
         initial="hidden"

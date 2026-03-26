@@ -3,6 +3,8 @@ import NewHero from "./components/newHero";
 import OpportunitySection from "./components/Opportunity";
 import EchoPlusImage from "./components/EchoPlusImage";
 import SolutionSection from "./components/Solution";
+import ImpactSection from "./components/Impact";
+import Footer from "./components/Footer";
 
 
 export default function AmazonAlexaPage() {
@@ -13,6 +15,8 @@ export default function AmazonAlexaPage() {
       <EchoPlusImage />
       <OpportunitySection />
       <SolutionSection />
+      <ImpactSection />
+      <Footer />
     </main>
   );
 }
