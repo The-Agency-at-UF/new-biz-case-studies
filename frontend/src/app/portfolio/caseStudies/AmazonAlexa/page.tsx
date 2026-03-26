@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 export default function AmazonAlexaPage() {
   return (
     <main className="relative min-h-screen bg-[#1D3B57] overflow-x-hidden">
-    <main className="relative min-h-screen bg-[#1D3B57] overflow-x-hidden">
       <NavBar />
       <NewHero />
       <EchoPlusImage />
