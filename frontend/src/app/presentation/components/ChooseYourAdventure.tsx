@@ -1,12 +1,29 @@
 "use client";
 
-import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAdventure } from "../context/AdventureContext";
+
+const SPLINE_VIEWER_SRC =
+  "https://unpkg.com/@splinetool/viewer@1.12.71/build/spline-viewer.js";
 
 export default function ChooseYourAdventure() {
   const { selectBlob } = useAdventure();
   const [blobSelected, setBlobSelected] = useState(false);
+
+  useEffect(() => {
+    if (customElements.get("spline-viewer")) return;
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${SPLINE_VIEWER_SRC}"]`
+    );
+
+    if (existingScript) return;
+
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = SPLINE_VIEWER_SRC;
+    document.head.appendChild(script);
+  }, []);
 
   function handleBlobClick(blobNumber: 1 | 2 | 3) {
     if (blobSelected) return;
@@ -21,10 +38,6 @@ export default function ChooseYourAdventure() {
   return (
     <section className="relative w-full h-dvh bg-black overflow-hidden">
       <>
-        <Script
-          type="module"
-          src="https://unpkg.com/@splinetool/viewer@1.12.70/build/spline-viewer.js"
-        />
         <spline-viewer
           url="https://prod.spline.design/M5OJQIIS7GYvr4OW/scene.splinecode"
           className="absolute inset-0 w-full h-full z-0"
