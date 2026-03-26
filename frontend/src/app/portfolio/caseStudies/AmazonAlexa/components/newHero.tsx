@@ -1,6 +1,7 @@
 "use client";
 
 import { gentonaMedium, gentonaBook } from "@/app/fonts";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function AmazonAlexaHero() {
@@ -34,7 +35,7 @@ export default function AmazonAlexaHero() {
                   initial="hidden"
                   animate="visible"
                   variants={fadeInUp}
-                  className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-white px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold tracking-wider uppercase bg-[#1E667D]/30 backdrop-blur-sm w-fit mb-4 lg:mb-8`}
+                  className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-white px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold text-white tracking-wider uppercase bg-[#1E667D]/30 backdrop-blur-sm w-fit mb-4 lg:mb-8`}
                 >
                 case study</motion.p>
                 <motion.img
