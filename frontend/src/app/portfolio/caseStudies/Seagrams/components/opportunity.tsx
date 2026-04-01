@@ -2,7 +2,7 @@ import { gentonaBook, gentonaMedium } from "@/app/fonts";
 
 export default function OpportunitySection() {
   return (
-      <div className="relative flex h-full flex-col overflow-hidden px-15 pt-56 pb-24 md:px-30 md:pt-64 lg:px-40 lg:pt-80 xl:pt-96 2xl:pt-[28rem]">
+      <div className="relative flex h-full flex-col overflow-hidden px-15 pt-72 pb-28 md:px-30 md:pt-96 lg:px-40 lg:pt-[28rem] xl:pt-[34rem] 2xl:pt-[44rem]">
         <img
           src="/assets/Seagrams/seagramgold.png"
           alt=""

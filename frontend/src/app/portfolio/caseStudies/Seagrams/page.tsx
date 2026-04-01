@@ -9,11 +9,11 @@ export default function SeagramsPage() {
       <div className="relative w-full bg-black">
         {/* overflow-hidden + scale + translate (lg+ only): object-position alone is often invisible with object-cover on wide viewports */}
         <div className="absolute inset-0 z-0 min-h-full overflow-hidden">
-          <div className="absolute inset-0 min-h-full w-full lg:translate-y-[2.5%] xl:translate-y-[3.5%] 2xl:translate-y-[4.5%]">
+          <div className="absolute inset-0 -top-[3%] min-h-[103%] w-full lg:translate-y-[1%] xl:translate-y-[1.5%] 2xl:translate-y-[2%]">
             <img
               src="/assets/Seagrams/seagramsbg.png"
               alt=""
-              className="absolute inset-0 h-full w-full object-cover object-[2%_35%] lg:origin-top lg:scale-[1.05]"
+              className="absolute inset-0 h-full w-full object-cover object-[2%_35%] lg:origin-top lg:scale-[1.02]"
             />
             <div
               aria-hidden
