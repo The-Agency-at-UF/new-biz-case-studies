@@ -15,7 +15,7 @@ export default function SeagramsHero() {
                     className="h-auto max-h-24 w-auto object-contain md:max-h-32"
                   />
                   <span
-                    className={`${workSans.className} self-end pb-0.5 select-none text-[1.75rem] font-semibold leading-none tracking-tight text-white md:pb-1.5 md:text-[2.5rem] lg:pb-2 lg:text-[3.25rem]`}
+                    className={`${workSans.className} -translate-y-2 self-end pb-0.5 select-none text-[2.25rem] font-semibold leading-none tracking-tight text-white md:-translate-y-2.5 md:pb-1 md:text-[3.25rem] lg:-translate-y-3 lg:pb-1.5 lg:text-[4.25rem] xl:-translate-y-3.5 xl:text-[4.75rem]`}
                     aria-hidden
                   >
                     ×
