@@ -35,22 +35,14 @@ func CreateTables() error {
 			TableName: aws.String("CaseStudies"),
 			AttributeDefinitions: []types.AttributeDefinition{
 				{
-					AttributeName: aws.String("CompanyID"),
-					AttributeType: types.ScalarAttributeTypeS,
-				},
-				{
-					AttributeName: aws.String("TemplateID"),
+					AttributeName: aws.String("CaseStudyID"),
 					AttributeType: types.ScalarAttributeTypeS,
 				},
 			},
 			KeySchema: []types.KeySchemaElement{
 				{
-					AttributeName: aws.String("CompanyID"),
+					AttributeName: aws.String("CaseStudyID"),
 					KeyType:       types.KeyTypeHash,
-				},
-				{
-					AttributeName: aws.String("TemplateID"),
-					KeyType:       types.KeyTypeRange,
 				},
 			},
 			BillingMode: types.BillingModePayPerRequest,

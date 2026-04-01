@@ -1,23 +1,73 @@
-import NavBar from "../../components/NavBar";
-import MainHero from "@/app/presentation/components/MainHero";
-import Choose from "@/app/presentation/components/ChooseYourAdventure";
-import WhatIsAgency from "@/app/presentation/components/WhatisAgency";
-import OurServices from "@/app/presentation/components/Services";
-import Contact from "@/app/presentation/components/ContactUs";
-import Logos from "@/app/presentation/components/Logos";
-import CaseStudiesGrid from "@/app/presentation/components/CaseStudiesGrid";
+"use client";
 
-export default function HomePage() {
+import dynamic from "next/dynamic";
+import { AdventureProvider, useAdventure } from "./context/AdventureContext";
+import SmoothScrollWrapper from "./SmoothScrollWrapper";
+import MainHero from "./components/MainHero";
+import WhatIsAgency from "./components/WhatIsAgency";
+import Services from "./components/Services";
+import CaseStudies from "./components/CaseStudies";
+import ContactUs from "./components/ContactUs";
+import LogoShowcase from "./components/LogoShowcase";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
+
+// Dynamically import ChooseYourAdventure with no SSR
+// This isolates Spline's DOM from React's reconciler
+const ChooseYourAdventure = dynamic(
+  () => import("./components/ChooseYourAdventure"),
+  { ssr: false }
+);
+
+const SECTION_MAP = {
+  whatIsAgency: WhatIsAgency,
+  services: Services,
+  caseStudies: CaseStudies,
+};
+
+// Sections live in their own component so their re-renders
+// never touch the Spline component above them
+function AdventureSections() {
+  const { sectionOrder, firstSectionRef } = useAdventure();
+
+  if (!sectionOrder.length) return null;
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center text-white">
+    <>
+      {sectionOrder.map((key, index) => {
+        const Section = SECTION_MAP[key];
+        return (
+          <div key={key}>
+            {key === "caseStudies" && <LogoShowcase />}
+            <div ref={index === 0 ? firstSectionRef : undefined}>
+              <Section />
+            </div>
+          </div>
+        );
+      })}
+      <ContactUs />
+    </>
+  );
+}
+
+function PresentationContent() {
+  return (
+    <SmoothScrollWrapper>
       <NavBar />
       <MainHero />
-      <Choose />
-      <WhatIsAgency />
-      <OurServices />
-      <Contact />
-      <Logos />
-      <CaseStudiesGrid />
-    </div>
+      <ChooseYourAdventure />
+      <div>
+        <AdventureSections />
+      </div>
+      <Footer />
+    </SmoothScrollWrapper>
+  );
+}
+
+export default function PresentationPage() {
+  return (
+    <AdventureProvider>
+      <PresentationContent />
+    </AdventureProvider>
   );
 }
