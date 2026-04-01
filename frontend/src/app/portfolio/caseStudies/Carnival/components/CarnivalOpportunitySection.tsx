@@ -1,5 +1,7 @@
 import Image from "next/image";
+import cautiousTraveler from "../assets/CautiousTraveler.png";
 import opportunityPhoto from "../assets/Opportunity-Photo.png";
+import prospectiveTraveler from "../assets/ProspectiveTraveler.png";
 
 export default function CarnivalOpportunitySection() {
   return (
@@ -35,9 +37,10 @@ export default function CarnivalOpportunitySection() {
               searches on TikTok and Instagram, and Enterprise Research tools to
               determine if travelers were ready to feel Funderstruck.
             </p>
+            <div className="mt-8 h-[4px] w-full max-w-[42rem] bg-[#EF3340]" />
           </div>
 
-          <div className="relative mx-auto -mt-6 aspect-[4/5] w-[22rem] overflow-hidden sm:w-[28rem] lg:ml-auto lg:mr-[-8rem] lg:mt-[-3rem] lg:w-[34rem]">
+          <div className="relative mx-auto -mt-800 aspect-[4/5] w-[22rem] overflow-hidden sm:w-[28rem] lg:ml-auto lg:mr-[-8rem] lg:mt-[-3rem] lg:w-[34rem]">
             <Image
               src={opportunityPhoto}
               alt="Carnival opportunity photo"
@@ -46,6 +49,36 @@ export default function CarnivalOpportunitySection() {
             />
           </div>
         </div>
+
+        <div className="mt-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <p className="mb-8 text-left text-base md:text-2xl">
+              After refining our search, we pulled{" "}
+              <span className="font-extrabold">21.3 MILLION</span> results to
+              find the following: There are two types of people that want to
+              travel in 2022.
+            </p>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
+            <div className="relative aspect-[1.5/1] overflow-hidden">
+              <Image
+                src={cautiousTraveler}
+                alt="The cautious traveler"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+            <div className="relative aspect-[1.5/1] overflow-hidden">
+              <Image
+                src={prospectiveTraveler}
+                alt="The prospective traveler"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
