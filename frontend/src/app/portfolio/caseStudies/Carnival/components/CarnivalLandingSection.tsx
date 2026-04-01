@@ -1,5 +1,6 @@
 import Image from "next/image";
 import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
+import carnivalLogo from "../assets/carnival-Logo.svg";
 
 export default function CarnivalLandingSection() {
   return (
@@ -28,28 +29,26 @@ export default function CarnivalLandingSection() {
         </p>
 
         <div className="mb-4 flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-6">
-          <div className="text-left">
-            <p className="text-sm font-semibold uppercase tracking-[0.45em] text-white/70">
-              Carnival
-            </p>
-            <h1 className="mt-2 text-5xl font-extrabold uppercase leading-none sm:text-6xl lg:text-7xl">
-              Carnival
-            </h1>
-          </div>
+          <Image
+            src={carnivalLogo}
+            alt="Carnival"
+            className="h-auto w-full max-w-[300px] sm:max-w-[400px]"
+            priority
+          />
 
           <p className="text-3xl font-bold lg:text-4xl">X</p>
 
           <Image
             src={agencyLogo}
             alt="The Agency at the University of Florida"
-            className="h-auto w-full max-w-[440px]"
+            className="h-auto mt-8 w-full max-w-[400px]"
             priority
           />
         </div>
 
-        <div className="mt-6 h-[3px] w-full max-w-[22rem] bg-[#EF3340] sm:max-w-[28rem] lg:max-w-[38rem]" />
+        <div className="mt-6 h-[4px] w-full max-w-[48rem] bg-[#EF3340] sm:max-w-[28rem] lg:max-w-[56rem]" />
 
-        <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+        <h2 className="mt-30 max-w-4xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
           The Agency Helps Carnival Navigate the Sentiments of Travelers Post-2021
         </h2>
       </div>
