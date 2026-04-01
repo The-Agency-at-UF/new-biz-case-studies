@@ -8,21 +8,6 @@ export default function CarnivalLandingSection() {
       id="carnival-landing"
       className="relative flex min-h-screen items-center overflow-hidden"
     >
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        
-      />
-
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-90"
-        style={{
-          background:
-            "radial-gradient(circle at 84% 22%, rgba(255,106,107,0.34) 0%, transparent 28%), radial-gradient(circle at 76% 70%, rgba(64,205,255,0.24) 0%, transparent 26%)",
-        }}
-      />
-
       <div className="relative z-10 w-full max-w-6xl px-6 pt-28 pb-12 text-white sm:px-10 md:px-14 lg:px-20">
         <p className="mb-5 inline-flex h-[50px] w-[160px] items-center justify-center border-4 border-[#EF3340] bg-[#0d1c46]/50 text-xl font-bold text-white">
           Case Study
