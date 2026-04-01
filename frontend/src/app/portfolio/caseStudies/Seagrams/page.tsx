@@ -47,7 +47,7 @@ export default function SeagramsPage() {
             </div>
           </div>
         </div>
-        <div className="relative z-[2] pt-28 md:pt-32 lg:pt-36 xl:pt-[16rem] 2xl:pt-[20rem]">
+        <div className="relative z-[2] pt-28 md:pt-32 lg:pt-36 xl:pt-[17rem] 2xl:pt-[21rem]">
           <SeagramsHero />
           <OpportunitySection />
         </div>
