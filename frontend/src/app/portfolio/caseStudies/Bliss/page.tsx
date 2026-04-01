@@ -12,7 +12,7 @@ export default function BlissPage() {
     <div className="min-h-screen text-foreground bg-[#F55096]">
         <NavBar />
         <BlissHero />
-        <div className="space-y-40">
+        <div className="space-y-40 overflow-visible">
           <BlissOpportunity />
           <BlissImages />
           <BlissSolution/>
