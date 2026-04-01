@@ -2,11 +2,11 @@ import { gentonaBook, gentonaMedium } from "@/app/fonts";
 
 export default function OpportunitySection() {
   return (
-      <div className="relative flex h-full flex-col overflow-hidden px-15 pt-[38rem] pb-40 md:px-30 md:pt-[48rem] lg:px-40 lg:pt-[62rem] xl:pt-[72rem] 2xl:pt-[88rem]">
+      <div className="relative flex h-full flex-col overflow-hidden px-15 pt-[30rem] pb-40 md:px-30 md:pt-[40rem] lg:px-40 lg:pt-[50rem] xl:pt-[60rem] 2xl:pt-[72rem]">
         <img
           src="/assets/Seagrams/seagramgold.png"
           alt=""
-          className="pointer-events-none absolute bottom-[min(8vh,4.5rem)] right-0 z-0 max-h-[min(96vh,1400px)] w-auto max-w-[min(100vw,1100px)] -translate-y-[3%] translate-x-[5%] opacity-50 object-contain object-bottom object-right md:max-w-[85vw] md:-translate-y-[4%] lg:max-w-[72vw] lg:bottom-[min(6vh,3.5rem)] xl:max-w-[65vw] 2xl:-translate-y-[5%]"
+          className="pointer-events-none absolute bottom-[min(7vh,4rem)] right-0 z-0 max-h-[min(100vh,1550px)] w-auto max-w-[min(100vw,1250px)] -translate-y-[4%] translate-x-[4%] opacity-50 object-contain object-bottom object-right md:max-w-[90vw] md:-translate-y-[5%] lg:max-w-[78vw] lg:bottom-[min(5vh,3.25rem)] xl:max-w-[72vw] 2xl:-translate-y-[6%]"
         />
         {/*Case Study rectangle */}
         <div className="relative z-10 max-w-none flex flex-col gap-6 lg:gap-18">
