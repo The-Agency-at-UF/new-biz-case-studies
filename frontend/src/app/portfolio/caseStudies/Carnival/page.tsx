@@ -1,11 +1,25 @@
-//import Image from "next/image"; // use Next.js Image component for any images
-import NavBar from "../../../../components/NavBar";
+import { gentona } from "@/app/layout";
+import NavBar from "@/components/NavBar";
+import carnivalBackground from "./assets/Carnival-Background.png";
+import CarnivalLandingSection from "./components/CarnivalLandingSection";
 
 export default function CarnivalPage() {
   return (
-    <div className="min-h-screen text-foreground bg-background">
-        <NavBar />
-        <h1>Coming Soon!</h1>
-    </div>
+    <>
+      <NavBar />
+      <main
+        className={`${gentona.className} overflow-x-hidden text-white`}
+        style={{
+          backgroundColor: "#071533",
+          backgroundImage: `url(${carnivalBackground.src})`,
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% auto",
+          minHeight: "max(100vh, calc(100vw * 7911 / 1920))",
+        }}
+      >
+        <CarnivalLandingSection />
+      </main>
+    </>
   );
 }
