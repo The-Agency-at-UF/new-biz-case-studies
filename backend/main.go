@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	help "new-biz-case-studies-backend/helpfunc"
@@ -22,12 +23,11 @@ import (
 func main() {
 	r := gin.Default()
 
-	// --- Allow local frontend access (optional but recommended) ---
+	// --- Allow local frontend access  ---
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{
-			"http://localhost:3000",
-			"https://new-biz-case-studies.vercel.app",
-			"https://hs-vercel-new-biz-case-studies.vercel.app",
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://localhost:3000" ||
+				strings.HasSuffix(origin, ".vercel.app")
 		},
 		AllowMethods: []string{"GET", "POST", "DELETE", "PUT"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
