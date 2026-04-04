@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       if (user?.email) {
         try {
-          const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+          const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
           const res = await fetch(`${backendUrl}/api/check-whitelist`, {
             method: "POST",
             headers: {

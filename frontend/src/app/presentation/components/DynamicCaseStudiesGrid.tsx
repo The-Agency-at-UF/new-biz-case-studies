@@ -31,7 +31,7 @@ export default function DynamicCaseStudiesGrid({ companySlug }: Props) {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/company/${companySlug}/casestudies`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/company/${companySlug}/casestudies`);
         const data = await res.json();
         setCaseStudies(data);
       } catch (err) {
