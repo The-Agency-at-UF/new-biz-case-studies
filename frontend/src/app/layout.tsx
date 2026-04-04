@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const gentona = localFont({
+const gentona = localFont({
   src: [
     { path: "./fonts/gentona/Gentona Thin.otf", weight: "100" },
     { path: "./fonts/gentona/Gentona ExtraLight.otf", weight: "200" },
