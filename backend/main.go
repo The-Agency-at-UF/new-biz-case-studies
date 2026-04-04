@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -23,7 +24,11 @@ func main() {
 
 	// --- Allow local frontend access (optional but recommended) ---
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{
+			"http://localhost:3000",
+			"https://new-biz-case-studies.vercel.app",
+			"https://hs-vercel-new-biz-case-studies.vercel.app",
+		},
 		AllowMethods: []string{"GET", "POST", "DELETE", "PUT"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
 	}))
@@ -266,7 +271,12 @@ func main() {
 	r.POST("/api/contact", help.ContactHandler)
 
 	// --- Run server ---
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run(":" + port)
 }
 
 // CheckWhitelistRequest defines the structure for the whitelist check request body
