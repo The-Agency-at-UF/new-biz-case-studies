@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	help "new-biz-case-studies-backend/helpfunc"
@@ -21,9 +23,12 @@ import (
 func main() {
 	r := gin.Default()
 
-	// --- Allow local frontend access (optional but recommended) ---
+	// --- Allow local frontend access  ---
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://localhost:3000" ||
+				strings.HasSuffix(origin, ".vercel.app")
+		},
 		AllowMethods: []string{"GET", "POST", "DELETE", "PUT"},
 		AllowHeaders: []string{"Origin", "Content-Type"},
 	}))
@@ -266,7 +271,12 @@ func main() {
 	r.POST("/api/contact", help.ContactHandler)
 
 	// --- Run server ---
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run(":" + port)
 }
 
 // CheckWhitelistRequest defines the structure for the whitelist check request body

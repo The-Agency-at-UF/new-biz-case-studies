@@ -8,7 +8,7 @@ export default function AdminBkgd() {
 
       {/* Blob image overlay */}
       <img
-        src="/assets/Admin/Blobs.png"
+        src="/assets/admin/Blobs.png"
         alt="background blobs"
         className="
           absolute

@@ -1,5 +1,4 @@
 import NavBar from "@/components/NavBar";
-import { gentona } from "@/app/layout";
 import cokeBackground from "./assets/Coke-Background.svg";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
@@ -7,6 +6,24 @@ import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
 import CokeFooter from "./components/CokeFooter";
+
+import localFont from "next/font/local";
+
+const gentona = localFont({
+  src: [
+    {
+      path: "../../../../../public/fonts/Gentona Book.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../../../../public/fonts/Gentona Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-gentona",
+});
 
 export default function CokeZeroPage() {
   return (
