@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar";
 import carnivalBackground from "./assets/Carnival-Background.png";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
 import CarnivalOpportunitySection from "./components/CarnivalOpportunitySection";
+import CarnivalSolutionSection from "./components/CarnivalSolutionSection";
 
 export default function CarnivalPage() {
   return (
@@ -22,6 +23,9 @@ export default function CarnivalPage() {
         <CarnivalLandingSection />
         <div className="relative z-10 mt-20 md:mt-32">
           <CarnivalOpportunitySection />
+        </div>
+        <div className="relative z-10 mt-12 md:mt-20">
+          <CarnivalSolutionSection />
         </div>
       </main>
     </>
