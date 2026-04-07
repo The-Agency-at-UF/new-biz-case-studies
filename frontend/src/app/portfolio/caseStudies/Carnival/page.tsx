@@ -21,7 +21,7 @@ export default function CarnivalPage() {
         }}
       >
         <CarnivalLandingSection />
-        <div className="relative z-10 mt-20 md:mt-32">
+        <div className="relative z-10 mt-12 md:mt-18">
           <CarnivalOpportunitySection />
         </div>
         <div className="relative z-10 mt-12 md:mt-20">
