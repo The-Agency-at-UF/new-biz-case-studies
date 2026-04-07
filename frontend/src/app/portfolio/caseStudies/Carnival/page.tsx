@@ -1,4 +1,4 @@
-import { gentona } from "@/app/layout";
+import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
 import carnivalBackground from "./assets/Carnival-Background.png";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
