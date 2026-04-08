@@ -52,7 +52,7 @@ export const projects = [
     id: "Smirnoff",
     title: "Smirnoff Branding Case Study",
     tag: "Branding",
-    image: "/assets/Smirnoff/smirnoffbg.png",
+    image: "/assets/Smirnoff/solutionBackgroundImage.png",
     description: "Short description of the project.",
   },
   {
