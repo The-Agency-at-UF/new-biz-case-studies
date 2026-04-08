@@ -9,11 +9,11 @@ export default function CarnivalMeaningSection() {
     <section className="relative overflow-hidden py-14 md:py-22">
       <div className="relative z-10 px-6 md:px-12 lg:pl-20 lg:pr-0">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-5xl font-extrabold uppercase leading-none text-white md:text-7xl">
+          <h2 className="text-center text-5xl py-6 font-extrabold uppercase leading-none text-white md:text-7xl">
             So, What Does This Mean?
           </h2>
 
-          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_32rem] xl:grid-cols-[minmax(0,1fr)_40rem]">
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_34rem] xl:grid-cols-[minmax(0,1fr)_44rem]">
             <div className="max-w-2xl">
               <h3 className="text-2xl font-extrabold uppercase text-white md:text-4xl">
                 The Answer Is... Relationships.
@@ -33,12 +33,12 @@ export default function CarnivalMeaningSection() {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-[36rem] lg:ml-auto lg:mr-0 lg:max-w-[40rem]">
+            <div className="relative mx-auto w-full max-w-[38rem] lg:ml-auto lg:mr-0 lg:max-w-[44rem]">
               <Image
                 src={tweets}
                 alt="Traveler conversation tweets"
-                width={980}
-                height={660}
+                width={1080}
+                height={720}
                 className="h-auto w-full object-contain"
               />
             </div>
@@ -49,14 +49,14 @@ export default function CarnivalMeaningSection() {
               People Are Excited To Travel... But Why Are They Excited?
             </h3>
 
-            <div className="relative mt-8 grid items-start gap-10 lg:grid-cols-[26rem_minmax(0,1fr)] xl:grid-cols-[30rem_minmax(0,1fr)]">
-              <div className="relative mx-auto w-full max-w-[26rem] lg:-ml-20 lg:mr-0 lg:max-w-[30rem]">
+            <div className="relative mt-8 grid items-start gap-10 lg:grid-cols-[28rem_minmax(0,1fr)] xl:grid-cols-[34rem_minmax(0,1fr)]">
+              <div className="relative mx-auto w-full max-w-[28rem] lg:-ml-24 lg:mr-0 lg:max-w-[34rem]">
                 <div className="relative z-20 overflow-hidden">
                   <Image
                     src={meaningPhoto}
                     alt="Carnival travelers on deck"
-                    width={900}
-                    height={1080}
+                    width={1040}
+                    height={1240}
                     className="h-auto w-full object-cover"
                   />
                 </div>
@@ -66,7 +66,7 @@ export default function CarnivalMeaningSection() {
                 <p className="text-lg font-extrabold md:text-2xl">
                   The top two results pulled from the Quid map:
                 </p>
-                <ul className="mt-4 list-disc space-y-1 pl-6 text-base font-semibold text-[#FF6C5C] md:text-2xl">
+                <ul className="mt-4 list-disc space-y-1 pl-6 text-base font-semibold text-[#EF3340] md:text-2xl">
                   <li>BEACH BABE VACATION 9.9%</li>
                   <li>COUPLE TRAVEL 9.7%</li>
                 </ul>

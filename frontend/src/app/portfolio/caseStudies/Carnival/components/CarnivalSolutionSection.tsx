@@ -40,13 +40,15 @@ export default function CarnivalSolutionSection() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[32rem] lg:ml-auto lg:mr-0 lg:-mt-12 lg:w-[32rem] lg:max-w-[32rem]">
+          <div className="relative mx-auto w-full max-w-[36rem] lg:ml-auto lg:mr-0 lg:-mt-12 lg:w-[36rem] lg:max-w-[36rem]">
             <div className="relative">
               <Image
                 src={solutionPhoto}
                 alt="Carnival solution photo"
-                width={500}
-                height={560}
+                width={550}
+                height={610}
+                priority
+                loading="eager"
                 className="h-auto w-full object-contain"
               />
             </div>
