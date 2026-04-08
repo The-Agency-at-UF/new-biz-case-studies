@@ -27,7 +27,7 @@
         const track = trackRef.current;
         if (!track) return;
 
-        const baseSpeedPxPerSecond = 24;
+        const baseSpeedPxPerSecond = 230; //change speed here
         const resumeDelay = 1200;
 
         const getLoopPoint = () => track.scrollWidth / 2;
