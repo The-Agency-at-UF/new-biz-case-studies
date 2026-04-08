@@ -1,9 +1,8 @@
 "use client";
 
-"use client";
-
 import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
 import { motion } from "framer-motion";
+import EchoPlusImage from "./EchoPlusImage";
 
 export default function OpportunitySection() {
   const fadeInUp = {
@@ -19,7 +18,8 @@ export default function OpportunitySection() {
     }),
   };
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 pt-20 lg:pt-40 md:-mt-56 lg:-mt-80">
+    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 pt-0 -mt-33 md:-mt-60 lg:-mt-80">
+      {/* <EchoPlusImage/> */}
       <motion.div
         custom={1}
         initial="hidden"

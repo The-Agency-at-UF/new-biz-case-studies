@@ -19,7 +19,7 @@ export default function AmazonAlexaHero() {
   };
 
   return (
-      <div className="relative ">
+      <div className="relative min-h-[60vh] lg:min-h-screen">
         <motion.img
           src="/assets/AmazonAlexa/amazon-echo.png"
           initial={{ opacity: 0, scale: 1.02 }}
