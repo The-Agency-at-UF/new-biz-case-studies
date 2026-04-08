@@ -19,10 +19,20 @@ const ChooseYourAdventure = dynamic(
   { ssr: false }
 );
 
+function WorkShowcaseSection() {
+  return (
+    <section className="w-full bg-black">
+      <div className="h-16 bg-gradient-to-b from-black/0 via-black/50 to-black" />
+      <LogoShowcase />
+      <CaseStudies />
+    </section>
+  );
+}
+
 const SECTION_MAP = {
   whatIsAgency: WhatIsAgency,
   services: Services,
-  caseStudies: CaseStudies,
+  caseStudies: WorkShowcaseSection,
 };
 
 // Sections live in their own component so their re-renders
@@ -38,7 +48,6 @@ function AdventureSections() {
         const Section = SECTION_MAP[key];
         return (
           <div key={key}>
-            {key === "caseStudies" && <LogoShowcase />}
             <div ref={index === 0 ? firstSectionRef : undefined}>
               <Section />
             </div>

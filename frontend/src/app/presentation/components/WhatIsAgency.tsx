@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useWhatIsAgencyReveal } from "./animations/useWhatIsAgencyReveal";
 
 export default function WhatIsAgency() {
-  const { sectionRef, tvRef, videoOverlayRef, contentRef } = useWhatIsAgencyReveal();
+  const { sectionRef, videoOverlayRef, tvFrameRef, contentRef } = useWhatIsAgencyReveal();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
@@ -12,24 +12,6 @@ export default function WhatIsAgency() {
       ref={sectionRef}
       className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center"
     >
-      {/* TV Spline iframe */}
-      <div
-        ref={tvRef}
-        className="relative z-10"
-        style={{
-          width: "60%",
-          height: "60%",
-          opacity: 0,
-        }}
-      >
-        <iframe
-          src="https://my.spline.design/untitled-qDZWt89GvNBFjkv6LVJyMs29/"
-          frameBorder="0"
-          style={{ width: "100%", height: "100%", border: "none" }}
-          allowFullScreen
-        />
-      </div>
-
       {/* Video overlay — your exact TV screen dimensions */}
       <div
         ref={videoOverlayRef}
@@ -39,19 +21,55 @@ export default function WhatIsAgency() {
             height: "37%",
             top: "calc(46% - 18.5%)",  
             left: "calc(50% - 10.5%)",
-            overflow: "hidden",
+            overflow: "visible",
             opacity: 0,
             borderRadius: "8px",
         }}
         >
-        <video
-          ref={videoRef}
-          src="/assets/Presentation/agency-video.mp4"
-          autoPlay
-          muted={false}
-          loop
-          playsInline
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "hidden",
+            borderRadius: "8px",
+          }}
+        >
+          <video
+            ref={videoRef}
+            src="/assets/Presentation/agency-video.mp4"
+            autoPlay
+            muted={false}
+            loop
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden",
+            }}
+          />
+        </div>
+
+        <img
+          ref={tvFrameRef}
+          src="/assets/Presentation/tv-frame-transparent.png"
+          alt=""
+          aria-hidden
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+          style={{
+            position: "absolute",
+            top: "-12%",
+            left: "-22%",
+            width: "144%",
+            height: "124%",
+            objectFit: "contain",
+            pointerEvents: "none",
+            userSelect: "none",
+            opacity: 1,
+          }}
         />
         {/* <div style={{
     position: "absolute",
