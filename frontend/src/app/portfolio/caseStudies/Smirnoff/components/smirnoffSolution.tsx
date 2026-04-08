@@ -12,7 +12,7 @@ const gentonaBook = localFont({
 const OPPORTUNITY_TOP_GRADIENT =
   "linear-gradient(180deg, rgba(145, 32, 38,0.88) 0%, rgba(145, 32, 38,0.44) 56%, rgba(109,0,24,0) 100%)";
 const SOLUTION_SECTION_BG =
-  "linear-gradient(180deg, rgba(145,32,38,0.70) 0%, rgba(133,31,36,0.66) 8%, rgba(115,26,32,0.62) 16%, rgba(92,0,18,0.58) 28%, rgba(58,10,18,0.62) 42%, rgba(42,0,8,0.70) 58%, rgba(10,0,3,0.82) 100%)";
+  "linear-gradient(180deg, rgba(145,32,38,0.70) 0%, rgba(133,31,36,0.66) 8%, rgba(115,26,32,0.62) 16%, rgba(92,0,18,0.58) 28%, rgba(58,10,18,0.62) 42%, rgba(58,10,18,0.76) 58%, rgba(133,31,36,0.88) 100%)";
 const SOLUTION_TOP_BLEND =
   "linear-gradient(180deg, rgba(145,32,38,0.92) 0%, rgba(145,32,38,0.55) 30%, rgba(145,32,38,0.0) 100%)";
 const SECTION_SEAM_BRIDGE =
@@ -36,7 +36,7 @@ const LAYOUT = {
   mapImage:
     "relative z-[130] h-auto w-[150vw] max-w-none mix-blend-screen md:w-[140vw] lg:w-[200vw]",
   solutionSection:
-    "relative z-[300] -mt-24 -translate-y-px overflow-visible text-white min-h-[105vh] md:min-h-[115vh] lg:min-h-[125vh] md:-mt-32 lg:-mt-40",
+    "relative z-[300] -mt-24 -translate-y-px overflow-hidden text-white md:-mt-32 lg:-mt-40",
 } as const;
 
 export default function SmirnoffOpportunitySolution() {
@@ -161,11 +161,15 @@ export default function SmirnoffOpportunitySolution() {
               <img
                 src="/assets/Smirnoff/shotGlass.png"
                 alt=""
-                className="absolute left-[calc(50%-50vw-2rem)] top-[9rem] z-0 h-auto w-56 opacity-90 md:left-[calc(50%-50vw-2.5rem)] md:top-[-2.5rem] md:w-72 lg:left-[calc(50%-50vw-3rem)] lg:top-[20rem] lg:w-96 lg:opacity-95 [mask-image:linear-gradient(10deg,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(10deg,black_55%,transparent_100%)]"
+                className="absolute left-[calc(50%-50vw-2rem)] top-[9rem] z-0 h-auto w-56 opacity-90 md:left-[calc(50%-50vw-2.5rem)] md:top-[-2.5rem] md:w-72 lg:left-[calc(50%-50vw-3rem)] lg:top-[8rem] lg:w-96 lg:opacity-95 [mask-image:linear-gradient(10deg,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(10deg,black_55%,transparent_100%)]"
               />
             </div>
           </div>
         </div>
+        <div
+          className="absolute inset-x-0 bottom-0 z-[12] h-5 md:h-6 lg:h-7 bg-[#DA2028]"
+          aria-hidden
+        />
       </section>
     </>
   );
