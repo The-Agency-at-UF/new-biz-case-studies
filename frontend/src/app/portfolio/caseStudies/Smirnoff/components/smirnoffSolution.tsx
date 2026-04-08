@@ -12,14 +12,16 @@ const gentonaBook = localFont({
 const OPPORTUNITY_TOP_GRADIENT =
   "linear-gradient(180deg, rgba(145, 32, 38,0.88) 0%, rgba(145, 32, 38,0.44) 56%, rgba(109,0,24,0) 100%)";
 const SOLUTION_SECTION_BG =
-  "linear-gradient(180deg, #912026 0%, #851f24 8%, #731a20 16%, #5c0012 28%, #3a0a12 42%, #2a0008 58%, #0a0003 100%)";
+  "linear-gradient(180deg, rgba(145,32,38,0.70) 0%, rgba(133,31,36,0.66) 8%, rgba(115,26,32,0.62) 16%, rgba(92,0,18,0.58) 28%, rgba(58,10,18,0.62) 42%, rgba(42,0,8,0.70) 58%, rgba(10,0,3,0.82) 100%)";
 const SOLUTION_TOP_BLEND =
   "linear-gradient(180deg, rgba(145,32,38,0.92) 0%, rgba(145,32,38,0.55) 30%, rgba(145,32,38,0.0) 100%)";
+const SECTION_SEAM_BRIDGE =
+  "linear-gradient(180deg, rgba(145,32,38,0.92) 0%, rgba(145,32,38,1) 30%, rgba(145,32,38,0.0) 100%)";
 
 const LAYOUT = {
   opportunityWrapper: "relative isolate z-[120]",
   limeWrapper:
-    "pointer-events-none absolute right-0 top-[-100px] z-[120] md:top-[-160px] lg:top-[-300px]",
+    "pointer-events-none absolute right-0 top-[-100px] z-[10] md:top-[-160px] lg:top-[-300px]",
   redCircle:
     "absolute right-0 top-70 z-20 h-auto w-72 opacity-100 md:w-96 xl:w-[62rem]",
   limes: "relative z-10 h-auto w-64 md:w-80 xl:w-[40rem]",
@@ -30,11 +32,11 @@ const LAYOUT = {
   opportunityContent:
     "relative z-20 mx-auto flex max-w-6xl flex-col items-start px-6 pb-12 pt-12 md:px-12 md:pb-20 md:pt-16 lg:px-0 lg:pt-20",
   mapLayer:
-    "relative left-1/2 z-[130] mt-[-120px] flex w-screen -translate-x-1/2 justify-center px-6 md:px-12 lg:px-16",
+    "relative left-1/2 z-[130] mt-[-320px] flex w-screen -translate-x-1/2 justify-center px-6 md:px-10 lg:px-16",
   mapImage:
     "relative z-[130] h-auto w-[150vw] max-w-none mix-blend-screen md:w-[140vw] lg:w-[200vw]",
   solutionSection:
-    "relative z-[300] -mt-24 -translate-y-px overflow-hidden text-white md:-mt-32 lg:-mt-40",
+    "relative z-[300] -mt-24 -translate-y-px overflow-visible text-white min-h-[105vh] md:min-h-[115vh] lg:min-h-[125vh] md:-mt-32 lg:-mt-40",
 } as const;
 
 export default function SmirnoffOpportunitySolution() {
@@ -112,10 +114,18 @@ export default function SmirnoffOpportunitySolution() {
       <section
         className={LAYOUT.solutionSection}
         style={{
-          background: SOLUTION_SECTION_BG,
+          backgroundImage: `url('/assets/Smirnoff/solutionBackgroundImage.png'), ${SOLUTION_SECTION_BG}`,
+          backgroundSize: "100% auto, cover",
+          backgroundPosition: "100% -30%, center",
+          backgroundRepeat: "no-repeat, no-repeat",
         }}
       >
-        {/* Soft blend at the top so Opportunity -> Solution transition doesn't hard cut */}
+        {/* Bridge gradient on Opportunity/Solution seam to soften hard line */}
+        <div
+          className="pointer-events-none absolute inset-x-0 -top-[4.5rem] z-[4] h-36 md:-top-20 md:h-44 lg:-top-8 lg:h-52"
+          style={{ background: SECTION_SEAM_BRIDGE, filter: "blur(2px)" }}
+          aria-hidden
+        />
         <div
           className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-40 md:h-56"
           style={{ background: SOLUTION_TOP_BLEND }}
@@ -130,46 +140,28 @@ export default function SmirnoffOpportunitySolution() {
           aria-hidden
         />
 
-        <div className="relative z-[10] px-15 md:px-30 lg:px-40 py-16 md:py-24 lg:py-32">
+        <div className="relative z-[10] px-15 md:px-30 lg:px-40 pt-2 pb-16 md:pt-4 md:pb-24 lg:pt-6 lg:pb-32">
           <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16 xl:gap-24">
-            <div className="relative z-20 flex-1 min-w-0 order-2 lg:order-1">
+            <div className="relative z-20 -mt-6 md:-mt-10 lg:-mt-14 ml-4 md:ml-8 lg:ml-16 flex-1 min-w-0 order-2 lg:order-1">
               <h2
-                className={`${gentonaMedium.className} relative text-[2rem] md:text-[4rem] lg:text-[5.5rem] font-black uppercase leading-[0.95] tracking-wide text-white mb-6 md:mb-10`}
+                className={`${gentonaMedium.className} relative text-[2.5rem] md:text-[4rem] lg:text-[7rem] font-black uppercase leading-[0.95] tracking-wide text-white mb-6 md:mb-10`}
               >
                 The <br />Solution
               </h2>
               <div
-                className={`${gentonaBook.className} relative space-y-5 md:space-y-6 text-sm md:text-lg lg:text-2xl font-light leading-relaxed tracking-wide text-white/95 max-w-2xl`}
+                className={`${gentonaBook.className} relative z-20 max-w-5xl space-y-5 md:space-y-6 text-lg md:text-xl lg:text-4xl font-light leading-tight tracking-wide text-white/95`}
               >
                 <p>
-                  We used Sprinklr to listen at scale, tracking how cocktail
-                  culture showed up in real time across social platforms and
-                  seasonal moments.
+                With the help of Sprinklr enterprise, a cutting-edge social listening platform, our research team surveyed and analyzed content to create tangible insights that could be used for cocktail recipes. We started by taking a close look at each holiday season to uncover the flavors people desired the most during the fall, winter and summer. 
                 </p>
                 <p>
-                  That work surfaced rising flavor territories and drink formats
-                  we could act on, from cozy apple cider builds to bright mango
-                  serves, giving the brand a living pulse on what was bubbling up
-                  in the glass and in the feed.
+                Our team used Sprinklr to go beyond the basic results and find new ways for Smirnoff consumers to spice up their homemade cocktails. Their analysis elevated fall recipes from predictable pumpkin spice to alluring apple cider and punched up summer classics from broad fruit flavors to calculated mango deliciousness.
                 </p>
               </div>
               <img
                 src="/assets/Smirnoff/shotGlass.png"
                 alt=""
-                className="mt-8 md:mt-12 w-40 md:w-56 h-auto opacity-95 lg:opacity-100"
-              />
-            </div>
-            <div className="relative z-20 flex justify-center lg:justify-end shrink-0 order-1 lg:order-2 lg:w-[45%]">
-              <img
-                src="/assets/Smirnoff/shotElipsodalGradient.png"
-                alt=""
-                className="absolute inset-0 m-auto w-[110%] max-w-none object-contain opacity-70 pointer-events-none"
-                aria-hidden
-              />
-              <img
-                src="/assets/Smirnoff/solutionBackgroundImage.png"
-                alt="Smirnoff cocktails with ice and berries"
-                className="relative z-10 w-full max-w-xl h-auto drop-shadow-2xl"
+                className="absolute left-[calc(50%-50vw-2rem)] top-[9rem] z-0 h-auto w-56 opacity-90 md:left-[calc(50%-50vw-2.5rem)] md:top-[-2.5rem] md:w-72 lg:left-[calc(50%-50vw-3rem)] lg:top-[20rem] lg:w-96 lg:opacity-95 [mask-image:linear-gradient(10deg,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(10deg,black_55%,transparent_100%)]"
               />
             </div>
           </div>
