@@ -1,10 +1,11 @@
 import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
 import carnivalBackground from "./assets/Carnival-Background.png";
+import CarnivalHeadlinesSection from "./components/CarnivalHeadlinesSection";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
-import CarnivalFooter from "./components/CarnivalFooter";
 import CarnivalMeaningSection from "./components/CarnivalMeaningSection";
 import CarnivalOpportunitySection from "./components/CarnivalOpportunitySection";
+import CarnivalStatsSection from "./components/CarnivalStatsSection";
 import CarnivalSolutionSection from "./components/CarnivalSolutionSection";
 
 export default function CarnivalPage() {
@@ -23,17 +24,20 @@ export default function CarnivalPage() {
         }}
       >
         <CarnivalLandingSection />
-        <div className="relative z-10 mt-12 md:mt-18">
+        <div className="relative z-10 mt-12 md:mt-22">
           <CarnivalOpportunitySection />
         </div>
-        <div className="relative z-10 mt-12 md:mt-20">
+        <div className="relative z-10 mt-10 md:mt-20">
           <CarnivalSolutionSection />
         </div>
-        <div className="relative z-10 mt-10 md:mt-18">
+        <div className="relative z-10 mt-8 md:mt-18">
           <CarnivalMeaningSection />
         </div>
-        <div className="relative z-10 mt-8 md:mt-14">
-          <CarnivalFooter />
+        <div className="relative z-10 mt-[12rem] md:mt-[14rem]">
+          <CarnivalStatsSection />
+        </div>
+        <div className="relative z-10 mt-4 md:mt-8">
+          <CarnivalHeadlinesSection />
         </div>
       </main>
     </>

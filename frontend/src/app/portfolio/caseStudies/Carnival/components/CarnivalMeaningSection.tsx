@@ -7,13 +7,13 @@ import tweets from "../assets/Tweets.png";
 export default function CarnivalMeaningSection() {
   return (
     <section className="relative overflow-hidden py-14 md:py-22">
-      <div className="relative z-10 px-6 md:px-12 lg:px-20">
+      <div className="relative z-10 px-6 md:px-12 lg:pl-20 lg:pr-0">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-5xl font-extrabold uppercase leading-none text-white md:text-7xl">
             So, What Does This Mean?
           </h2>
 
-          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_32rem] xl:grid-cols-[minmax(0,1fr)_40rem]">
             <div className="max-w-2xl">
               <h3 className="text-2xl font-extrabold uppercase text-white md:text-4xl">
                 The Answer Is... Relationships.
@@ -33,12 +33,12 @@ export default function CarnivalMeaningSection() {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-[24rem] lg:mx-0">
+            <div className="relative mx-auto w-full max-w-[36rem] lg:ml-auto lg:mr-0 lg:max-w-[40rem]">
               <Image
                 src={tweets}
                 alt="Traveler conversation tweets"
-                width={540}
-                height={370}
+                width={980}
+                height={660}
                 className="h-auto w-full object-contain"
               />
             </div>
@@ -49,14 +49,14 @@ export default function CarnivalMeaningSection() {
               People Are Excited To Travel... But Why Are They Excited?
             </h3>
 
-            <div className="relative mt-8 grid items-start gap-10 lg:grid-cols-[18rem_minmax(0,1fr)] xl:grid-cols-[20rem_minmax(0,1fr)]">
-              <div className="relative mx-auto w-full max-w-[20rem] lg:mx-0">
-                <div className="relative z-20 ml-4 overflow-hidden">
+            <div className="relative mt-8 grid items-start gap-10 lg:grid-cols-[26rem_minmax(0,1fr)] xl:grid-cols-[30rem_minmax(0,1fr)]">
+              <div className="relative mx-auto w-full max-w-[26rem] lg:-ml-20 lg:mr-0 lg:max-w-[30rem]">
+                <div className="relative z-20 overflow-hidden">
                   <Image
                     src={meaningPhoto}
                     alt="Carnival travelers on deck"
-                    width={420}
-                    height={520}
+                    width={900}
+                    height={1080}
                     className="h-auto w-full object-cover"
                   />
                 </div>

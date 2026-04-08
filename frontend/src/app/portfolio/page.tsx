@@ -15,6 +15,7 @@ export default function PortfolioPage() {
         width={600}
         height={600}
         className="absolute top-0 left-0 w-[600px] h-auto opacity-40 blur-lg pointer-events-none select-none"
+        style={{ height: "auto" }}
       />
 
       <Image
@@ -23,6 +24,7 @@ export default function PortfolioPage() {
         width={800}
         height={800}
         className="absolute bottom-0 right-0 w-[800px] h-auto opacity-40 blur-lg pointer-events-none select-none"
+        style={{ height: "auto" }}
       />
 
       {/* Main Content */}
