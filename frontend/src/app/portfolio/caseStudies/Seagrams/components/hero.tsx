@@ -2,10 +2,11 @@ import { gentonaMedium, workSans } from "@/app/fonts";
 
 export default function SeagramsHero() {
   return (
-    <div className="relative min-h-[min(92vh,960px)] overflow-visible">
+    <div className="relative">
+        <img src="/assets/Seagrams/seagramsbg.png" className="bg-[url('/assets/Seagrams/seagramsbg.png')] bg-cover bg-no-repeat w-full h-auto"></img>
         {/*Case Study rectangle */}
-        <div className="absolute inset-0 flex h-full flex-col px-15 md:px-30 lg:px-40">
-            <div className="z-10 flex h-full flex-col items-start justify-end pt-12 pb-8 md:pb-6 lg:pb-4 lg:translate-y-10 xl:pb-2 xl:translate-y-24 2xl:pb-2 2xl:translate-y-32">
+        <div className="absolute flex h-full flex-col px-15 md:px-30 lg:px-40 inset-0 bg-gradient-to-t from-black from-20% via-[#000]/3 via-90% to-transparent">
+            <div className="h-full z-10 flex flex-col justify-start pt-16 md:pt-24 lg:pt-32 xl:pt-40">
                 <p className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-[#C8D7A0] px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold tracking-wider uppercase bg-[#C8D7A0]/30 backdrop-blur-sm w-fit mb-8 sm:mb-2 text-white`}>
                 case study</p>
                 <div className="flex w-full flex-row flex-wrap items-end gap-4 md:gap-8">
