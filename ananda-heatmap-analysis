@@ -1,0 +1,45 @@
+Quick Comparison Table
+#	Tool	Starting Price	Free Tier	Best For
+1	Microsoft Clarity	$0	Unlimited	Zero-budget baseline
+2	Hotjar	$49/mo	200K sessions/mo	All-in-one with surveys
+3	Lucky Orange	$39/mo	100 sessions/day	Multi-site agencies
+4	Mouseflow	~$27/mo	500 sessions/mo	Form analytics
+5	Crazy Egg	$29/mo (annual)	30-day trial	A/B testing + heatmaps
+6	Smartlook	$55/mo	3K sessions/mo	Web + mobile apps
+7	FullStory	Custom (~$250+/mo)	14-day trial	Mid-market clients
+8	Contentsquare	$10K+/yr	None	Enterprise e-commerce
+9	LogRocket	$69/mo	1K sessions/mo	Developer-facing teams
+10	PostHog	Usage-based	1M events/mo	Open-source, technical
+11	VWO Insights	Custom (~$99+/mo)	Free trial	A/B testing ecosystem
+12	Heap	$3,600+/yr	300K sessions/mo	Auto-capture, no tagging
+________________________________________
+Individual Breakdowns
+1. Microsoft Clarity
+Completely free with no session limits. Records how visitors click, scroll, and move around your site. Flags frustration signals like rage-clicks and dead-clicks automatically. Integrates with Google Analytics. Data privacy caveat: Microsoft retains usage rights to the aggregated data, which matters for some clients. Best first install on every site.
+2. Hotjar
+The most widely recognized behavioral tool. Growth plan ($49/month) covers heatmaps, session recordings, conversion funnels, on-site surveys, and AI-generated engagement scoring. One account covers multiple sites. Annual billing drops it to ~$470/year. The combination of visual data + direct user feedback in one platform is hard to beat at this price point.
+3. Lucky Orange
+$39/month for 3,500 sessions across multiple sites. Includes a live chat widget built in, which is unusual at this tier. Strong form analytics — shows exactly where people abandon forms mid-fill. One of the few tools that lets you watch a visitor navigate in real time before the session ends. Good fit if clients want live visitor monitoring alongside behavioral data.
+4. Mouseflow
+Free tier (500 sessions/month), then ~$27/month for 5,000 sessions. Purpose-built for conversion funnel analysis and form drop-off tracking — arguably stronger than Hotjar in these two areas specifically. Has a friction score that automatically identifies which pages cause the most user frustration. Pricing is in euros (European company), so dollar amounts shift slightly with exchange rates.
+5. Crazy Egg
+$29/month but requires annual payment upfront — no month-to-month option. Strong heatmap variety: click maps, scroll maps, confetti maps (showing clicks by traffic source), and overlay maps. Includes A/B testing at the Plus plan and up, which none of the cheaper tools offer natively. Not ideal if you need funnel analysis or form tracking.
+6. Smartlook
+Free plan covers 3,000 sessions/month. Pro starts at $55/month. The key differentiator is cross-platform recording — it covers web, iOS, and Android in the same dashboard. If any clients have mobile apps alongside their websites, this is one of the only tools in this price range that handles both. Acquired by Cisco, which improves enterprise credibility.
+7. FullStory
+No public pricing — custom quotes start around $250/month depending on traffic. Automatically detects and categorizes frustration events without any manual setup. Session replay quality is the best in class. Best positioned for mid-market clients who have a dedicated product or marketing team and want a premium tool. Not practical for small businesses.
+8. Contentsquare
+Enterprise pricing starts around $10,000/year. Acquired Hotjar in 2021 and now sits at the top of the market. Combines behavioral heatmaps with revenue attribution — it can show you which content zone on a page directly drove the most purchases. Relevant only for large e-commerce clients with significant revenue at stake and budget to match.
+9. LogRocket
+Free plan (1,000 sessions/month), Team plan starts at $69/month. Unlike most tools here, LogRocket was built for engineering teams — session replays are paired with console logs, JavaScript errors, and network requests so developers can reproduce bugs by watching what the user did. If a client has a development team who needs to debug alongside UX, this is the best fit.
+10. PostHog
+Free up to 1 million events/month, then usage-based. Open-source, meaning you can self-host it on your own server for free with no data limits. Covers heatmaps, session replay, product analytics, feature flags, and A/B testing in one platform. Requires more technical setup than the others. Best for clients with in-house developers who want full data control.
+11. VWO Insights
+Pricing is custom (roughly $99+/month depending on traffic). Part of the VWO platform, which also includes full-featured A/B testing and personalization. If a client wants to not only see where users drop off but immediately run tests to fix it — all in the same tool — VWO is the cleanest workflow. Stronger as a testing platform than a pure behavioral analytics tool.
+12. Heap
+Free up to 300,000 sessions/month, then $3,600+/year for the Growth plan. The defining feature is auto-capture — Heap records every single click, tap, and form submission from day one without any manual event setup. Most tools require you to define what to track ahead of time; Heap captures everything retroactively. Useful when clients don't know what questions they'll need to answer yet.
+________________________________________
+Action Items:
+Install Microsoft Clarity on every client site immediately. It is free, installs in five minutes, and starts collecting heatmap and session data the same day. There is no downside to having it running, even if we never open it. 
+Add Hotjar Growth ($49/month) as The Agency's shared analytical layer. This is what we can use when a client actually needs answers — funnel analysis to see where people abandon a checkout or contact form, user surveys to ask visitors directly why they didn't convert, and AI engagement scoring to sort through recordings quickly. At $49/month shared across multiple client accounts, the cost is negligible.
+
