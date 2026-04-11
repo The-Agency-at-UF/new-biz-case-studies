@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useWhatIsAgencyReveal } from "./animations/useWhatIsAgencyReveal";
 
 export default function WhatIsAgency() {
-  const { sectionRef, videoOverlayRef, tvFrameRef, contentRef } = useWhatIsAgencyReveal();
+  const { sectionRef, videoOverlayRef, maskLayerRef, tvFrameRef, contentRef } = useWhatIsAgencyReveal();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
@@ -12,26 +12,37 @@ export default function WhatIsAgency() {
       ref={sectionRef}
       className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center"
     >
-      {/* Video overlay — your exact TV screen dimensions */}
+      {/* Zooming video layer */}
       <div
         ref={videoOverlayRef}
-        className="absolute z-20"
+        className="absolute z-10"
         style={{
-            width: "21%",
-            height: "37%",
-            top: "calc(46% - 18.5%)",  
-            left: "calc(50% - 10.5%)",
+            width: "42%",
+            height: "28%",
+            top: "calc(50% - 14%)",  
+            left: "calc(50% - 21%)",
             overflow: "visible",
             opacity: 0,
-            borderRadius: "8px",
+            aspectRatio: "1.5 / 1",
         }}
         >
         <div
+          ref={maskLayerRef}
           style={{
             position: "absolute",
             inset: 0,
             overflow: "hidden",
             borderRadius: "8px",
+            maskImage: "url('/assets/Presentation/tv-mask_bw_1.png')",
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+            maskSize: "100% 100%",
+            maskComposite: "multiply",
+            WebkitMaskImage: "url('/assets/Presentation/tv-mask_bw_1.png')",
+            WebkitMaskRepeat: "no-repeat",
+            WebkitMaskPosition: "center",
+            WebkitMaskSize: "100% 100%",
+            WebkitMaskComposite: "destination-in",
           }}
         >
           <video
@@ -50,34 +61,29 @@ export default function WhatIsAgency() {
             }}
           />
         </div>
-
-        <img
-          ref={tvFrameRef}
-          src="/assets/Presentation/tv-frame-transparent.png"
-          alt=""
-          aria-hidden
-          onError={(event) => {
-            event.currentTarget.style.display = "none";
-          }}
-          style={{
-            position: "absolute",
-            top: "-12%",
-            left: "-22%",
-            width: "144%",
-            height: "124%",
-            objectFit: "contain",
-            pointerEvents: "none",
-            userSelect: "none",
-            opacity: 1,
-          }}
-        />
-        {/* <div style={{
-    position: "absolute",
-    inset: 0,
-    background: "rgba(83, 1, 215, 0.35)",
-    pointerEvents: "none",
-  }} /> */}
       </div>
+
+      {/* Static TV frame layer (left behind while video expands) */}
+      <img
+        ref={tvFrameRef}
+        src="/assets/Presentation/tv-mask.png"
+        alt=""
+        aria-hidden
+        onError={(event) => {
+          event.currentTarget.style.display = "none";
+        }}
+        className="absolute z-20"
+        style={{
+          top: "calc(50% - 14%)",
+          left: "calc(50% - 21%)",
+          width: "42%",
+          height: "28%",
+          objectFit: "contain",
+          pointerEvents: "none",
+          userSelect: "none",
+          opacity: 0,
+        }}
+      />
 
       {/* Content — fades in after video fills section */}
       <div

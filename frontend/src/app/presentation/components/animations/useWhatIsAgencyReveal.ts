@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function useWhatIsAgencyReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
+  const maskLayerRef = useRef<HTMLDivElement>(null);
   const tvFrameRef = useRef<HTMLImageElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scroller = useScroller();
@@ -17,9 +18,18 @@ export function useWhatIsAgencyReveal() {
   useEffect(() => {
     const section = sectionRef.current;
     const videoOverlay = videoOverlayRef.current;
+    const maskLayer = maskLayerRef.current;
     const tvFrame = tvFrameRef.current;
     const content = contentRef.current;
-    if (!section || !videoOverlay || !content || !scroller.current) return;
+    if (!section || !videoOverlay || !maskLayer || !content || !scroller.current) return;
+
+    const maskImageValue = "url('/assets/Presentation/tv-mask_bw.png')";
+
+    const setMaskEnabled = (enabled: boolean) => {
+      const cssValue = enabled ? maskImageValue : "none";
+      maskLayer.style.maskImage = cssValue;
+      maskLayer.style.WebkitMaskImage = cssValue;
+    };
 
     const ctx = gsap.context(() => {
 
@@ -28,12 +38,13 @@ export function useWhatIsAgencyReveal() {
       gsap.set(videoOverlay, {
         y: 120,
         opacity: 0,
-        transformOrigin: "top left",
+        transformOrigin: "center center",
         willChange: "transform, opacity, border-radius",
       });
       if (tvFrame) {
-        gsap.set(tvFrame, { opacity: 1, willChange: "opacity" });
+        gsap.set(tvFrame, { y: 120, opacity: 0, willChange: "transform, opacity" });
       }
+      setMaskEnabled(true);
 
       ScrollTrigger.create({
         trigger: section,
@@ -47,6 +58,14 @@ export function useWhatIsAgencyReveal() {
             duration: 0.7,
             ease: "back.out(1.7)", // spring overshoot
           });
+          if (tvFrame) {
+            gsap.to(tvFrame, {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              ease: "back.out(1.7)",
+            });
+          }
         },
       });
 
@@ -63,6 +82,10 @@ export function useWhatIsAgencyReveal() {
           anticipatePin: 2,
           invalidateOnRefresh: true,
           fastScrollEnd: true,
+          onUpdate: (self) => {
+            // Keep the video clipped to the TV at first, then let it break out.
+            setMaskEnabled(self.progress < 0.32);
+          },
         },
       });
 
@@ -73,11 +96,10 @@ export function useWhatIsAgencyReveal() {
           y: 0,
           scaleX: 1,
           scaleY: 1,
-          borderRadius: "8px",
         },
         {
-          x: () => -videoOverlay.offsetLeft,
-          y: () => -videoOverlay.offsetTop,
+          x: () => window.innerWidth / 2 - videoOverlay.offsetLeft - videoOverlay.offsetWidth / 2,
+          y: () => window.innerHeight / 2 - videoOverlay.offsetTop - videoOverlay.offsetHeight / 2,
           // Use a single scale factor so the video keeps its aspect ratio.
           scaleX: () => Math.max(
             window.innerWidth / videoOverlay.offsetWidth,
@@ -87,23 +109,10 @@ export function useWhatIsAgencyReveal() {
             window.innerWidth / videoOverlay.offsetWidth,
             window.innerHeight / videoOverlay.offsetHeight
           ),
-          borderRadius: "0px",
           ease: "none",
           duration: 0.7,
         }
       );
-
-      if (tvFrame) {
-        tl.to(
-          tvFrame,
-          {
-            opacity: 0,
-            ease: "none",
-            duration: 0.3,
-          },
-          0.12
-        );
-      }
 
       tl.fromTo(
         content,
@@ -117,5 +126,5 @@ export function useWhatIsAgencyReveal() {
     return () => ctx.revert();
   }, [scroller]);
 
-  return { sectionRef, videoOverlayRef, tvFrameRef, contentRef };
+  return { sectionRef, videoOverlayRef, maskLayerRef, tvFrameRef, contentRef };
 }
