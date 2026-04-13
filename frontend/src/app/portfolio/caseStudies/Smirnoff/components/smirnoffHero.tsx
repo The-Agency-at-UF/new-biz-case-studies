@@ -14,7 +14,7 @@ const HERO_BG = "/assets/Smirnoff/image%2049.png";
 const LOGO_ACCENT = "#DA042C";
 const LOGO_LINE_SHADOW = "0 2px 4px rgba(0, 0, 0, 0.25)";
 
-export default function Smirnoff_Hero() {
+export default function SmirnoffHero() {
   return (
     <div className="relative z-20">
       <img
@@ -37,7 +37,6 @@ export default function Smirnoff_Hero() {
           <div className="w-full max-w-3xl">
             <img
               src="/assets/Smirnoff/HeroLogo.svg"
-              alt="Smirnoff"
               className="h-auto w-full"
             />
             <div
