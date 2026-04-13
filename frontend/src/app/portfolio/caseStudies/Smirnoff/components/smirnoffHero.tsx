@@ -11,13 +11,14 @@ const gentonaBook = localFont({
 });
 
 const HERO_BG = "/assets/Smirnoff/image%2049.png";
+const LOGO_ACCENT = "#DA042C";
+const LOGO_LINE_SHADOW = "0 2px 4px rgba(0, 0, 0, 0.25)";
 
 export default function Smirnoff_Hero() {
   return (
     <div className="relative z-20">
       <img
         src={HERO_BG}
-        alt=""
         className="min-h-[40vh] w-full object-cover md:min-h-[50vh] h-auto"
       />
       <div
@@ -33,13 +34,23 @@ export default function Smirnoff_Hero() {
           >
             case study
           </p>
-          <img
-            src="/assets/Smirnoff/heroLogoDiv.png"
-            alt="Smirnoff × The Agency at the University of Florida"
-            className="w-full max-w-5xl h-auto"
-          />
+          <div className="w-full max-w-3xl">
+            <img
+              src="/assets/Smirnoff/HeroLogo.svg"
+              alt="Smirnoff"
+              className="h-auto w-full"
+            />
+            <div
+              className=" h-1 w-full md:mt-3 md:h-1"
+              style={{
+                backgroundColor: LOGO_ACCENT,
+                boxShadow: LOGO_LINE_SHADOW,
+              }}
+              aria-hidden
+            />
+          </div>
           <p
-            className={`${gentonaBook.className} mt-6 md:mt-10 mb-4 md:mb-6 text-xl md:text-2xl lg:text-6xl text-white max-w-6xl leading-snug`}
+            className={`${gentonaBook.className} mt-3 md:mt-4 mb-4 md:mb-6 text-xl md:text-1xl lg:text-4xl text-white max-w-6xl leading-snug`}
           >
             Serving up Key Insights Until Last Call
           </p>
