@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import localFont from "next/font/local";
 
 const gentonaMedium = localFont({
@@ -12,48 +13,63 @@ const gentonaBook = localFont({
 const MAROON = "#832026";
 const BODY_TEXT = "#852026";
 
+/** Glow along the bottom / V — shows through SVG transparent areas; sits under vector, over black. */
+const IMPACT_RED_UNDER_VECTOR: CSSProperties = {
+  backgroundImage: [
+    "linear-gradient(to bottom, rgba(90, 8, 22, 0.75) 0%, rgba(160, 22, 38, 0.28) 78%, transparent 100%)"
+   
+  ].join(", "),
+  backgroundSize: "100% 70%, 100% 55%, 100% 100%, 100% 100%",
+  backgroundPosition: "center bottom, center bottom, center, center",
+  backgroundRepeat: "no-repeat",
+};
+
 export default function SmirnoffImpact() {
   return (
-    <section className="relative">
+    <section className="relative -mt-10 md:-mt-12 flex w-full flex-col items-end gap-10 overflow-hidden px-15 pb-16 md:pt-1 md:pb-24 md:px-30 lg:flex-row lg:gap-40 lg:px-40">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-black" aria-hidden />
       <div
-        className="relative text-[#4a0a18] pt-0 md:pt-1 pb-16 md:pb-24"
-        style={{
-          backgroundColor: "#EDEDED",
-          backgroundImage: "url(/assets/Smirnoff/impactTexture.png)",
-          backgroundRepeat: "repeat",
-          backgroundSize: "auto",
-        }}
-      >
-        <div className="absolute inset-0 bg-[#EDEDED]/85 pointer-events-none" aria-hidden />
-        <div className="relative z-10 -mt-10 md:-mt-12 px-15 md:px-30 lg:px-40 flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-20 xl:gap-28">
-          <div className="flex-1 min-w-0 max-w-2xl">
-            <h2
-              className={`${gentonaMedium.className} text-[2rem] md:text-[4rem] lg:text-[5.5rem] font-black uppercase leading-[0.95] tracking-tight mb-6 md:mb-10`}
-              style={{ color: MAROON }}
-            >
-              The Impact
-            </h2>
-            <div
-              className={`${gentonaBook.className} space-y-5 md:space-y-6 text-sm md:text-lg lg:text-2xl font-light leading-relaxed tracking-wide`}
-              style={{ color: BODY_TEXT }}
-            >
-              <p>
-              The data we pulled from social listening tactics allowed our team to discover the top flavors that entice consumers from a wide range of backgrounds. Smirnoff used our insights to elevate fall recipes from predictable pumpkin spice to alluring apple cider and punched up summer classics from broad fruit flavors to calculated mango deliciousness. 
-              </p>
-              <p>
-              By creating distinctive recipes, Smirnoff was able to provide consumers with {" "}
-              <span className="font-semibold">114 cocktail ideas</span> that would enhance experiences with friends and families. the
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center lg:justify-end shrink-0 lg:w-[42%] lg:-mr-40">
-            <img
-              src="/assets/Smirnoff/shaker.png"
-              alt="Cocktail shaker"
-              className="w-full max-w-md xl:max-w-lg h-auto object-contain drop-shadow-lg lg:translate-x-[50%] xl:translate-x-[58%]"
-            />
-          </div>
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={IMPACT_RED_UNDER_VECTOR}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url(/assets/Smirnoff/impactVector.svg)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[3] bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url(/assets/Smirnoff/impactTextureWhite.png)" }}
+        aria-hidden
+      />
+
+      <div className="relative z-10 -mt-32 -translate-y-[156px] flex min-w-0 flex-1 flex-col gap-2 md:-mt-36 md:-translate-y-[192px] lg:-mt-44 lg:-translate-y-[244px] lg:gap-8">
+        <h2
+          className={`${gentonaMedium.className} text-[2rem] font-black uppercase leading-[0.95] tracking-wide md:text-[4rem] lg:text-[5.5rem]`}
+          style={{ color: MAROON }}
+        >
+          The <br/> Impact
+        </h2>
+        <div
+          className={`${gentonaBook.className} w-full space-y-5 text-sm font-light leading-relaxed tracking-wide md:space-y-6 md:text-lg lg:w-[145%] lg:text-2xl`}
+          style={{ color: BODY_TEXT }}
+        >
+          <p>
+            The data we pulled from social listening tactics allowed our team to discover the top flavors that entice consumers from a wide range of backgrounds. Smirnoff used our insights to elevate fall recipes from predictable pumpkin spice to alluring apple cider and punched up summer classics from broad fruit flavors to calculated mango deliciousness.
+          </p>
+          <p>
+            By creating distinctive recipes, Smirnoff was able to provide consumers with{" "}
+            <span className="font-semibold">114 cocktail ideas</span> that would enhance experiences with friends and families.
+          </p>
         </div>
+      </div>
+      <div className="relative z-10 flex w-full shrink-0 justify-center lg:w-[42%] lg:-mr-40 lg:justify-end">
+        <img
+          src="/assets/Smirnoff/shaker.png"
+          alt=""
+          className="h-auto w-full max-w-md object-contain drop-shadow-lg xl:max-w-lg xl:w-4/5 lg:translate-x-[50%] xl:translate-x-[3.5%]"
+        />
       </div>
     </section>
   );
