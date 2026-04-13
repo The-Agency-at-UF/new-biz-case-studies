@@ -12,35 +12,47 @@ const gentonaBook = localFont({
 
 const MAROON = "#832026";
 const BODY_TEXT = "#852026";
+const FRAME_RED = "#AC0629";
+const IMPACT_VECTOR_IMAGE = "url(/assets/Smirnoff/impactVector.svg)";
+const IMPACT_TEXTURE_IMAGE = "url(/assets/Smirnoff/impactTextureWhite.png)";
 
 /** Glow along the bottom / V — shows through SVG transparent areas; sits under vector, over black. */
 const IMPACT_RED_UNDER_VECTOR: CSSProperties = {
-  backgroundImage: [
-    "linear-gradient(to bottom, rgba(90, 8, 22, 0.75) 0%, rgba(160, 22, 38, 0.28) 78%, transparent 100%)"
-   
-  ].join(", "),
-  backgroundSize: "100% 70%, 100% 55%, 100% 100%, 100% 100%",
-  backgroundPosition: "center bottom, center bottom, center, center",
+  backgroundImage:
+    "linear-gradient(to bottom, rgba(90, 8, 22, 0.75) 0%, rgba(160, 22, 38, 0.28) 78%, transparent 100%)",
+  backgroundSize: "100% 100%",
+  backgroundPosition: "center bottom",
   backgroundRepeat: "no-repeat",
 };
 
 export default function SmirnoffImpact() {
   return (
-    <section className="relative -mt-10 md:-mt-12 flex w-full flex-col items-end gap-10 overflow-hidden px-15 pb-16 md:pt-1 md:pb-24 md:px-30 lg:flex-row lg:gap-40 lg:px-40">
+    <section className="relative -mt-10 flex w-full flex-col items-end gap-10 overflow-hidden px-15 pb-16 md:-mt-12 md:px-30 md:pb-24 md:pt-1 lg:flex-row lg:gap-40 lg:px-40">
       <div className="pointer-events-none absolute inset-0 z-0 bg-black" aria-hidden />
       <div
         className="pointer-events-none absolute inset-0 z-[1]"
         style={IMPACT_RED_UNDER_VECTOR}
         aria-hidden
       />
+      {/* Side frame — under white vector + texture (z-[2] / z-[3]) */}
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-1 md:w-4"
+        style={{ backgroundColor: FRAME_RED }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-1 md:w-4"
+        style={{ backgroundColor: FRAME_RED }}
+        aria-hidden
+      />
       <div
         className="pointer-events-none absolute inset-0 z-[2] bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/assets/Smirnoff/impactVector.svg)" }}
+        style={{ backgroundImage: IMPACT_VECTOR_IMAGE }}
         aria-hidden
       />
       <div
         className="pointer-events-none absolute inset-0 z-[3] bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/assets/Smirnoff/impactTextureWhite.png)" }}
+        style={{ backgroundImage: IMPACT_TEXTURE_IMAGE }}
         aria-hidden
       />
 
@@ -67,7 +79,6 @@ export default function SmirnoffImpact() {
       <div className="relative z-10 flex w-full shrink-0 justify-center lg:w-[42%] lg:-mr-40 lg:justify-end">
         <img
           src="/assets/Smirnoff/shaker.png"
-          alt=""
           className="h-auto w-full max-w-md object-contain drop-shadow-lg xl:max-w-lg xl:w-4/5 lg:translate-x-[50%] xl:translate-x-[3.5%]"
         />
       </div>

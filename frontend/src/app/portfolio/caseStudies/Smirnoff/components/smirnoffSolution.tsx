@@ -69,16 +69,12 @@ export default function SmirnoffOpportunitySolution() {
             <img
               src={ASSETS.redCircle}
               className={LAYOUT.redCircle}
-              alt=""
-              aria-hidden
               loading="lazy"
               decoding="async"
             />
             <img
               src={ASSETS.limes}
               className={LAYOUT.limes}
-              alt=""
-              aria-hidden
               loading="lazy"
               decoding="async"
             />
@@ -93,22 +89,16 @@ export default function SmirnoffOpportunitySolution() {
           <img
             src={ASSETS.opportunityBg}
             className="absolute inset-0 z-[2] h-full w-full object-cover object-top opacity-90"
-            alt=""
-            aria-hidden
           />
           <img
             src={ASSETS.opportunityTexture}
             className="pointer-events-none absolute inset-0 z-[3] h-full w-full object-cover object-top opacity-40 mix-blend-overlay"
-            alt=""
-            aria-hidden
           />
           {/* Bottle absolute left */}
           <div className="absolute left-0 top-0 z-20 flex items-start bottom-0">
             <img
               src={ASSETS.bottle}
               className={LAYOUT.bottle}
-              alt=""
-              aria-hidden
               loading="lazy"
               decoding="async"
             />
@@ -135,8 +125,6 @@ export default function SmirnoffOpportunitySolution() {
             <img
               src={ASSETS.map}
               className={LAYOUT.mapImage}
-              alt=""
-              aria-hidden
               loading="lazy"
               decoding="async"
             />
@@ -169,8 +157,6 @@ export default function SmirnoffOpportunitySolution() {
           <img
             src={ASSETS.solutionTitleBg}
             className="h-full w-full min-w-full object-cover object-[center_0%] opacity-80 md:opacity-85"
-            alt=""
-            aria-hidden
             loading="lazy"
             decoding="async"
           />
@@ -193,8 +179,6 @@ export default function SmirnoffOpportunitySolution() {
               <img
                 src={ASSETS.shotGlass}
                 className="absolute left-[calc(50%-50vw-2rem)] top-[4rem] z-0 h-auto w-44 opacity-75 md:left-[calc(50%-50vw-2.5rem)] md:top-[-3rem] md:w-56 lg:left-[calc(50%-50vw-3rem)] lg:top-[9rem] lg:w-72 lg:opacity-75 mix-blend-lighten"
-                alt=""
-                aria-hidden
                 loading="lazy"
                 decoding="async"
               />
