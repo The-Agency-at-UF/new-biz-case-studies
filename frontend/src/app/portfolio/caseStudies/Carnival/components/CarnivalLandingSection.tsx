@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { gentonaBold } from "@/app/fonts";
 import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
 import carnivalLogo from "../assets/carnival-Logo.svg";
 
@@ -33,7 +34,9 @@ export default function CarnivalLandingSection() {
 
         <div className="mt-6 h-[4px] w-full max-w-[48rem] bg-[#EF3340] sm:max-w-[28rem] lg:max-w-[56rem]" />
 
-        <h2 className="mt-30 max-w-4xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+        <h2
+          className={`${gentonaBold.className} mt-30 max-w-4xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl`}
+        >
           The Agency Helps Carnival Navigate the Sentiments of Travelers Post-2021
         </h2>
       </div>

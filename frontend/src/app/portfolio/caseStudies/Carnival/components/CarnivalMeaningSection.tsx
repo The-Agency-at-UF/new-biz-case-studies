@@ -9,13 +9,13 @@ export default function CarnivalMeaningSection() {
     <section className="relative overflow-hidden py-14 md:py-22">
       <div className="relative z-10 px-6 md:px-12 lg:pl-20 lg:pr-0">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-5xl py-6 font-extrabold uppercase leading-none text-white md:text-7xl">
+          <h2 className="py-10 text-center text-5xl font-extrabold uppercase leading-none text-white md:py-14 md:text-7xl">
             So, What Does This Mean?
           </h2>
 
           <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_34rem] xl:grid-cols-[minmax(0,1fr)_44rem]">
-            <div className="max-w-2xl">
-              <h3 className="text-2xl font-extrabold uppercase text-white md:text-4xl">
+            <div className="max-w-4xl lg:-ml-6">
+              <h3 className="text-2xl font-extrabold uppercase text-white md:text-4xl lg:whitespace-nowrap">
                 The Answer Is... Relationships.
               </h3>
 

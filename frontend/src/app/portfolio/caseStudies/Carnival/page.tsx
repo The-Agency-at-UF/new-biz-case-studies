@@ -33,7 +33,7 @@ export default function CarnivalPage() {
         <div className="relative z-10 mt-8 md:mt-18">
           <CarnivalMeaningSection />
         </div>
-        <div className="relative z-10 mt-[1rem] md:mt-[3rem]">
+        <div className="relative z-10 ">
           <CarnivalStatsSection />
         </div>
         <div className="relative z-10 mt-4 md:mt-8">
