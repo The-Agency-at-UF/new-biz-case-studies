@@ -1,15 +1,38 @@
+"use client";
+
 import Image from "next/image";
 import cautiousTraveler from "../assets/CautiousTraveler.png";
 import dottedRedCircle from "../assets/dotted-redCircle.svg";
 import opportunityPhoto from "../assets/Opportunity-Photo.png";
 import prospectiveTraveler from "../assets/ProspectiveTraveler.png";
+import { motion } from "framer-motion";
 
 export default function CarnivalOpportunitySection() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.15,
+        ease: [0.21, 0.47, 0.32, 0.98] as const,
+      },
+    }),
+  };
+
   return (
     <section className="relative  py-0 md:py-14">
       <div className="relative z-10 px-6 md:px-12 lg:px-20">
         {/* Title + text + image all in one row so image starts at the top */}
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+        <motion.div
+          custom={1}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12"
+        >
           <div className="flex-1">
             <div className="py-6 -mt-30">
               <h2 className="text-7xl font-extrabold md:text-8xl">THE</h2>
@@ -57,20 +80,34 @@ export default function CarnivalOpportunitySection() {
               className="h-auto w-full object-cover"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Stat + traveler cards */}
         <div className="">
-          <p className="mb-8 text-base md:text-3xl max-w-[68rem]">
+          <motion.p
+            custom={2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-8 text-base md:text-3xl max-w-[68rem]"
+          >
             After refining our search, we pulled{" "}
             <span className="font-extrabold">21.3 MILLION</span> results to find
             the following: There are <strong>two</strong> types of people that
             want to travel in 2022.
-          </p>
+          </motion.p>
 
           <div className="mx-auto grid max-w-[72rem] grid-cols-1 gap-15 md:grid-cols-2 md:gap-20">
             {/* Cautious Traveler */}
-            <div className="relative overflow-visible">
+            <motion.div
+              custom={3}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              className="relative overflow-visible"
+            >
               <Image
                 src={cautiousTraveler}
                 alt="The cautious traveler"
@@ -98,10 +135,17 @@ export default function CarnivalOpportunitySection() {
                   cancellations, etc.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Prospective Traveler */}
-            <div className="relative overflow-hidden">
+            <motion.div
+              custom={4}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              className="relative overflow-hidden"
+            >
               <Image
                 src={prospectiveTraveler}
                 alt="The prospective traveler"
@@ -119,7 +163,7 @@ export default function CarnivalOpportunitySection() {
                   little time.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
