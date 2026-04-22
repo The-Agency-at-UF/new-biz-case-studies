@@ -1,11 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import cokeZero from "../assets/CokeZeroWhite.png";
 import agencyLogo from "../assets/AgencyLogoFull.png";
+import { motion } from "framer-motion";
 
 export default function CokeFooter() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.15,
+        ease: [0.21, 0.47, 0.32, 0.98] as const,
+      },
+    }),
+  };
+
   return (
     <div className="flex justify-center">
-      <div className="flex items-center justify-center gap-4 mt-6 mb-4">
+      <motion.div
+        custom={1}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        className="flex items-center justify-center gap-4 mt-6 mb-4"
+      >
           <Image
             src={cokeZero}
             alt="Coca Cola Zero Sugar"
@@ -19,7 +42,7 @@ export default function CokeFooter() {
             alt="The Agency at the University of Florida"
             className="w-110 h-auto pl-2"
           />
-        </div>
+        </motion.div>
     </div>
   );
 }

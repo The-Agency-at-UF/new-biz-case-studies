@@ -1,18 +1,48 @@
+"use client";
+
 import Image from "next/image";
 import cokeAsset5 from "../assets/CokeAsset5.png";
+import { motion } from "framer-motion";
 
 export default function CokeOpportunitySection() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.15,
+        ease: [0.21, 0.47, 0.32, 0.98] as const,
+      },
+    }),
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden py-10 md:py-14">
       <div className="relative z-10 px-6 md:px-12 lg:px-20">
-        <div className="py-6">
+        <motion.div
+          custom={1}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="py-6"
+        >
           <h1 className="text-6xl md:text-7xl font-extrabold">THE</h1>
           <h1 className="text-6xl md:text-7xl text-[#DA2028] font-extrabold">
             OPPORTUNITY
           </h1>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+        <motion.div
+          custom={2}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12"
+        >
           <div className="w-full max-w-3xl">
             <p className="text-base md:text-2xl">
             In 2020, the possibility of a safe and normal college football season was
@@ -39,7 +69,7 @@ export default function CokeOpportunitySection() {
               className="relative object-cover object-[40%_50%] "
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
