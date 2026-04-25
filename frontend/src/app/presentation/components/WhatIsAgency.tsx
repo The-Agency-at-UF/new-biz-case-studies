@@ -57,6 +57,11 @@ export default function WhatIsAgency() {
         className="absolute inset-0 z-30 flex flex-col items-start justify-end p-16 opacity-0"
         style={{ background: "linear-gradient(to right, rgba(0,0,0,1) 40%, rgba(0,0,0,0.20) 100%)" }}
       >
+        <img 
+          src="/assets/Presentation/A_LetterMark_White.png"
+          alt="The Agency LetterMark"
+          className="absolute top-16 right-16 w-[60px] md:w-[80px] lg:w-[100px] h-auto object-contain opacity-90"
+        />
         <p className="text-white/50 text-sm uppercase tracking-widest mb-3">
           The Agency at UF
         </p>
