@@ -1,9 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { AdventureProvider, useAdventure } from "./context/AdventureContext";
 import SmoothScrollWrapper from "./SmoothScrollWrapper";
 import MainHero from "./components/MainHero";
+import ChooseYourAdventure from "./components/ChooseYourAdventure";
 import WhatIsAgency from "./components/WhatIsAgency";
 import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
@@ -12,17 +12,20 @@ import LogoShowcase from "./components/LogoShowcase";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 
-// Dynamically import ChooseYourAdventure with no SSR
-// This isolates Spline's DOM from React's reconciler
-const ChooseYourAdventure = dynamic(
-  () => import("./components/ChooseYourAdventure"),
-  { ssr: false }
-);
+function WorkShowcaseSection() {
+  return (
+    <section id="case-studies" className="w-full bg-black">
+      <div className="h-16 bg-gradient-to-b from-black/0 via-black/50 to-black" />
+      <LogoShowcase />
+      <CaseStudies />
+    </section>
+  );
+}
 
 const SECTION_MAP = {
   whatIsAgency: WhatIsAgency,
   services: Services,
-  caseStudies: CaseStudies,
+  caseStudies: WorkShowcaseSection,
 };
 
 // Sections live in their own component so their re-renders
@@ -38,7 +41,6 @@ function AdventureSections() {
         const Section = SECTION_MAP[key];
         return (
           <div key={key}>
-            {key === "caseStudies" && <LogoShowcase />}
             <div ref={index === 0 ? firstSectionRef : undefined}>
               <Section />
             </div>
@@ -54,8 +56,12 @@ function PresentationContent() {
   return (
     <SmoothScrollWrapper>
       <NavBar />
-      <MainHero />
-      <ChooseYourAdventure />
+      {/* MainHero is a 200dvh sticky-background stage. The first viewport
+          shows only the Spline scene; the second viewport overlays the
+          choose-your-adventure buttons on top of the same scene. */}
+      <MainHero>
+        <ChooseYourAdventure />
+      </MainHero>
       <div>
         <AdventureSections />
       </div>
