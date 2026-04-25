@@ -83,12 +83,12 @@ export default function AgencyFooter({
 
           {/* CTA */}
           <div className="p-[2px] rounded-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500">
-            <Link
-              href="#"
-              className="block px-6 py-2 text-xs font-bold uppercase tracking-widest bg-black rounded-full hover:bg-transparent hover:text-white transition"
-            >
-              Contact Us
-            </Link>
+              <Link
+                href="#"
+                className="block px-6 py-2 text-xs font-bold uppercase tracking-widest bg-white text-black rounded-full hover:bg-transparent hover:text-white transition"
+              >
+                Contact Us
+              </Link>
           </div>
         </div>
 
