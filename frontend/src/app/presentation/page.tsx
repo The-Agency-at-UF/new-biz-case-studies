@@ -14,7 +14,7 @@ import Footer from "../../components/Footer";
 
 function WorkShowcaseSection() {
   return (
-    <section className="w-full bg-black">
+    <section id="case-studies" className="w-full bg-black">
       <div className="h-16 bg-gradient-to-b from-black/0 via-black/50 to-black" />
       <LogoShowcase />
       <CaseStudies />

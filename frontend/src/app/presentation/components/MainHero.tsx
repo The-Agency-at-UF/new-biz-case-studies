@@ -1,6 +1,12 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import Script from 'next/script';
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 type MainHeroProps = {
     /**
@@ -21,26 +27,56 @@ type MainHeroProps = {
  * background is visually continuous.
  */
 export default function MainHero({ children }: MainHeroProps) {
+    const sectionRef = useRef<HTMLElement>(null);
+    const logoRef = useRef<HTMLImageElement>(null);
+
+    useEffect(() => {
+        if (!sectionRef.current || !logoRef.current) return;
+
+        const ctx = gsap.context(() => {
+            gsap.to(logoRef.current, {
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top top",
+                    end: "center top", // this represents 100vh down (half of 200dvh)
+                    scrub: true,
+                },
+                opacity: 0,
+                scale: 1.5,
+                ease: "power2.inOut"
+            });
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
         <section
+            ref={sectionRef}
             className="relative w-full"
             style={{ height: '200dvh' }}
         >
             {/* Sticky Spline background: stays pinned to viewport top for the
                 full 200dvh the section occupies, so the scene is the visual
                 constant behind both the hero and the adventure overlay. */}
-            <div className="sticky top-0 h-dvh w-full overflow-hidden z-0">
-                <iframe
-                    src="https://my.spline.design/agencyhero-xv9O7XL7bl23jPVERpxy3aCB/"
-                    frameBorder="0"
-                    width="100%"
-                    height="100%"
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        border: 'none',
-                    }}
-                />
+            <div className="sticky top-0 h-dvh w-full overflow-hidden z-0 bg-black">
+                <Script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.88/build/spline-viewer.js" strategy="lazyOnload" />
+                {/* @ts-ignore */}
+                <spline-viewer 
+                    loading-anim-type="spinner-small-dark" 
+                    url="https://prod.spline.design/hwzfhJT6iymGJQU9/scene.splinecode"
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                ></spline-viewer>
+
+                {/* Overlay Logo that fades out on scroll */}
+                <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                    <img 
+                        ref={logoRef}
+                        src="/Agency_logo_2.png" 
+                        alt="The Agency Logo" 
+                        className="w-auto h-[100px] md:h-[160px] lg:h-[200px] object-contain"
+                    />
+                </div>
             </div>
 
             {/* Content overlay, absolutely positioned over the full 200dvh

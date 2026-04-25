@@ -74,9 +74,6 @@ export default function WhatIsAgency() {
           Powered by the brightest junior talent, we blend fresh perspectives with seasoned
           strategy to redefine marketing and advertising for the modern world.
         </p>
-        <button className="border border-white text-white text-sm px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors">
-          Our Services
-        </button>
       </div>
 
       {/* Mute/Unmute button */}

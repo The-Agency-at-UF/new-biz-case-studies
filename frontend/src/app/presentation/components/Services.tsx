@@ -5,14 +5,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import ServiceRotator from "./ServiceRotator";
 import PhoneModel from "./PhoneModel";
 import SeeOurWork from "./AnimatedArrow";
-import { useScroller } from "../SmoothScrollWrapper";
 
 export default function OurServices() {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollerRef = useScroller();
   const [phoneHovered, setPhoneHovered] = useState(false);
   const { scrollYProgress } = useScroll({
-    container: scrollerRef,
     target: sectionRef,
     offset: ["start end", "end start"],
   });
@@ -40,9 +37,13 @@ export default function OurServices() {
           shapeMargin: "5px",
           marginTop: "5%",
           marginRight: "-8%",
+          cursor: "pointer",
         }}
         onMouseEnter={() => setPhoneHovered(true)}
         onMouseLeave={() => setPhoneHovered(false)}
+        onClick={() => {
+          document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
+        }}
       >
         <PhoneModel />
       </div>
@@ -53,7 +54,11 @@ export default function OurServices() {
       >
         <h1
           className="text-white font-normal leading-relaxed m-0"
-          style={{ fontSize: "clamp(16px, 4vw, 96px)" }}
+          style={{ 
+            fontSize: "clamp(16px, 4vw, 96px)",
+            fontFamily: "'Franklin Gothic', 'ITC Franklin Gothic', Arial, sans-serif",
+            fontWeight: 300
+          }}
         >
           The Agency is the gathering of the world&apos;s boldest and brightest new talent in{" "}
           <ServiceRotator />{" "}

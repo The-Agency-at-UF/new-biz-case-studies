@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useScroller } from "../../SmoothScrollWrapper";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,13 +10,12 @@ export function useWhatIsAgencyReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const scroller = useScroller();
 
   useEffect(() => {
     const section = sectionRef.current;
     const videoOverlay = videoOverlayRef.current;
     const content = contentRef.current;
-    if (!section || !videoOverlay || !content || !scroller.current) return;
+    if (!section || !videoOverlay || !content) return;
 
     const ctx = gsap.context(() => {
 
@@ -32,7 +30,6 @@ export function useWhatIsAgencyReveal() {
 
       ScrollTrigger.create({
         trigger: section,
-        scroller: scroller.current,
         start: "top 80%",
         once: true,
         onEnter: () => {
@@ -49,7 +46,6 @@ export function useWhatIsAgencyReveal() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          scroller: scroller.current,
           start: "top top",
           end: "+=75%",
           scrub: 0.2,
@@ -98,7 +94,7 @@ export function useWhatIsAgencyReveal() {
     }, section);
 
     return () => ctx.revert();
-  }, [scroller]);
+  }, []);
 
   return { sectionRef, videoOverlayRef, contentRef };
 }
