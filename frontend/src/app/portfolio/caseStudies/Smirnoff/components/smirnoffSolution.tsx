@@ -33,7 +33,7 @@ const ASSETS = {
 const LAYOUT = {
   opportunityWrapper: "relative",
   limeWrapper:
-    "pointer-events-none absolute right-0 top-[-100px] z-[10] md:top-[-160px] lg:top-[-300px]",
+    "pointer-events-none absolute right-0 top-[-100px] z-[30] md:top-[-160px] lg:top-[-300px]",
   redCircle:
     "absolute right-0 top-70 z-20 h-auto w-72 opacity-100 md:w-96 xl:w-[62rem]",
   limes: "relative z-10 h-auto w-64 md:w-80 xl:w-[32rem] opacity-60",
