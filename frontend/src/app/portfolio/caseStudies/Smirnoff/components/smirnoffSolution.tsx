@@ -31,7 +31,7 @@ const ASSETS = {
 } as const;
 
 const LAYOUT = {
-  opportunityWrapper: "relative isolate z-[120]",
+  opportunityWrapper: "relative",
   limeWrapper:
     "pointer-events-none absolute right-0 top-[-100px] z-[10] md:top-[-160px] lg:top-[-300px]",
   redCircle:
