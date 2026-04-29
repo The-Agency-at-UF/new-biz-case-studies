@@ -16,7 +16,7 @@ const gentonaBook = localFont({
 
 export default function WelcomeCard({ email, onLogout }: WelcomeCardProps) {
   return (
-    <div className="relative w-[325px] h-[240px]">
+    <div className="relative w-full max-w-[325px] h-[240px]">
       {/* SVG Background */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
