@@ -28,7 +28,7 @@ export default function CaseStudiesCard({
   );
 
   return (
-    <div className="relative w-[675px] h-[657px] rounded-[20px] bg-[rgba(59,51,99,0.8)] backdrop-blur-md border border-white/10 shadow-lg p-6 text-white customScroll">
+    <div className="relative w-full min-h-[520px] xl:min-h-[657px] rounded-[20px] bg-[rgba(59,51,99,0.8)] backdrop-blur-md border border-white/10 shadow-lg p-4 sm:p-6 text-white customScroll">
 
       {/* Glow */}
       <div className="absolute inset-0 rounded-[20px] overflow-hidden pointer-events-none">
@@ -89,7 +89,7 @@ export default function CaseStudiesCard({
       )}
 
       {/* LIST */}
-      <div className="relative z-10 space-y-4 overflow-y-auto h-[480px] pr-2">
+      <div className="relative z-10 space-y-4 overflow-y-auto max-h-[480px] xl:max-h-[520px] pr-2">
         {caseStudies.map((study) => {
 
          

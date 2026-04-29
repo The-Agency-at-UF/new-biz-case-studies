@@ -74,7 +74,7 @@ export default function AddCompanyButton({ onCompanyAdded }: AddCompanyButtonPro
     <>
       <button
         onClick={() => setOpen(true)}
-        className="w-[360px] rounded-full bg-[rgba(83,1,215,0.5)] text-white py-3 font-medium backdrop-blur-md border border-white/10 hover:bg-[rgba(83,1,215,0.7)] transition shadow-md"
+        className="w-full xl:w-[360px] rounded-full bg-[rgba(83,1,215,0.5)] text-white py-3 font-medium backdrop-blur-md border border-white/10 hover:bg-[rgba(83,1,215,0.7)] transition shadow-md"
       >
         + Add Company
       </button>
@@ -90,7 +90,7 @@ export default function AddCompanyButton({ onCompanyAdded }: AddCompanyButtonPro
       {/* Drawer */}
       <div
         className={`
-          fixed top-0 right-0 h-full w-[480px] z-50
+          fixed top-0 right-0 h-full w-full max-w-[480px] z-50
           bg-[#0f0d1a] border-l border-white/10
           shadow-2xl flex flex-col
           transition-transform duration-300 ease-in-out

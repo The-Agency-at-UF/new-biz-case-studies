@@ -1,5 +1,7 @@
 import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
+import BackButton from "@/components/BackButton";
+
 import carnivalBackground from "./assets/Carnival-Background.png";
 import CarnivalHeadlinesSection from "./components/CarnivalHeadlinesSection";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
@@ -11,7 +13,9 @@ import CarnivalSolutionSection from "./components/CarnivalSolutionSection";
 export default function CarnivalPage() {
   return (
     <>
+      <BackButton />
       <NavBar />
+
       <main
         className={`${gentona.className} overflow-x-hidden text-white`}
         style={{
@@ -24,18 +28,23 @@ export default function CarnivalPage() {
         }}
       >
         <CarnivalLandingSection />
+
         <div className="relative z-10 mt-12 md:mt-22">
           <CarnivalOpportunitySection />
         </div>
+
         <div className="relative z-10 mt-8 md:mt-18">
           <CarnivalSolutionSection />
         </div>
+
         <div className="relative z-10 mt-8 md:mt-18">
           <CarnivalMeaningSection />
         </div>
-        <div className="relative z-10 ">
+
+        <div className="relative z-10">
           <CarnivalStatsSection />
         </div>
+
         <div className="relative z-10 mt-4 md:mt-8">
           <CarnivalHeadlinesSection />
         </div>

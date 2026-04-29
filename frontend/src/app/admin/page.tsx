@@ -217,72 +217,65 @@ const handleToggleCaseStudy = async (caseStudyID: string, isChecked: boolean) =>
     );
 
   return (
-    <div className="max-h-screen flex flex-col text-foreground pt-30 pb-20 pl-10">
-      <NavBar />
-      <AdminBkgd />
+  <div className="relative min-h-screen w-full overflow-x-hidden text-foreground px-4 sm:px-6 lg:px-10 pt-28 pb-10">
+    <NavBar />
+    <AdminBkgd />
 
-      <div className="flex gap-8">
+    <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+      
+      {/* LEFT SIDE */}
+      <div className="flex min-w-0 flex-col gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(280px,325px)_minmax(280px,1fr)]">
+          <WelcomeCard
+            email={email}
+            onLogout={() => signOut({ callbackUrl: "/login" })}
+          />
 
-        {/* LEFT SIDE */}
-        <div className="flex flex-col gap-6">
-          <div className="flex gap-6">
-            <WelcomeCard
-              email={email}
-              onLogout={() => signOut({ callbackUrl: "/login" })}
-            />
-
-            <SearchCard
-              search={search}
-              setSearch={setSearch}
-              companyCount={companyCount}
-              caseStudyCount={caseStudyCount}
-            />
-          </div>
-
-          <CaseStudiesCard
-            caseStudies={filteredCaseStudies}
-            selectedTags={selectedCaseStudyTags}
-            setSelectedTags={setSelectedCaseStudyTags}
-            allTags={allCaseStudyTags}
-            selectedCaseStudyIDs={selectedCaseStudyIDs}
-            setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
-            onToggleCaseStudy={handleToggleCaseStudy}
-            isEditingCompany={selectedCompanyForEdit !== null}
+          <SearchCard
+            search={search}
+            setSearch={setSearch}
+            companyCount={companyCount}
+            caseStudyCount={caseStudyCount}
           />
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="flex flex-col gap-6">
-          <AddCompanyButton onCompanyAdded={fetchData}/>
+        <CaseStudiesCard
+          caseStudies={filteredCaseStudies}
+          selectedTags={selectedCaseStudyTags}
+          setSelectedTags={setSelectedCaseStudyTags}
+          allTags={allCaseStudyTags}
+          selectedCaseStudyIDs={selectedCaseStudyIDs}
+          setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
+          onToggleCaseStudy={handleToggleCaseStudy}
+          isEditingCompany={selectedCompanyForEdit !== null}
+        />
+      </div>
 
-          <CompaniesCard
-            companies={filteredData}
-            selectedTag={selectedCompanyTag}
-            setSelectedTag={setSelectedCompanyTag}
-            allTags={allCompanyTags}
-            onCompanyClick={(company) => {
+      {/* RIGHT SIDE */}
+      <div className="flex min-w-0 flex-col gap-6">
+        <AddCompanyButton onCompanyAdded={fetchData} />
 
-              if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
+        <CompaniesCard
+          companies={filteredData}
+          selectedTag={selectedCompanyTag}
+          setSelectedTag={setSelectedCompanyTag}
+          allTags={allCompanyTags}
+          onCompanyClick={(company) => {
+            if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
+              setSelectedCompanyForEdit(null);
+              setSelectedCaseStudyIDs([]);
+            } else {
+              const extractedIDs = (company.CaseStudies || []).map((cs: any) => {
+                return cs.CaseStudyID;
+              });
 
-                setSelectedCompanyForEdit(null);
-                setSelectedCaseStudyIDs([]);
-
-              } else {
-
-                const extractedIDs = (company.CaseStudies || []).map((cs: any) => {
-                  return cs.CaseStudyID;
-                });
-
-                setSelectedCompanyForEdit(company);
-                setSelectedCaseStudyIDs(extractedIDs);
-              }
-            }}
-            selectedCompanyForEdit={selectedCompanyForEdit}
-          />
-        </div>
-
+              setSelectedCompanyForEdit(company);
+              setSelectedCaseStudyIDs(extractedIDs);
+            }
+          }}
+          selectedCompanyForEdit={selectedCompanyForEdit}
+        />
       </div>
     </div>
-    
-  );
-}
+  </div>
+);}

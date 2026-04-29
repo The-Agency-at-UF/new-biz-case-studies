@@ -1,5 +1,7 @@
 import NavBar from "../../../../components/NavBar";
-import UberHero from "./components/hero"; 
+import BackButton from "../../../../components/BackButton";
+
+import UberHero from "./components/hero";
 import OpportunitySection from "./components/opportunity";
 import UberBlackSection from "./components/uberblacksection";
 import PrivateHireBadge from "./components/privatehirebadge";
@@ -11,7 +13,9 @@ import UberFooter from "./components/uberfooter";
 
 export default function UberPage() {
   return (
-    <div className="min-h-screen w-full text-foreground bg-[#142328]">
+    <div className="relative min-h-screen w-full text-foreground bg-[#142328]">
+      <BackButton />
+
       <NavBar />
       <UberHero />
       <OpportunitySection />
