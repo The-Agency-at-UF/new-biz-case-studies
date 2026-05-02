@@ -14,21 +14,28 @@ Streamlining case study curation
   
 # What is the New Business: Case Studies project?
 
-The New Business: Case Studies project is an internal tool built for The Agency's 
-research department to streamline how case studies are curated and presented to 
-prospective clients.
+The New Business: Case Studies project is an immersive, story-driven website 
+that replaces traditional PDF proposals when pitching prospective clients. 
+Instead of sending a static deck, The Agency sends a single curated link that 
+opens into a guided web experience tailored to that prospect.
 
-**The problem:** Showing new business prospects relevant past work has historically 
-been a manual, time-consuming process — pulling together tailored examples for 
-each pitch eats into the team's time.
+**The problem:** Traditional pitch decks and PDF proposals are static, slow to 
+customize, and don't reflect the sophistication of The Agency's brand. 
+Generating tailored proof for each prospect takes hours or days.
 
-**The solution:** A form-based content management system that lets the research 
-team quickly upload and customize case studies — including paragraphs, titles, 
-images, and timed animations — and instantly publish them to a client-facing 
-website.
+**The solution:** A full-bleed, immersive website backed by an admin panel 
+that lets the new business team filter case studies by **industry** and 
+**service type**, then generate a shareable link in minutes — turning pitching 
+into a lightweight, repeatable system.
 
-**Who it's for:** The Agency's new business team, used during pitches and outreach 
-to show prospective clients what their product could look like.
+**The experience is built around three user journeys:**
+- **Who is The Agency** — about, POV, and team
+- **Our Services** — what we do, tied to relevant examples
+- **Our Work** — case studies filtered by what the prospect cares about
+
+**Who it's for:**
+- **Prospective clients** receiving curated links during pitches
+- **The new business team** (primarily Sofia) generating tailored links quickly
 
 **Inspiration:** [Monks Work Inventory](https://www.monks.com/work-inventory)
 
