@@ -5,26 +5,75 @@ Streamlining case study curation
 
 # Table of Contents
 - [What is the New Business: Case Studies project?](#what-is-the-new-business-case-studies-project)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
 - [How to get started](#how-to-get-started)
 - [How to contribute](#how-to-contribute)
 - [How to review code](#how-to-review-code)
 - [Contact](#contact)
   
 # What is the New Business: Case Studies project?
-Streamlining the research department process to upload and curate tailored case studies to show new business via filling out a form to update the website with new content. Types of content that can be added include paragraphs, titles, images, and animations to said content and their time duration. 
 
-See our inspo: https://www.monks.com/work-inventory
+The New Business: Case Studies project is an internal tool built for The Agency's 
+research department to streamline how case studies are curated and presented to 
+prospective clients.
+
+**The problem:** Showing new business prospects relevant past work has historically 
+been a manual, time-consuming process — pulling together tailored examples for 
+each pitch eats into the team's time.
+
+**The solution:** A form-based content management system that lets the research 
+team quickly upload and customize case studies — including paragraphs, titles, 
+images, and timed animations — and instantly publish them to a client-facing 
+website.
+
+**Who it's for:** The Agency's new business team, used during pitches and outreach 
+to show prospective clients what their product could look like.
+
+**Inspiration:** [Monks Work Inventory](https://www.monks.com/work-inventory)
+
+# Tech Stack
+
+**Frontend**
+- [Next.js 16](https://nextjs.org/) with Turbopack (dev)
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/) for styling
+- [Framer Motion](https://www.framer.com/motion/) and [GSAP](https://gsap.com/) for animations
+- [Spline](https://spline.design/) for 3D content
+- [Lucide](https://lucide.dev/) for icons
+- [NextAuth.js](https://next-auth.js.org/) for authentication
+- [Resend](https://resend.com/) for email
+
+**Backend**
+- [Go 1.25](https://go.dev/) with the [Gin](https://github.com/gin-gonic/gin) web framework
+- [AWS DynamoDB](https://aws.amazon.com/dynamodb/) for data storage
+- [AWS S3](https://aws.amazon.com/s3/) for file storage
+
+# Prerequisites
+Before getting started, make sure you have:
+- [GitHub Desktop](https://desktop.github.com/)
+- [Node.js](https://nodejs.org/) (v20 or higher recommended)
+- [Go](https://go.dev/dl/) v1.25 or higher
+- [VSCode](https://code.visualstudio.com/)
+- The project's `.env` file — request this from Hiral on Slack
 
 # How to get started
-1) Download GitHub desktop and Node.JS (and VSCode)
-2) Open GitHub desktop & login; go to "File" in the top left, "clone repo"
-3) Click "URL" & copy paste the URL from GitHub; before hitting submit note the local directory and submit
-4) You should see the repository open now in your GitHub desktop
-5) Go into your Files Explorer and right click the project folder and "Open with VSCode"
-6) Make sure you have the most up to date `.env` file created, filled out, and saved in `/backend`
-7) Use terminal to go inside the frontend folder `cd frontend` and then do `npm run dev`
-8) From the root directory, open another terminal and enter the backend folder `cd backend` and then do `go run .`
-9) Once you click on the http://localhost:3000 you can see the project! 
+1. Open GitHub Desktop and log in
+2. Go to **File → Clone Repository → URL**, paste this repo's URL, note the local directory, and click **Clone**
+3. In File Explorer, right-click the project folder and select **Open with VSCode**
+4. Place the `.env` file inside `/backend` (request it from Hiral on Slack if you don't have it)
+5. Open a terminal and start the frontend:
+```bash
+   cd frontend
+   npm install
+   npm run dev
+```
+6. Open a second terminal and start the backend:
+```bash
+   cd backend
+   go run .
+```
+7. Visit [http://localhost:3000](http://localhost:3000) — you should see the project running!
 
 See images below to aid you: 
 
@@ -45,23 +94,35 @@ See images below to aid you:
 </p>
 
 # How to contribute
-1) Create a branch in the terminal with `git checkout -b <firstinitiallastinitial>/<feature>`
-2) To make sure you are on that branch and not main, do  `git branch` or check via GitHub Desktop
-3) Publish your branch via GitHub Desktop and then make your edits in VSCode
-4) Go to GitHub Desktop when done, add  `conventional commit : <feature>` as your title and a description
-5) Make sure you are updated with main to prevent merge conflicts! 
-6) Submit a PR and go to the GitHub wesbite page for your PR and request people to review!
-
-Link to Conventional Commits Cheat Sheet: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
+1. Pull the latest `main` to avoid merge conflicts:
+```bash
+   git checkout main
+   git pull
+```
+2. Create a new branch named `[your-initials]/[feature-name]`:
+```bash
+   git checkout -b mm/add-image-upload
+```
+3. Confirm you're on the right branch with `git branch` or check via GitHub Desktop
+4. Publish your branch in GitHub Desktop, then make your edits in VSCode
+5. Commit using [Conventional Commits](https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3) format:
+   - Example: `feat: add image upload to case study form`
+   - Example: `fix: resolve animation timing bug`
+6. Push your branch and open a Pull Request on the GitHub website
+7. Request reviewers and post in Slack to flag your PR
 
 # How to review code
-1) GitHub Desktop lets you choose a branch from another person to bring locally
-2) Once in the person's branch, run npm run dev
-3) Hit review on the PR and report the errors or report success and submit
+1. In GitHub Desktop, switch to the contributor's branch to pull it locally
+2. Run the project locally (`npm run dev` in `/frontend`, `go run .` in `/backend`)
+3. Test the changes:
+   - Does the new feature work as described in the PR?
+   - Are there any console errors or warnings?
+   - Does the existing functionality still work?
+4. On the GitHub PR page, click **Files changed** and leave inline comments on specific lines
+5. Submit your review as **Approve**, **Request changes**, or **Comment**
 
 # Contact
-Contact me on Slack or at hiralshukla@ufl.edu 
-
+- **Project Lead:** Hiral Shukla — Slack or [hiralshukla@ufl.edu](mailto:hiralshukla@ufl.edu)
 
 
 
