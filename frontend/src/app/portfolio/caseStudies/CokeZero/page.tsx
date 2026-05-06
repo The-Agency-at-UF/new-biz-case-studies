@@ -1,4 +1,6 @@
 import NavBar from "@/components/NavBar";
+import BackButton from "@/components/BackButton";
+
 import cokeBackground from "./assets/Coke-Background.svg";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
@@ -28,7 +30,9 @@ const gentona = localFont({
 export default function CokeZeroPage() {
   return (
     <>
+      <BackButton />
       <NavBar />
+
       <div
         className={`${gentona.className} text-white overflow-x-hidden`}
         style={{
@@ -42,20 +46,24 @@ export default function CokeZeroPage() {
       >
         <div className="relative">
           <CokeLandingSection />
+
           <div className="relative z-10 mt-28 md:mt-40">
             <CokeAccentLines />
           </div>
-          
         </div>
+
         <div className="relative z-10 mt-35 md:mt-65">
           <CokeOpportunitySection />
         </div>
+
         <div className="relative z-10 mt-16 md:-mt-7">
           <CokeSolutionSection />
         </div>
+
         <div className="relative z-10 mt-18 md:mt-26 px-6 md:px-12 lg:px-20">
           <CokePhoneScreens />
         </div>
+
         <div className="relative z-10 mt-25 md:mt-45">
           <CokeFooter />
         </div>

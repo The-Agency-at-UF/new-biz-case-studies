@@ -18,13 +18,13 @@ export default function CompaniesCard({
   return (
     <div
       className="
-        w-[360px] h-[826px]
+        w-full xl:w-[360px] min-h-[520px] xl:min-h-[826px] max-h-[826px]
         rounded-[20px]
         bg-[rgba(59,51,99,0.8)]
         backdrop-blur-md
         border border-white/10
         shadow-[0_4px_4px_rgba(0,0,0,0.25)]
-        p-6
+        p-4 sm:p-6
         text-white
         overflow-y-auto
         customScroll

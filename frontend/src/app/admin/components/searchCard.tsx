@@ -15,7 +15,7 @@ export default function SearchCard({
     <div
       className="
         relative
-        w-[311px] h-[237px]
+        w-full min-h-[237px]
         rounded-[20px]
         bg-[rgba(59,51,99,0.8)]
         backdrop-blur-md
