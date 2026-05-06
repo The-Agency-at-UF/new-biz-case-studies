@@ -41,7 +41,7 @@ export default function Contact() {
             ref={textContainerRef}
             className="absolute tracking-wide text-white text-center whitespace-nowrap z-10 font-normal flex items-center justify-center"
             style={{
-              fontSize: "36px",
+              fontSize: "clamp(24px, 4vw, 48px)",
               fontFamily: "'Franklin Gothic', 'ITC Franklin Gothic', Arial, sans-serif",
               fontWeight: 400
             }}

@@ -1,7 +1,7 @@
 "use client"
 
 import CaseStudyCard from "./CaseStudyCard"
-import { useRef, useLayoutEffect } from "react"
+import { useState } from "react"
 
 const caseStudies = [
   {
@@ -38,60 +38,78 @@ const caseStudies = [
     tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
     image: "/assets/Bliss/MockUps.png",
     href: "/portfolio/caseStudies/Bliss"
+  },
+  {
+    title: "BLISS 6",
+    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
+    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
+    image: "/assets/Bliss/MockUps.png",
+    href: "/portfolio/caseStudies/Bliss"
+  },
+  {
+    title: "BLISS 7",
+    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
+    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
+    image: "/assets/Bliss/MockUps.png",
+    href: "/portfolio/caseStudies/Bliss"
   }
 ];
 
 export default function CaseStudiesGrid() {
+  const [startIndex, setStartIndex] = useState(0);
+  
+  // You can adjust this to show more or fewer cards at once
+  const visibleCount = 5;
 
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const handleNext = () => {
+    if (startIndex + 1 <= caseStudies.length - visibleCount) {
+      setStartIndex((s) => s + 1);
+    }
+  };
 
-  useLayoutEffect(() => {
-  const el = scrollRef.current
-  if (!el) return
-
-  el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2
-}, [])
-
-  const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -420, behavior: "smooth" })
-  }
-
-  const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 420, behavior: "smooth" })
-  }
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex((s) => s - 1);
+    }
+  };
 
   return (
-    <section className="w-full bg-black flex flex-col items-center">
+    <section className="relative w-full h-[80vh] bg-black flex overflow-hidden">
+      {caseStudies.map((study, index) => {
+        const isVisible = index >= startIndex && index < startIndex + visibleCount;
+        return (
+          <div
+            key={index}
+            className={`group relative overflow-hidden transition-all duration-700 ease-in-out border-white ${
+              isVisible
+                ? "flex-1 hover:flex-[2.5] opacity-100 border-r last:border-r-0"
+                : "flex-[0_0_0px] opacity-0 border-0"
+            }`}
+          >
+            <CaseStudyCard {...study} />
+          </div>
+        );
+      })}
 
-        {/* card viewport */}
-        <div className="w-full overflow-hidden">
-            <div
-            ref={scrollRef}
-            className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw] scrollHide"
-            >
-            {caseStudies.map((study, index) => (
-                <CaseStudyCard key={index} {...study} />
-            ))}
-            </div>
-        </div>
+      {/* Left Navigation Overlay */}
+      {startIndex > 0 && (
+        <button
+          onClick={handlePrev}
+          className="absolute left-0 top-0 bottom-0 px-4 flex items-center justify-center text-white/50 hover:text-white transition-colors bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10"
+        >
+          <span className="text-4xl leading-none">&lsaquo;</span>
+        </button>
+      )}
 
-        {/* navigation */}
-        <div className="flex w-full border-t border-white">
-            <button
-            onClick={scrollLeft}
-            className="flex-1 py-6 border-r border-white text-white hover:bg-zinc-900"
-            >
-            ←
-            </button>
-
-            <button
-            onClick={scrollRight}
-            className="flex-1 py-6 text-white hover:bg-zinc-900"
-            >
-            →
-            </button>
-        </div>
-
+      {/* Right Navigation Overlay */}
+      {startIndex < caseStudies.length - visibleCount && (
+        <button
+          onClick={handleNext}
+          className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-white/50 hover:text-white transition-colors bg-gradient-to-l from-black/80 via-black/40 to-transparent z-10"
+        >
+          <span className="text-4xl leading-none">&rsaquo;</span>
+        </button>
+      )}
     </section>
-  )
+  );
 }

@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRef, useLayoutEffect } from "react";
 import CaseStudyCard from "./CaseStudyCard";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Props = {
   companySlug: string;
@@ -26,59 +29,110 @@ const getImageExtension = (name: string) => {
 export default function DynamicCaseStudiesGrid({ companySlug }: Props) {
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [startIndex, setStartIndex] = useState(0);
+
+  // Show up to 5 cards at a time
+  const visibleCount = 5;
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const load = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/company/${companySlug}/casestudies`);
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const res = await fetch(`${baseUrl}/api/company/${companySlug}/casestudies`, {
+          signal: controller.signal
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
         const data = await res.json();
-        setCaseStudies(data);
-      } catch (err) {
-        console.error("Failed to fetch case studies:", err);
+        
+        if (Array.isArray(data)) {
+          setCaseStudies(data);
+          // Crucial: Tell GSAP to recalculate all pin positions now that the DOM height has changed!
+          setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, 100);
+        } else {
+          console.error("Expected array but got:", data);
+          setCaseStudies([]);
+        }
+      } catch (err: any) {
+        if (err.name !== "AbortError") {
+          console.error("Failed to fetch case studies:", err);
+          setCaseStudies([]);
+        }
       } finally {
         setLoading(false);
       }
     };
+    
     load();
+
+    return () => controller.abort();
   }, [companySlug]);
 
-  useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
-  }, [caseStudies]);
+  const handleNext = () => {
+    if (startIndex + 1 <= caseStudies.length - visibleCount) {
+      setStartIndex((s) => s + 1);
+    }
+  };
 
-  const scrollLeft = () => scrollRef.current?.scrollBy({ left: -420, behavior: "smooth" });
-  const scrollRight = () => scrollRef.current?.scrollBy({ left: 420, behavior: "smooth" });
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex((s) => s - 1);
+    }
+  };
 
   if (loading) return null;
   if (caseStudies.length === 0) return null;
 
   return (
-    <section className="w-full bg-black flex flex-col items-center">
-      <div className="w-full overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="flex overflow-x-auto overflow-y-hidden scroll-smooth px-[20vw] ml-[-16vw] scrollHide"
-        >
-          {caseStudies.map((study, index) => (
+    <section className="relative w-full h-[80vh] bg-black flex overflow-hidden">
+      {caseStudies.map((study, index) => {
+        const isVisible = index >= startIndex && index < startIndex + visibleCount;
+        return (
+          <div
+            key={index}
+            className={`group relative overflow-hidden transition-all duration-700 ease-in-out border-white ${
+              isVisible
+                ? "flex-1 hover:flex-[2.5] opacity-100 border-r last:border-r-0"
+                : "flex-[0_0_0px] opacity-0 border-0"
+            }`}
+          >
             <CaseStudyCard
-              key={index}
               title={study.Name}
               description={study.Name}
               tags={(study.Tags || []).join(" • ")}
               image={`https://new-biz-case-studies-bucket.s3.amazonaws.com/case-studies/${camelCase(study.Name)}${getImageExtension(study.Name)}`}
               href={`/portfolio/caseStudies/${toCamelCase(study.Name)}`}
             />
-          ))}
-        </div>
-      </div>
+          </div>
+        );
+      })}
 
-      <div className="flex w-full border-t border-white">
-        <button onClick={scrollLeft} className="flex-1 py-6 border-r border-white text-white hover:bg-zinc-900">←</button>
-        <button onClick={scrollRight} className="flex-1 py-6 text-white hover:bg-zinc-900">→</button>
-      </div>
+      {/* Left Navigation Overlay */}
+      {startIndex > 0 && (
+        <button
+          onClick={handlePrev}
+          className="absolute left-0 top-0 bottom-0 px-4 flex items-center justify-center text-white/50 hover:text-white transition-colors bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10"
+        >
+          <span className="text-4xl leading-none">&lsaquo;</span>
+        </button>
+      )}
+
+      {/* Right Navigation Overlay */}
+      {startIndex < caseStudies.length - visibleCount && (
+        <button
+          onClick={handleNext}
+          className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center text-white/50 hover:text-white transition-colors bg-gradient-to-l from-black/80 via-black/40 to-transparent z-10"
+        >
+          <span className="text-4xl leading-none">&rsaquo;</span>
+        </button>
+      )}
     </section>
   );
 }

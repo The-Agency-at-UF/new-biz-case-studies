@@ -78,7 +78,7 @@ export default function ContactCard() {
       )}
 
       {/* Card */}
-      <div className="w-[360px] rounded-[28px] bg-[#f3f3f3] p-6 shadow-xl">
+      <div className="w-[clamp(280px,80vw,360px)] rounded-[28px] bg-[#f3f3f3] p-6 shadow-xl">
 
         {/* Title */}
         <h2 className="text-[18px] font-medium text-black mb-6 text-center">

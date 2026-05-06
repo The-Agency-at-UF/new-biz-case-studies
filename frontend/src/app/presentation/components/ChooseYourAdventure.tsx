@@ -26,25 +26,27 @@ export default function ChooseYourAdventure() {
   }
 
   return (
-    <div className="w-full h-full flex flex-row items-center justify-around px-12">
+    <div className="w-full h-full flex flex-row items-center justify-around px-[clamp(1rem,5vw,3rem)]">
+      {/* 
       <p
         onClick={() => handleBlobClick(1)}
-        className="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
+        className="text-white text-[clamp(1.5rem,4vw,2.5rem)] font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
       >
         What is the Agency?
       </p>
       <p
         onClick={() => handleBlobClick(2)}
-        className="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
+        className="text-white text-[clamp(1.5rem,4vw,2.5rem)] font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
       >
         Our Services
       </p>
       <p
         onClick={() => handleBlobClick(3)}
-        className="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
+        className="text-white text-[clamp(1.5rem,4vw,2.5rem)] font-bold uppercase tracking-wide text-center cursor-pointer hover:opacity-70 transition-opacity"
       >
         See our Work
       </p>
+      */}
     </div>
   );
 }

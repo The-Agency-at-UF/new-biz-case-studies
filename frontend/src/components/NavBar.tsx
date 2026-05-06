@@ -78,12 +78,12 @@ export default function PortfolioBar() {
       }`}
     >
       <div>
-        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-12 py-2 sm:py-3 lg:py-4">
+        <div className="flex items-center justify-between px-[clamp(1rem,4vw,3rem)] py-2 sm:py-3 lg:py-4">
           {/* Logo */}
           <div className="flex flex-col items-start gap-1 min-w-0">
             <Link
               href="/"
-              className="relative h-8 sm:h-10 w-28 sm:w-40 md:w-44"
+              className="relative h-8 sm:h-10 w-[clamp(7rem,12vw,11rem)]"
               onClick={() => setMenuOpen(false)}
             >
               <Image
@@ -101,7 +101,7 @@ export default function PortfolioBar() {
           </div>
 
           {/* Desktop Nav */}
-          <ul className="hidden md:flex gap-6 lg:gap-12 font-sans text-sm uppercase tracking-[0.2em] lg:tracking-[0.3em] font-bold">
+          <ul className="hidden md:flex gap-[clamp(1.5rem,4vw,3rem)] font-sans text-[clamp(0.75rem,1.5vw,0.875rem)] uppercase tracking-[0.2em] lg:tracking-[0.3em] font-bold">
             <li>
               <NavLink href="/" underlineColor="group-hover:bg-[#f34d4e]">
                 Presentation
