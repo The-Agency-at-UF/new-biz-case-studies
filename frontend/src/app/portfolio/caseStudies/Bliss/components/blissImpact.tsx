@@ -79,7 +79,7 @@ export default function BlissImpact() {
           className="flex min-w-0 flex-[1_1_40%] items-center justify-center"
         >
           <img
-            src="/assets/Bliss/Bliss_TickTok.png"
+            src="/assets/Bliss/Bliss_Ticktok.png"
             alt="Bliss TikTok"
             className="w-[200px] md:w-[250px] lg:w-[300px]"
           />

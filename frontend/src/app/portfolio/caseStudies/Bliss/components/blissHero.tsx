@@ -34,7 +34,7 @@ export default function BlissHero() {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className={`${gentonaMedium.className} w-fit rounded-none border-[2px] border-[#75CFE5] bg-[#F55096]/50 px-2 py-2 text-xs font-bold uppercase tracking-wider backdrop-blur-sm md:border-[3px] md:px-6 md:max-2xl:py-2 lg:text-lg`}
+            className={`${gentonaMedium.className} w-fit rounded-none border-[2px] border-[#75CFE5] bg-[#F55096]/50 text-white px-2 py-2 text-xs font-bold uppercase tracking-wider backdrop-blur-sm md:border-[3px] md:px-6 md:max-2xl:py-2 lg:text-lg`}
           >
             case study
           </motion.p>
