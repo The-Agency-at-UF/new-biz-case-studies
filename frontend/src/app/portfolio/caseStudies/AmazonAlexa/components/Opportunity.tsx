@@ -1,11 +1,15 @@
 "use client";
 
-"use client";
-
 import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
 import { motion } from "framer-motion";
 
 export default function OpportunitySection() {
+  const viewportSettings = {
+    once: true,
+    amount: 0.25,
+    margin: "0px 0px -120px 0px",
+  } as const;
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (custom: number) => ({
@@ -18,27 +22,34 @@ export default function OpportunitySection() {
       },
     }),
   };
+
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 pt-20 lg:pt-40 md:-mt-56 lg:-mt-80">
-      <motion.div
-        custom={1}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeInUp}
-        className="max-w-none flex flex-col gap-6 lg:gap-18"
-      >
-        <h2 className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal`}>
+    <section className="relative flex h-full flex-col px-15 pt-20 md:-mt-56 md:px-30 lg:-mt-80 lg:px-40 lg:pt-40">
+      <div className="flex max-w-none flex-col gap-6 lg:gap-18">
+        <motion.h2
+          custom={1}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={fadeInUp}
+          className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal lg:text-[8rem]`}
+        >
           <span className="block text-white">The</span>
           <span className="block text-[#5FCAF4]">Opportunity</span>
-        </h2>
-        <p
-          className={`${gentonaBook.className} text-sm lg:text-4xl font-light text-white leading-tight tracking-wide`}
+        </motion.h2>
+
+        <motion.p
+          custom={2}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={fadeInUp}
+          className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white lg:text-4xl`}
         >
           People love to discover that Amazon Alexa knows about their favorite
-          game, anime or TV show. To make this kind of experience possible, Alexa
-          must be able to answer questions about the most popular aspects of
-          today’s culture. It should be carefully crafted to withstand the
+          game, anime or TV show. To make this kind of experience possible,
+          Alexa must be able to answer questions about the most popular aspects
+          of today’s culture. It should be carefully crafted to withstand the
           culture’s complex, ever-changing nature.
           <br />
           <br />
@@ -49,8 +60,8 @@ export default function OpportunitySection() {
           had an important task for us: surprise and delight Alexa users from
           around the globe while staying true to Alexa’s personality. We were
           ready to research and write.
-        </p>
-      </motion.div>
-    </div>
+        </motion.p>
+      </div>
+    </section>
   );
 }
