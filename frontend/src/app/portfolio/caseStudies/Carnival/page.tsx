@@ -17,7 +17,7 @@ export default function CarnivalPage() {
       <NavBar />
 
       <main
-        className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#071533] text-white`}
+        className={`${gentona.className} overflow-x-hidden text-white`}
         style={{
           backgroundColor: "#071533",
           backgroundImage: `url(${carnivalBackground.src})`,

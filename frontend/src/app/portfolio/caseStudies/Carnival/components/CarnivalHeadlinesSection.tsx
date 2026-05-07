@@ -127,7 +127,7 @@ export default function CarnivalHeadlinesSection() {
             </motion.div>
           </div>
 
-          <div className="relative mt-20 flex justify-center px-6 pb-2 pt-8 md:mt-24">
+          <div className="relative mt-20 flex justify-center bg-[#004E8E] px-6 pb-16 pt-8 md:mt-24 md:pb-24">
             <div className="absolute left-0 top-10 h-4 w-4 rounded-full bg-[#D3362D] md:h-5 md:w-5" />
             <div className="absolute -left-10 bottom-2 h-12 w-12 rounded-full bg-[#D3362D] md:h-16 md:w-16" />
             <div className="absolute right-10 top-8 h-4 w-4 rounded-full bg-white md:h-5 md:w-5" />
