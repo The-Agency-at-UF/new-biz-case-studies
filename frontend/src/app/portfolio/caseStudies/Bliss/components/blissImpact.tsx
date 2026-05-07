@@ -2,7 +2,7 @@ import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
 
 export default function BlissImpact() {
     return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full h-full overflow-visible">
         {/*<img src="/assets/Bliss/opportunityBackground.png" className=" relative inset-0 w-full h-full object-cover"></img>*/}
         {/*Case Study rectangle */}
         <div className = "relative bg-[#F55096] z-10 flex flex-row justify-center h-full px-8 md:px-10 lg:px-12">

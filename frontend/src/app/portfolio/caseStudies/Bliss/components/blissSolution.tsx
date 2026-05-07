@@ -2,7 +2,7 @@ import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
 
 export default function BlissSolution() {
     return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full h-full overflow-visible">
         {/*<img src="/assets/Bliss/opportunityBackground.png" className=" relative inset-0 w-full h-full object-cover"></img>*/}
         {/*Case Study rectangle */}
         <div className = "relative bg-[#F55096] z-10 flex flex-row justify-center h-full px-8 md:px-10 lg:px-12 py-20">
@@ -23,7 +23,7 @@ export default function BlissSolution() {
             <img
               src="/assets/Bliss/fixed_open_tub.png"
               alt="Right element"
-              className="w-full scale-225 translate-x-[-40%] translate-y-[-20%] md:translate-y-[-5%] overflow-hidden"
+              className="w-full scale-200 translate-x-[-20%] translate-y-[-20%] md:translate-y-[-5%] overflow-visible"
           />
           </div>
         </div>
