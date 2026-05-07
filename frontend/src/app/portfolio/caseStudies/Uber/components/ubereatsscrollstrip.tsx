@@ -65,20 +65,20 @@ export default function UberEatsScrollStrip() {
         className="flex gap-4 w-max will-change-transform pl-15 md:pl-30 lg:pl-40"
       >
         {slides.map((slide, i) => (
-          <div
-            key={i}
-            className="relative shrink-0 w-[44vw] min-w-[320px] max-w-[500px]"
-          >
-            <div className="relative rounded-[2.4rem] border-[2.5px] border-white/20 overflow-hidden shadow-2xl aspect-[9/19.5] bg-black">
-              <img
-                src={slide.src}
-                alt={slide.label}
-                className="w-full h-full object-cover object-top"
-              />
-              {/* Dynamic island */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[28%] h-3 bg-black rounded-full z-10" />
-            </div>
+        <div
+          key={i}
+          className="relative shrink-0 w-[20vw] min-w-[150px] max-w-[240px]"
+        >
+          <div className="relative rounded-[2.4rem] border-[2.5px] border-white/20 overflow-hidden shadow-2xl aspect-[9/19.5] bg-black">
+            <img
+              src={slide.src}
+              alt={slide.label}
+              className="w-full h-full object-cover object-top blur-[1.5px]"
+            />
+            {/* Dynamic island */}
+            <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[28%] h-3 bg-black rounded-full z-10" />
           </div>
+        </div>
         ))}
       </div>
     </div>
