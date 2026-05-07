@@ -17,14 +17,13 @@ export default function CarnivalPage() {
       <NavBar />
 
       <main
-        className={`${gentona.className} overflow-x-hidden text-white`}
+        className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#004E8E] text-white`}
         style={{
-          backgroundColor: "#071533",
+          backgroundColor: "#004E8E",
           backgroundImage: `url(${carnivalBackground.src})`,
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% auto",
-          minHeight: "max(100vh, calc(100vw * 7911 / 1920))",
         }}
       >
         <CarnivalLandingSection />
