@@ -50,6 +50,7 @@ export const insertCompany = async (company: {
 export const insertCaseStudy = async (caseStudy: {
   CaseStudyID: string;
   Name: string;
+  Description?: string;
   Tags: string[];
 }) => {
   return fetch(`${API_URL}/api/casestudy`, {

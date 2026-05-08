@@ -40,35 +40,38 @@ export default function AdminPage() {
   const [selectedCompanyForEdit, setSelectedCompanyForEdit] = useState<any | null>(null);
   const [selectedCaseStudyIDs, setSelectedCaseStudyIDs] = useState<string[]>([]);
 
-  const email = session?.user?.email ?? undefined; 
+  const email = session?.user?.email ?? undefined;
 
-const fetchData = async () => {
-  setIsLoadingData(true);
-  try {
-    const overviewData = await fetchOverview();
-    const caseStudyData = await fetchCaseStudies();
-    setData(overviewData);
-    setCaseStudies(caseStudyData);
+  const fetchData = async () => {
+    setIsLoadingData(true);
 
-    if (selectedCompanyForEdit) {
-      const updated = overviewData.find(
-        (c: any) => c.CompanyID === selectedCompanyForEdit.CompanyID
-      );
-      if (updated) {
-        setSelectedCompanyForEdit(updated);
-        setSelectedCaseStudyIDs(
-          (updated.CaseStudies || []).map((cs: any) =>
-            typeof cs === "string" ? cs : cs.CaseStudyID
-          )
+    try {
+      const overviewData = await fetchOverview();
+      const caseStudyData = await fetchCaseStudies();
+
+      setData(overviewData);
+      setCaseStudies(caseStudyData);
+
+      if (selectedCompanyForEdit) {
+        const updated = overviewData.find(
+          (c: any) => c.CompanyID === selectedCompanyForEdit.CompanyID
         );
+
+        if (updated) {
+          setSelectedCompanyForEdit(updated);
+          setSelectedCaseStudyIDs(
+            (updated.CaseStudies || []).map((cs: any) =>
+              typeof cs === "string" ? cs : cs.CaseStudyID
+            )
+          );
+        }
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoadingData(false);
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  } finally {
-    setIsLoadingData(false);
-  }
-};
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -76,8 +79,10 @@ const fetchData = async () => {
     } else if (status === "authenticated" && email) {
       const runWhitelistCheck = async () => {
         setIsLoadingWhitelist(true);
+
         try {
           const data = await checkWhitelist(email);
+
           if (data.isWhitelisted) {
             setIsWhitelisted(true);
           } else {
@@ -90,6 +95,7 @@ const fetchData = async () => {
           setIsLoadingWhitelist(false);
         }
       };
+
       runWhitelistCheck();
     }
   }, [session, status, router, email]);
@@ -106,6 +112,7 @@ const fetchData = async () => {
 
     try {
       const response = await deleteCompany(companyID);
+
       if (response.ok) {
         fetchData();
       } else {
@@ -116,47 +123,50 @@ const fetchData = async () => {
     }
   };
 
-const handleToggleCaseStudy = async (caseStudyID: string, isChecked: boolean) => {
-  if (!selectedCompanyForEdit) return;
+  const handleToggleCaseStudy = async (
+    caseStudyID: string,
+    isChecked: boolean
+  ) => {
+    if (!selectedCompanyForEdit) return;
 
-  const currentIDs = selectedCaseStudyIDs.map((id: any) =>
-    typeof id === "string" ? id : id.CaseStudyID
-  );
+    const currentIDs = selectedCaseStudyIDs.map((id: any) =>
+      typeof id === "string" ? id : id.CaseStudyID
+    );
 
-  const updatedIDs = isChecked
-    ? [...currentIDs, caseStudyID]
-    : currentIDs.filter((id) => id !== caseStudyID);
+    const updatedIDs = isChecked
+      ? [...currentIDs, caseStudyID]
+      : currentIDs.filter((id) => id !== caseStudyID);
 
-  console.log("sending to backend:", updatedIDs); 
+    console.log("sending to backend:", updatedIDs);
 
-  try {
-    await updateCompany(selectedCompanyForEdit.CompanyID, {
-      Name: selectedCompanyForEdit.Name,
-      Industry: selectedCompanyForEdit.Industry,
-      CaseStudies: updatedIDs, 
-    });
-    fetchData();
-  } catch (error) {
-    console.error("Error updating company case studies:", error);
-  }
-};
+    try {
+      await updateCompany(selectedCompanyForEdit.CompanyID, {
+        Name: selectedCompanyForEdit.Name,
+        Industry: selectedCompanyForEdit.Industry,
+        CaseStudies: updatedIDs,
+      });
+
+      fetchData();
+    } catch (error) {
+      console.error("Error updating company case studies:", error);
+    }
+  };
 
   useEffect(() => {
-  if (selectedCompanyForEdit) {
-    setSelectedCaseStudyIDs(selectedCompanyForEdit.CaseStudies || []);
-  } else {
-    setSelectedCaseStudyIDs([]);
-  }
+    if (selectedCompanyForEdit) {
+      setSelectedCaseStudyIDs(selectedCompanyForEdit.CaseStudies || []);
+    } else {
+      setSelectedCaseStudyIDs([]);
+    }
   }, [selectedCompanyForEdit]);
 
-  const handleDeleteCaseStudy = async (
-    caseStudyID: string,
-  ) => {
+  const handleDeleteCaseStudy = async (caseStudyID: string) => {
     if (!confirm(`Are you sure you want to delete case study ${caseStudyID}?`))
       return;
 
     try {
       const response = await deleteCaseStudy(caseStudyID);
+
       if (response.ok) {
         fetchData();
       } else {
@@ -183,99 +193,95 @@ const handleToggleCaseStudy = async (caseStudyID: string, isChecked: boolean) =>
   }
 
   const companyCount = data.length;
-
   const caseStudyCount = caseStudies.length;
 
   const allCaseStudyTags = Array.from(
-    new Set(caseStudies.flatMap(cs => cs.Tags || []))
+    new Set(caseStudies.flatMap((cs) => cs.Tags || []))
   );
 
   const allCompanyTags = Array.from(
-    new Set(data.map(company => company.Industry).filter(Boolean))
+    new Set(data.map((company) => company.Industry).filter(Boolean))
   );
 
   const filteredCaseStudies = caseStudies
-    .filter(cs =>
-      cs.Name.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter(cs =>
+    .filter((cs) => cs.Name.toLowerCase().includes(search.toLowerCase()))
+    .filter((cs) =>
       selectedCaseStudyTags.length === 0
         ? true
-        : selectedCaseStudyTags.every(tag =>
-            cs.Tags?.includes(tag)
-          )
+        : selectedCaseStudyTags.every((tag) => cs.Tags?.includes(tag))
     );
 
   const filteredData = data
-    .filter(company =>
+    .filter((company) =>
       company.Name.toLowerCase().includes(search.toLowerCase())
     )
-    .filter(company =>
-      selectedCompanyTag
-        ? company.Industry === selectedCompanyTag
-        : true
+    .filter((company) =>
+      selectedCompanyTag ? company.Industry === selectedCompanyTag : true
     );
 
   return (
-  <div className="relative min-h-screen w-full overflow-x-hidden text-foreground px-4 sm:px-6 lg:px-10 pt-28 pb-10">
-    <NavBar />
-    <AdminBkgd />
+    <div className="relative min-h-screen w-full overflow-x-hidden text-foreground px-4 sm:px-6 lg:px-10 pt-28 pb-10">
+      <NavBar />
+      <AdminBkgd />
 
-    <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-      
-      {/* LEFT SIDE */}
-      <div className="flex min-w-0 flex-col gap-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(280px,325px)_minmax(280px,1fr)]">
-          <WelcomeCard
-            email={email}
-            onLogout={() => signOut({ callbackUrl: "/login" })}
-          />
+      <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        {/* LEFT SIDE */}
+        <div className="flex min-w-0 flex-col gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(280px,325px)_minmax(280px,1fr)]">
+            <WelcomeCard
+              email={email}
+              onLogout={() => signOut({ callbackUrl: "/login" })}
+            />
 
-          <SearchCard
-            search={search}
-            setSearch={setSearch}
-            companyCount={companyCount}
-            caseStudyCount={caseStudyCount}
+            <SearchCard
+              search={search}
+              setSearch={setSearch}
+              companyCount={companyCount}
+              caseStudyCount={caseStudyCount}
+            />
+          </div>
+
+          <CaseStudiesCard
+            caseStudies={filteredCaseStudies}
+            companies={data}
+            selectedTags={selectedCaseStudyTags}
+            setSelectedTags={setSelectedCaseStudyTags}
+            allTags={allCaseStudyTags}
+            selectedCaseStudyIDs={selectedCaseStudyIDs}
+            setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
+            onToggleCaseStudy={handleToggleCaseStudy}
+            isEditingCompany={selectedCompanyForEdit !== null}
           />
         </div>
 
-        <CaseStudiesCard
-          caseStudies={filteredCaseStudies}
-          selectedTags={selectedCaseStudyTags}
-          setSelectedTags={setSelectedCaseStudyTags}
-          allTags={allCaseStudyTags}
-          selectedCaseStudyIDs={selectedCaseStudyIDs}
-          setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
-          onToggleCaseStudy={handleToggleCaseStudy}
-          isEditingCompany={selectedCompanyForEdit !== null}
-        />
-      </div>
+        {/* RIGHT SIDE */}
+        <div className="flex min-w-0 flex-col gap-6">
+          <AddCompanyButton onCompanyAdded={fetchData} />
 
-      {/* RIGHT SIDE */}
-      <div className="flex min-w-0 flex-col gap-6">
-        <AddCompanyButton onCompanyAdded={fetchData} />
+          <CompaniesCard
+            companies={filteredData}
+            selectedTag={selectedCompanyTag}
+            setSelectedTag={setSelectedCompanyTag}
+            allTags={allCompanyTags}
+            onCompanyClick={(company) => {
+              if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
+                setSelectedCompanyForEdit(null);
+                setSelectedCaseStudyIDs([]);
+              } else {
+                const extractedIDs = (company.CaseStudies || []).map(
+                  (cs: any) => {
+                    return typeof cs === "string" ? cs : cs.CaseStudyID;
+                  }
+                );
 
-        <CompaniesCard
-          companies={filteredData}
-          selectedTag={selectedCompanyTag}
-          setSelectedTag={setSelectedCompanyTag}
-          allTags={allCompanyTags}
-          onCompanyClick={(company) => {
-            if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
-              setSelectedCompanyForEdit(null);
-              setSelectedCaseStudyIDs([]);
-            } else {
-              const extractedIDs = (company.CaseStudies || []).map((cs: any) => {
-                return cs.CaseStudyID;
-              });
-
-              setSelectedCompanyForEdit(company);
-              setSelectedCaseStudyIDs(extractedIDs);
-            }
-          }}
-          selectedCompanyForEdit={selectedCompanyForEdit}
-        />
+                setSelectedCompanyForEdit(company);
+                setSelectedCaseStudyIDs(extractedIDs);
+              }
+            }}
+            selectedCompanyForEdit={selectedCompanyForEdit}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);}
+  );
+}
