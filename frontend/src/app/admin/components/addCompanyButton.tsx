@@ -10,6 +10,8 @@ type AddCompanyButtonProps = {
   onCompanyAdded?: () => void;
 };
 
+const TAG_COLORS = ["#AA9AFF", "#FF4D56", "#FFB13D", "#8B5CF6"];
+
 const TYPE_OF_WORK_OPTIONS = [
   "Creative - Graphic Design",
   "Creative - Copywriting",
@@ -23,18 +25,28 @@ const TYPE_OF_WORK_OPTIONS = [
   "Media - Brand Experience",
 ];
 
+const getIndustryOptions = (allTags: string[]) =>
+  allTags.filter((tag) => !TYPE_OF_WORK_OPTIONS.includes(tag)).sort();
+
 export default function AddCompanyButton({
   onCompanyAdded,
 }: AddCompanyButtonProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
 
+  const [industry, setIndustry] = useState("");
+  const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
+
   const [allCaseStudies, setAllCaseStudies] = useState<any[]>([]);
   const [selectedIDs, setSelectedIDs] = useState<string[]>([]);
   const [caseStudySearch, setCaseStudySearch] = useState("");
 
-  const [industry, setIndustry] = useState("");
-  const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
+  const [selectedCaseStudyFilters, setSelectedCaseStudyFilters] = useState<
+    string[]
+  >([]);
+  const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
+  const [caseStudyIndustryDropdownOpen, setCaseStudyIndustryDropdownOpen] =
+    useState(false);
 
   const [generatedURL, setGeneratedURL] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -52,17 +64,36 @@ export default function AddCompanyButton({
     new Set(allCaseStudies.flatMap((study) => study.Tags || []))
   );
 
-  const industryOptions = allTags
-    .filter((tag) => !TYPE_OF_WORK_OPTIONS.includes(tag))
-    .sort();
+  const industryOptions = getIndustryOptions(allTags);
 
   const selectedCaseStudies = allCaseStudies.filter((study) =>
     selectedIDs.includes(study.CaseStudyID)
   );
 
+  const toggleStudy = (id: string) => {
+    setSelectedIDs((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const toggleCaseStudyFilter = (tag: string) => {
+    if (selectedCaseStudyFilters.includes(tag)) {
+      setSelectedCaseStudyFilters(
+        selectedCaseStudyFilters.filter((t) => t !== tag)
+      );
+    } else {
+      setSelectedCaseStudyFilters([...selectedCaseStudyFilters, tag]);
+    }
+  };
+
   const filteredCaseStudies = allCaseStudies
     .filter((study) =>
       study.Name.toLowerCase().includes(caseStudySearch.toLowerCase())
+    )
+    .filter((study) =>
+      selectedCaseStudyFilters.length === 0
+        ? true
+        : selectedCaseStudyFilters.every((tag) => study.Tags?.includes(tag))
     )
     .sort((a, b) => {
       const aSelected = selectedIDs.includes(a.CaseStudyID);
@@ -73,12 +104,6 @@ export default function AddCompanyButton({
 
       return a.Name.localeCompare(b.Name);
     });
-
-  const toggleStudy = (id: string) => {
-    setSelectedIDs((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
 
   const handleSubmit = async () => {
     if (!name.trim() || !industry.trim()) return;
@@ -117,7 +142,10 @@ export default function AddCompanyButton({
     setIndustry("");
     setSelectedIDs([]);
     setCaseStudySearch("");
+    setSelectedCaseStudyFilters([]);
     setIndustryDropdownOpen(false);
+    setTypeDropdownOpen(false);
+    setCaseStudyIndustryDropdownOpen(false);
     setGeneratedURL(null);
     setCopied(false);
   };
@@ -139,7 +167,7 @@ export default function AddCompanyButton({
           <div
             className="
               relative
-              w-full max-w-[680px]
+              w-full max-w-[720px]
               max-h-[88vh]
               rounded-[24px]
               bg-[#17122b]
@@ -193,10 +221,10 @@ export default function AddCompanyButton({
                 )}
               </div>
 
-              {/* Industry */}
+              {/* Company Industry */}
               <div className="space-y-3">
                 <label className="text-white/50 text-xs tracking-widest uppercase">
-                  Industry
+                  Company Industry
                 </label>
 
                 <div className="relative">
@@ -244,7 +272,7 @@ export default function AddCompanyButton({
                         shadow-2xl
                         p-3
                         space-y-1
-                        z-40
+                        z-50
                         max-h-[240px]
                         overflow-y-auto
                         customScroll
@@ -303,8 +331,7 @@ export default function AddCompanyButton({
                         })
                       ) : (
                         <p className="px-3 py-2 text-xs text-white/40">
-                          No industry options found. Make sure your case study
-                          tags include industry tags.
+                          No industry options found.
                         </p>
                       )}
                     </div>
@@ -353,6 +380,249 @@ export default function AddCompanyButton({
                   placeholder="Search case studies..."
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-[#AA9AFF] transition placeholder:text-white/20"
                 />
+
+                {/* Case Study Filter Dropdowns */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {/* Type of Work Filter */}
+                  <div className="relative w-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setTypeDropdownOpen(!typeDropdownOpen);
+                        setCaseStudyIndustryDropdownOpen(false);
+                      }}
+                      className="
+                        w-full
+                        flex items-center justify-between
+                        rounded-full
+                        bg-white/5
+                        border border-white/20
+                        px-4 py-2
+                        text-sm
+                        text-white/60
+                        hover:bg-white/10
+                        transition
+                      "
+                    >
+                      <span>Type of Work</span>
+                      <span
+                        className={`transition-transform ${
+                          typeDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+
+                    {typeDropdownOpen && (
+                      <div
+                        className="
+                          absolute left-0 top-[calc(100%+8px)]
+                          w-full
+                          rounded-2xl
+                          bg-[#17122b]
+                          border border-white/10
+                          shadow-2xl
+                          p-3
+                          space-y-1
+                          z-40
+                          max-h-[240px]
+                          overflow-y-auto
+                          customScroll
+                        "
+                      >
+                        {TYPE_OF_WORK_OPTIONS.map((tag) => {
+                          const isSelected =
+                            selectedCaseStudyFilters.includes(tag);
+
+                          return (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => toggleCaseStudyFilter(tag)}
+                              className={`
+                                w-full
+                                flex items-center gap-3
+                                rounded-lg
+                                px-3 py-2
+                                text-left text-xs
+                                transition
+                                ${
+                                  isSelected
+                                    ? "bg-[#AA9AFF]/20 text-white"
+                                    : "text-white/65 hover:bg-white/10 hover:text-white"
+                                }
+                              `}
+                            >
+                              <span
+                                className={`
+                                  w-4 h-4
+                                  rounded
+                                  border
+                                  flex items-center justify-center
+                                  shrink-0
+                                  ${
+                                    isSelected
+                                      ? "bg-[#AA9AFF] border-[#AA9AFF]"
+                                      : "border-white/30"
+                                  }
+                                `}
+                              >
+                                {isSelected && (
+                                  <span className="text-white text-[10px]">
+                                    ✓
+                                  </span>
+                                )}
+                              </span>
+
+                              <span>{tag}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Industry Filter */}
+                  <div className="relative w-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCaseStudyIndustryDropdownOpen(
+                          !caseStudyIndustryDropdownOpen
+                        );
+                        setTypeDropdownOpen(false);
+                      }}
+                        className="
+                        w-full
+                        flex items-center justify-between
+                        rounded-full
+                        bg-white/5
+                        border border-white/20
+                        px-4 py-2
+                        text-sm
+                        text-white/60
+                        hover:bg-white/10
+                        transition
+                      "
+                    >
+                      <span>Industry</span>
+                      <span
+                        className={`transition-transform ${
+                          caseStudyIndustryDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+
+                    {caseStudyIndustryDropdownOpen && (
+                      <div
+                        className="
+                          absolute left-0 top-[calc(100%+8px)]
+                          w-full
+                          rounded-2xl
+                          bg-[#17122b]
+                          border border-white/10
+                          shadow-2xl
+                          p-3
+                          space-y-1
+                          z-40
+                          max-h-[240px]
+                          overflow-y-auto
+                          customScroll
+                        "
+                      >
+                        {industryOptions.length > 0 ? (
+                          industryOptions.map((tag) => {
+                            const isSelected =
+                              selectedCaseStudyFilters.includes(tag);
+
+                            return (
+                              <button
+                                key={tag}
+                                type="button"
+                                onClick={() => toggleCaseStudyFilter(tag)}
+                                className={`
+                                  w-full
+                                  flex items-center gap-3
+                                  rounded-lg
+                                  px-3 py-2
+                                  text-left text-xs
+                                  transition
+                                  ${
+                                    isSelected
+                                      ? "bg-[#AA9AFF]/20 text-white"
+                                      : "text-white/65 hover:bg-white/10 hover:text-white"
+                                  }
+                                `}
+                              >
+                                <span
+                                  className={`
+                                    w-4 h-4
+                                    rounded
+                                    border
+                                    flex items-center justify-center
+                                    shrink-0
+                                    ${
+                                      isSelected
+                                        ? "bg-[#AA9AFF] border-[#AA9AFF]"
+                                        : "border-white/30"
+                                    }
+                                  `}
+                                >
+                                  {isSelected && (
+                                    <span className="text-white text-[10px]">
+                                      ✓
+                                    </span>
+                                  )}
+                                </span>
+
+                                <span>{tag}</span>
+                              </button>
+                            );
+                          })
+                        ) : (
+                          <p className="px-3 py-2 text-xs text-white/40">
+                            No industry tags found.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Active Case Study Filter Pills */}
+                {selectedCaseStudyFilters.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {selectedCaseStudyFilters.map((tag, i) => (
+                      <span
+                        key={tag}
+                        style={{
+                          backgroundColor: TAG_COLORS[i % TAG_COLORS.length],
+                        }}
+                        className="px-3 py-1 rounded-full text-xs flex items-center gap-2"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => toggleCaseStudyFilter(tag)}
+                          className="hover:opacity-70"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCaseStudyFilters([])}
+                      className="px-3 py-1 rounded-full text-xs bg-white/10 text-white/60 hover:text-white transition"
+                    >
+                      Clear filters
+                    </button>
+                  </div>
+                )}
 
                 {/* Case Study List */}
                 <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 customScroll">
@@ -415,7 +685,7 @@ export default function AddCompanyButton({
 
                   {filteredCaseStudies.length === 0 && (
                     <p className="text-white/40 text-sm">
-                      No case studies match your search.
+                      No case studies match your search or filters.
                     </p>
                   )}
                 </div>

@@ -28,7 +28,9 @@ export default function CompaniesCard({
 }: CompaniesCardProps) {
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   const [copiedCompanyID, setCopiedCompanyID] = useState<string | null>(null);
-  const [bulkAddedCompanyID, setBulkAddedCompanyID] = useState<string | null>(null);
+  const [bulkAddedCompanyID, setBulkAddedCompanyID] = useState<string | null>(
+    null
+  );
 
   const handleSelectIndustry = (tag: string) => {
     if (selectedTag === tag) {
@@ -69,13 +71,18 @@ export default function CompaniesCard({
 
     if (bulkSelectedCount === 0) return;
 
-    await onBulkAddToCompany(company);
+    try {
+      await onBulkAddToCompany(company);
 
-    setBulkAddedCompanyID(company.CompanyID);
+      setBulkAddedCompanyID(company.CompanyID);
 
-    setTimeout(() => {
-      setBulkAddedCompanyID(null);
-    }, 1500);
+      setTimeout(() => {
+        setBulkAddedCompanyID(null);
+      }, 1500);
+    } catch (error) {
+      console.error("Failed to bulk add case studies:", error);
+      alert("Failed to add selected case studies.");
+    }
   };
 
   return (
@@ -265,7 +272,6 @@ export default function CompaniesCard({
                 text-sm
                 transition
                 cursor-pointer
-
                 ${
                   isActive
                     ? "text-white bg-white/10 rounded px-2 py-1"
@@ -283,11 +289,7 @@ export default function CompaniesCard({
                 <span
                   className={`
                     text-xs px-2 py-1 rounded-full max-w-[120px] truncate
-                    ${
-                      isActive
-                        ? "bg-[#AA9AFF] text-white"
-                        : "bg-white/10"
-                    }
+                    ${isActive ? "bg-[#AA9AFF] text-white" : "bg-white/10"}
                   `}
                 >
                   {company.Industry}
@@ -301,6 +303,8 @@ export default function CompaniesCard({
                     title={
                       bulkSelectedCount === 0
                         ? "Select case studies first"
+                        : wasBulkAdded
+                        ? "Added!"
                         : "Add selected case studies"
                     }
                     className="
@@ -315,7 +319,7 @@ export default function CompaniesCard({
                     "
                   >
                     {wasBulkAdded ? (
-                      <span className="text-xs">✓</span>
+                      <span className="text-sm">✓</span>
                     ) : (
                       <span className="text-lg leading-none">+</span>
                     )}
@@ -324,9 +328,7 @@ export default function CompaniesCard({
 
                 <button
                   type="button"
-                  onClick={(e) =>
-                    handleCopyCompanyLink(e, company.CompanyID)
-                  }
+                  onClick={(e) => handleCopyCompanyLink(e, company.CompanyID)}
                   title={wasCopied ? "Copied!" : "Copy company link"}
                   className="
                     w-7 h-7

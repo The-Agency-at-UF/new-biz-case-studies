@@ -56,7 +56,7 @@ export default function SearchCard({
         <div className="relative">
           <input
             type="text"
-            placeholder=""
+            placeholder="Search by case study or company name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="
@@ -67,6 +67,7 @@ export default function SearchCard({
               px-5 py-3
               text-sm
               outline-none
+              placeholder:text-black/40
             "
           />
 
