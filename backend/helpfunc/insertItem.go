@@ -21,6 +21,7 @@ type CaseStudy struct {
 	CaseStudyID string   `dynamodbav:"CaseStudyID"`
 	Name        string   `dynamodbav:"Name"`
 	Tags        []string `dynamodbav:"Tags"`
+	Description string   `dynamodbav:"Description"`
 }
 
 // --- Insert functions ---

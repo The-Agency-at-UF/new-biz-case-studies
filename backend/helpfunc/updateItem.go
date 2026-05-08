@@ -39,7 +39,7 @@ func UpdateCompany(companyID string, name string, industry string, caseStudies [
 	return nil
 }
 
-func UpdateCaseStudy(caseStudyID string, name string, tags []string) error {
+func UpdateCaseStudy(caseStudyID string, name string, tags []string, description string) error {
 	client := GetDynamoClient()
 
 	tagsAV, err := attributevalue.Marshal(tags)
@@ -52,13 +52,14 @@ func UpdateCaseStudy(caseStudyID string, name string, tags []string) error {
 		Key: map[string]types.AttributeValue{
 			"CaseStudyID": &types.AttributeValueMemberS{Value: caseStudyID},
 		},
-		UpdateExpression: aws.String("SET #n = :name, Tags = :tags"),
+		UpdateExpression: aws.String("SET #n = :name, Tags = :tags, Description = :description"),
 		ExpressionAttributeNames: map[string]string{
 			"#n": "Name",
 		},
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":name": &types.AttributeValueMemberS{Value: name},
-			":tags": tagsAV,
+			":name":        &types.AttributeValueMemberS{Value: name},
+			":tags":        tagsAV,
+			":description": &types.AttributeValueMemberS{Value: description},
 		},
 	})
 	if err != nil {
