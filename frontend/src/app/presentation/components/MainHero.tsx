@@ -44,47 +44,73 @@ export default function MainHero({ children }: MainHeroProps) {
         return () => ctx.revert();
     }, []);
 
-    const handleSplineMouseDown = (e: any) => {
-        console.log("Raw Spline Event:", e);
-
-        // Sometimes clicking a text object or group actually clicks a deeply nested, unnamed child mesh.
-        // We traverse UP the parent tree to find the first valid layer name!
-        let currentObj = e.target;
-        let objName = "";
-        let pathNames = [];
-
-        while (currentObj) {
-            if (currentObj.name) {
-                pathNames.push(currentObj.name);
-                // We'll use the lowest named parent we can find
-                if (!objName) {
-                    objName = currentObj.name.toLowerCase();
-                }
+    // Temporary keyboard listener for testing
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === '1') {
+                console.log("⌨️ Key 1 Pressed: What is the Agency");
+                selectBlob(1);
+            } else if (e.key === '2') {
+                console.log("⌨️ Key 2 Pressed: Our Services");
+                selectBlob(2);
+            } else if (e.key === '3') {
+                console.log("⌨️ Key 3 Pressed: See our Work");
+                selectBlob(3);
             }
-            currentObj = currentObj.parent;
-        }
+        };
 
-        console.log("🖱️ Object Hierarchy Clicked:", pathNames.join("  -->  "));
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectBlob]);
 
-        if (!objName) {
-            console.warn("Spline object clicked, but it (and all its parents) have no name.", e.target);
-            return;
-        }
+    const handleSplineLoad = (splineApp: any) => {
+        console.log("🟢 Spline Application Successfully Loaded!", splineApp);
 
-        console.log(`Checking resolved object name: "${objName}" against keywords...`);
+        // Spline requires an ACTION (like "Console" or "Set Variable") attached to the Event in the editor
+        // in order for it to emit 3D events. We will listen to both mouseDown and mouseUp to be safe.
 
-        if (objName.includes("agency") || objName.includes("1")) {
-            console.log("✅ Matched Option 1: What is the Agency");
-            selectBlob(1);
-        } else if (objName.includes("service") || objName.includes("2")) {
-            console.log("✅ Matched Option 2: Our Services");
-            selectBlob(2);
-        } else if (objName.includes("work") || objName.includes("3")) {
-            console.log("✅ Matched Option 3: See our Work");
-            selectBlob(3);
-        } else {
-            console.log("❌ No match found for this object name.");
-        }
+        const handleSplineClick = (e: any) => {
+            console.log(`Raw Spline 3D Event (${e.type}):`, e);
+
+            let currentObj = e.target;
+            let objName = "";
+            let pathNames = [];
+
+            while (currentObj) {
+                if (currentObj.name) {
+                    pathNames.push(currentObj.name);
+                    if (!objName) {
+                        objName = currentObj.name.toLowerCase();
+                    }
+                }
+                currentObj = currentObj.parent;
+            }
+
+            console.log("🖱️ Object Hierarchy Clicked:", pathNames.join("  -->  "));
+
+            if (!objName) {
+                console.warn("Spline object clicked, but it has no name.", e.target);
+                return;
+            }
+
+            console.log(`Checking resolved object name: "${objName}" against keywords...`);
+
+            if (objName.includes("agency") || objName.includes("1")) {
+                console.log("✅ Matched Option 1: What is the Agency");
+                selectBlob(1);
+            } else if (objName.includes("service") || objName.includes("2")) {
+                console.log("✅ Matched Option 2: Our Services");
+                selectBlob(2);
+            } else if (objName.includes("work") || objName.includes("3")) {
+                console.log("✅ Matched Option 3: See our Work");
+                selectBlob(3);
+            } else {
+                console.log("❌ No match found for this object name.");
+            }
+        };
+
+        splineApp.addEventListener('mouseDown', handleSplineClick);
+        splineApp.addEventListener('mouseUp', handleSplineClick);
     };
 
     return (
@@ -96,7 +122,7 @@ export default function MainHero({ children }: MainHeroProps) {
             <div className="sticky top-0 h-dvh w-full overflow-hidden z-0 bg-black">
                 <Spline
                     scene="https://prod.spline.design/hwzfhJT6iymGJQU9/scene.splinecode"
-                    onMouseDown={handleSplineMouseDown}
+                    onLoad={handleSplineLoad}
                 />
             </div>
 

@@ -10,12 +10,16 @@ export function useWhatIsAgencyReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const tvOverlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const videoOverlay = videoOverlayRef.current;
     const content = contentRef.current;
-    if (!section || !videoOverlay || !content) return;
+    const video = videoRef.current;
+    const tvOverlay = tvOverlayRef.current;
+    if (!section || !videoOverlay || !content || !video || !tvOverlay) return;
 
     const ctx = gsap.context(() => {
 
@@ -80,8 +84,29 @@ export function useWhatIsAgencyReveal() {
           ),
           borderRadius: "0px",
           ease: "none",
-          duration: 0.7,
+          duration: 1.0,
         }
+      );
+
+      // Halfway through the zoom, fade out the TV frame
+      tl.to(
+        tvOverlay,
+        { opacity: 0, duration: 0.5, ease: "none" },
+        0.5 // Starts at 0.5s into the 1.0s timeline
+      );
+
+      // Pop the video out of the TV screen
+      tl.to(
+        video,
+        {
+          left: "0%",
+          top: "0%",
+          width: "100%",
+          height: "100%",
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        0.5
       );
 
       tl.fromTo(
@@ -96,5 +121,5 @@ export function useWhatIsAgencyReveal() {
     return () => ctx.revert();
   }, []);
 
-  return { sectionRef, videoOverlayRef, contentRef };
+  return { sectionRef, videoOverlayRef, contentRef, videoRef, tvOverlayRef };
 }

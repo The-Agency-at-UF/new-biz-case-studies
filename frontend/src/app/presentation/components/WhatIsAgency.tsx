@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import { useWhatIsAgencyReveal } from "./animations/useWhatIsAgencyReveal";
 
 export default function WhatIsAgency() {
-  const { sectionRef, videoOverlayRef, contentRef } = useWhatIsAgencyReveal();
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { sectionRef, videoOverlayRef, contentRef, videoRef, tvOverlayRef } = useWhatIsAgencyReveal();
   const [isMuted, setIsMuted] = useState(true);
 
   const toggleMute = () => {
@@ -31,7 +30,6 @@ export default function WhatIsAgency() {
           left: "calc(50% - 25vw)",
           overflow: "hidden",
           opacity: 0,
-          borderRadius: "8px",
         }}
       >
         <video
@@ -42,11 +40,25 @@ export default function WhatIsAgency() {
           loop
           playsInline
           style={{
-            width: "100%",
-            height: "100%",
+            position: "absolute",
+            left: "6.28%",
+            top: "10.60%",
+            width: "65.53%",
+            height: "75.69%",
             objectFit: "cover",
             transform: "translateZ(0)",
             backfaceVisibility: "hidden",
+          }}
+        />
+        {/* Overlay the TV mask instead of using CSS mask */}
+        <div
+          ref={tvOverlayRef}
+          className="absolute inset-0 pointer-events-none z-20"
+          style={{
+            backgroundImage: "url('/assets/Presentation/tv-mask.png')",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
           }}
         />
       </div>
