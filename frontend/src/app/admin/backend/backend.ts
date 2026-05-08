@@ -73,7 +73,7 @@ export const updateCompany = async (
 
 export const updateCaseStudy = async (
   caseStudyID: string,
-  data: { Name: string; Tags: string[] }
+  data: { Name: string; Description: string; Tags: string[] }
 ) => {
   return fetch(`${API_URL}/api/casestudy/${caseStudyID}`, {
     method: "PUT",

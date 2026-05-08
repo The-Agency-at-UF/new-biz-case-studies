@@ -17,6 +17,12 @@ type CaseStudiesCardProps = {
   setBulkMode: (value: boolean) => void;
   bulkSelectedCaseStudyIDs: string[];
   setBulkSelectedCaseStudyIDs: (ids: string[]) => void;
+
+  onUpdateCaseStudy: (
+    caseStudyID: string,
+    updatedData: { Name: string; Description: string; Tags: string[] }
+  ) => Promise<void>;
+  onDeleteCaseStudy: (caseStudyID: string) => Promise<void>;
 };
 
 const TAG_COLORS = ["#AA9AFF", "#FF4D56", "#FFB13D", "#8B5CF6"];
@@ -35,7 +41,7 @@ const TYPE_OF_WORK_OPTIONS = [
 ];
 
 const getIndustryOptions = (allTags: string[]) =>
-  allTags.filter((tag) => !TYPE_OF_WORK_OPTIONS.includes(tag));
+  allTags.filter((tag) => !TYPE_OF_WORK_OPTIONS.includes(tag)).sort();
 
 export default function CaseStudiesCard({
   caseStudies,
@@ -51,10 +57,21 @@ export default function CaseStudiesCard({
   setBulkMode,
   bulkSelectedCaseStudyIDs,
   setBulkSelectedCaseStudyIDs,
+  onUpdateCaseStudy,
+  onDeleteCaseStudy,
 }: CaseStudiesCardProps) {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<any | null>(null);
   const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
+
+  const [editingCaseStudy, setEditingCaseStudy] = useState<any | null>(null);
+  const [editCaseStudyName, setEditCaseStudyName] = useState("");
+  const [editCaseStudyDescription, setEditCaseStudyDescription] = useState("");
+  const [editCaseStudyTags, setEditCaseStudyTags] = useState<string[]>([]);
+  const [editTypeDropdownOpen, setEditTypeDropdownOpen] = useState(false);
+  const [editIndustryDropdownOpen, setEditIndustryDropdownOpen] =
+    useState(false);
+  const [savingCaseStudyEdit, setSavingCaseStudyEdit] = useState(false);
 
   const industryOptions = getIndustryOptions(allTags);
 
@@ -106,6 +123,58 @@ export default function CaseStudiesCard({
         })
       )
     : [];
+
+  const openCaseStudyEditModal = () => {
+    if (!selectedCaseStudy) return;
+
+    setEditingCaseStudy(selectedCaseStudy);
+    setEditCaseStudyName(selectedCaseStudy.Name || "");
+    setEditCaseStudyDescription(
+      selectedCaseStudy.Description || selectedCaseStudy.description || ""
+    );
+    setEditCaseStudyTags(selectedCaseStudy.Tags || []);
+  };
+
+  const closeCaseStudyEditModal = () => {
+    setEditingCaseStudy(null);
+    setEditCaseStudyName("");
+    setEditCaseStudyDescription("");
+    setEditCaseStudyTags([]);
+    setEditTypeDropdownOpen(false);
+    setEditIndustryDropdownOpen(false);
+    setSavingCaseStudyEdit(false);
+  };
+
+  const toggleEditCaseStudyTag = (tag: string) => {
+    if (editCaseStudyTags.includes(tag)) {
+      setEditCaseStudyTags(editCaseStudyTags.filter((t) => t !== tag));
+    } else {
+      setEditCaseStudyTags([...editCaseStudyTags, tag]);
+    }
+  };
+
+  const handleSubmitCaseStudyEdit = async () => {
+    if (!editingCaseStudy) return;
+    if (!editCaseStudyName.trim()) return;
+
+    setSavingCaseStudyEdit(true);
+
+    await onUpdateCaseStudy(editingCaseStudy.CaseStudyID, {
+      Name: editCaseStudyName.trim(),
+      Description: editCaseStudyDescription.trim(),
+      Tags: editCaseStudyTags,
+    });
+
+    closeCaseStudyEditModal();
+    setSelectedCaseStudy(null);
+  };
+
+  const handleDeleteSelectedCaseStudy = async () => {
+    if (!selectedCaseStudy) return;
+
+    await onDeleteCaseStudy(selectedCaseStudy.CaseStudyID);
+    setSelectedCaseStudy(null);
+  };
 
   return (
     <>
@@ -562,6 +631,297 @@ export default function CaseStudiesCard({
                   presentations.
                 </p>
               )}
+            </div>
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <button
+                type="button"
+                onClick={openCaseStudyEditModal}
+                className="w-full py-3 rounded-lg bg-[#AA9AFF] hover:bg-[#9B8AFF] text-white text-sm font-medium transition"
+              >
+                Edit Case Study
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDeleteSelectedCaseStudy}
+                className="w-full py-3 rounded-lg border border-red-300/30 text-red-300 text-sm hover:text-red-200 hover:bg-red-500/10 transition"
+              >
+                Delete Case Study
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EDIT CASE STUDY MODAL */}
+      {editingCaseStudy && (
+        <div
+          className="fixed inset-0 z-[130] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          onClick={closeCaseStudyEditModal}
+        >
+          <div
+            className="
+              relative
+              w-full max-w-[620px]
+              max-h-[88vh]
+              rounded-[24px]
+              bg-[#17122b]
+              border border-white/10
+              shadow-2xl
+              text-white
+              overflow-hidden
+              flex flex-col
+            "
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 sm:px-8 py-6 border-b border-white/10">
+              <div>
+                <p className="text-white/40 text-xs uppercase tracking-[0.2em] mb-2">
+                  Edit Case Study
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-semibold">
+                  {editingCaseStudy.Name}
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeCaseStudyEditModal}
+                className="text-white/40 hover:text-white transition text-xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-6 space-y-6 customScroll">
+              <div className="space-y-2">
+                <label className="text-white/50 text-xs tracking-widest uppercase">
+                  Case Study Name
+                </label>
+                <input
+                  type="text"
+                  value={editCaseStudyName}
+                  onChange={(e) => setEditCaseStudyName(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-[#AA9AFF] transition"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-white/50 text-xs tracking-widest uppercase">
+                  Description
+                </label>
+                <textarea
+                  value={editCaseStudyDescription}
+                  onChange={(e) => setEditCaseStudyDescription(e.target.value)}
+                  rows={5}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-[#AA9AFF] transition resize-none"
+                />
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-white/50 text-xs tracking-widest uppercase">
+                  Tags
+                </label>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {/* Type of Work */}
+                  <div className="relative w-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditTypeDropdownOpen(!editTypeDropdownOpen);
+                        setEditIndustryDropdownOpen(false);
+                      }}
+                      className="
+                        w-full
+                        flex items-center justify-between
+                        rounded-full
+                        bg-white/5
+                        border border-white/20
+                        px-4 py-2
+                        text-sm
+                        text-white/60
+                        hover:bg-white/10
+                        transition
+                      "
+                    >
+                      <span>Type of Work</span>
+                      <span
+                        className={`transition-transform ${
+                          editTypeDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+
+                    {editTypeDropdownOpen && (
+                      <div className="absolute left-0 top-[calc(100%+8px)] w-full rounded-2xl bg-[#17122b] border border-white/10 shadow-2xl p-3 space-y-1 z-50 max-h-[220px] overflow-y-auto customScroll">
+                        {TYPE_OF_WORK_OPTIONS.map((tag) => {
+                          const isSelected = editCaseStudyTags.includes(tag);
+
+                          return (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => toggleEditCaseStudyTag(tag)}
+                              className={`
+                                w-full flex items-center gap-3 rounded-lg px-3 py-2 text-left text-xs transition
+                                ${
+                                  isSelected
+                                    ? "bg-[#AA9AFF]/20 text-white"
+                                    : "text-white/65 hover:bg-white/10 hover:text-white"
+                                }
+                              `}
+                            >
+                              <span
+                                className={`
+                                  w-4 h-4 rounded border flex items-center justify-center shrink-0
+                                  ${
+                                    isSelected
+                                      ? "bg-[#AA9AFF] border-[#AA9AFF]"
+                                      : "border-white/30"
+                                  }
+                                `}
+                              >
+                                {isSelected && (
+                                  <span className="text-white text-[10px]">
+                                    ✓
+                                  </span>
+                                )}
+                              </span>
+                              <span>{tag}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Industry */}
+                  <div className="relative w-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditIndustryDropdownOpen(!editIndustryDropdownOpen);
+                        setEditTypeDropdownOpen(false);
+                      }}
+                      className="
+                        w-full
+                        flex items-center justify-between
+                        rounded-full
+                        bg-white/5
+                        border border-white/20
+                        px-4 py-2
+                        text-sm
+                        text-white/60
+                        hover:bg-white/10
+                        transition
+                      "
+                    >
+                      <span>Industry</span>
+                      <span
+                        className={`transition-transform ${
+                          editIndustryDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+
+                    {editIndustryDropdownOpen && (
+                      <div className="absolute left-0 top-[calc(100%+8px)] w-full rounded-2xl bg-[#17122b] border border-white/10 shadow-2xl p-3 space-y-1 z-50 max-h-[220px] overflow-y-auto customScroll">
+                        {industryOptions.map((tag) => {
+                          const isSelected = editCaseStudyTags.includes(tag);
+
+                          return (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => toggleEditCaseStudyTag(tag)}
+                              className={`
+                                w-full flex items-center gap-3 rounded-lg px-3 py-2 text-left text-xs transition
+                                ${
+                                  isSelected
+                                    ? "bg-[#AA9AFF]/20 text-white"
+                                    : "text-white/65 hover:bg-white/10 hover:text-white"
+                                }
+                              `}
+                            >
+                              <span
+                                className={`
+                                  w-4 h-4 rounded border flex items-center justify-center shrink-0
+                                  ${
+                                    isSelected
+                                      ? "bg-[#AA9AFF] border-[#AA9AFF]"
+                                      : "border-white/30"
+                                  }
+                                `}
+                              >
+                                {isSelected && (
+                                  <span className="text-white text-[10px]">
+                                    ✓
+                                  </span>
+                                )}
+                              </span>
+                              <span>{tag}</span>
+                            </button>
+                          );
+                        })}
+
+                        {industryOptions.length === 0 && (
+                          <p className="px-3 py-2 text-xs text-white/40">
+                            No industry tags found.
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {editCaseStudyTags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {editCaseStudyTags.map((tag, i) => (
+                      <span
+                        key={tag}
+                        style={{
+                          backgroundColor: TAG_COLORS[i % TAG_COLORS.length],
+                        }}
+                        className="px-3 py-1 rounded-full text-xs flex items-center gap-2"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => toggleEditCaseStudyTag(tag)}
+                          className="hover:opacity-70"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="px-6 sm:px-8 py-6 border-t border-white/10 flex gap-3">
+              <button
+                type="button"
+                onClick={closeCaseStudyEditModal}
+                className="w-full py-3 rounded-lg border border-white/10 text-white/50 text-sm hover:text-white hover:border-white/30 transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmitCaseStudyEdit}
+                disabled={!editCaseStudyName.trim() || savingCaseStudyEdit}
+                className="w-full py-3 rounded-lg bg-[#AA9AFF] hover:bg-[#9B8AFF] disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-medium transition"
+              >
+                {savingCaseStudyEdit ? "Saving..." : "Save Changes"}
+              </button>
             </div>
           </div>
         </div>

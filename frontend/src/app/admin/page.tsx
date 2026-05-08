@@ -16,6 +16,9 @@ import {
   fetchOverview,
   checkWhitelist,
   updateCompany,
+  deleteCompany,
+  updateCaseStudy,
+  deleteCaseStudy,
   fetchCaseStudies,
 } from "./backend/backend";
 
@@ -172,6 +175,104 @@ export default function AdminPage() {
     }
   };
 
+  const handleUpdateCompany = async (
+    companyID: string,
+    updatedData: { Name: string; Industry: string; CaseStudies: string[] }
+  ) => {
+    try {
+      const response = await updateCompany(companyID, updatedData);
+
+      if (!response.ok) {
+        alert("Failed to update company.");
+        return;
+      }
+
+      await fetchData();
+    } catch (error) {
+      console.error("Error updating company:", error);
+      alert("Failed to update company.");
+    }
+  };
+
+  const handleDeleteCompany = async (companyID: string) => {
+    const confirmed = confirm(
+      "Are you sure you want to delete this company? This will remove the company presentation link."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const response = await deleteCompany(companyID);
+
+      if (!response.ok) {
+        alert("Failed to delete company.");
+        return;
+      }
+
+      if (selectedCompanyForEdit?.CompanyID === companyID) {
+        setSelectedCompanyForEdit(null);
+        setSelectedCaseStudyIDs([]);
+      }
+
+      await fetchData();
+    } catch (error) {
+      console.error("Error deleting company:", error);
+      alert("Failed to delete company.");
+    }
+  };
+
+  const handleUpdateCaseStudy = async (
+    caseStudyID: string,
+    updatedData: { Name: string; Description: string; Tags: string[] }
+  ) => {
+    try {
+      const response = await updateCaseStudy(caseStudyID, updatedData);
+
+      if (!response.ok) {
+        alert("Failed to update case study.");
+        return;
+      }
+
+      await fetchData();
+    } catch (error) {
+      console.error("Error updating case study:", error);
+      alert("Failed to update case study.");
+    }
+  };
+
+  const handleDeleteCaseStudy = async (caseStudyID: string) => {
+    const confirmed = confirm(
+      "Are you sure you want to delete this case study? It will also be removed from any company presentations that use it."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const response = await deleteCaseStudy(caseStudyID);
+
+      if (!response.ok) {
+        alert("Failed to delete case study.");
+        return;
+      }
+
+      setSelectedCaseStudyIDs((prev) =>
+        prev.filter((id: any) => {
+          const cleanID = typeof id === "string" ? id : id.CaseStudyID;
+          return cleanID !== caseStudyID;
+        })
+      );
+
+      setBulkSelectedCaseStudyIDs((prev) =>
+        prev.filter((id) => id !== caseStudyID)
+      );
+
+      await fetchData();
+    } catch (error) {
+      console.error("Error deleting case study:", error);
+      alert("Failed to delete case study.");
+    }
+  };
+
   useEffect(() => {
     if (selectedCompanyForEdit) {
       setSelectedCaseStudyIDs(selectedCompanyForEdit.CaseStudies || []);
@@ -235,6 +336,7 @@ export default function AdminPage() {
               email={email}
               onLogout={() => signOut({ callbackUrl: "/login" })}
             />
+
             <SearchCard
               search={search}
               setSearch={setSearch}
@@ -259,6 +361,8 @@ export default function AdminPage() {
               setBulkMode={setBulkMode}
               bulkSelectedCaseStudyIDs={bulkSelectedCaseStudyIDs}
               setBulkSelectedCaseStudyIDs={setBulkSelectedCaseStudyIDs}
+              onUpdateCaseStudy={handleUpdateCaseStudy}
+              onDeleteCaseStudy={handleDeleteCaseStudy}
             />
           </div>
         </div>
@@ -296,6 +400,8 @@ export default function AdminPage() {
               bulkMode={bulkMode}
               bulkSelectedCount={bulkSelectedCaseStudyIDs.length}
               onBulkAddToCompany={handleBulkAddToCompany}
+              onUpdateCompany={handleUpdateCompany}
+              onDeleteCompany={handleDeleteCompany}
             />
           </div>
         </div>
