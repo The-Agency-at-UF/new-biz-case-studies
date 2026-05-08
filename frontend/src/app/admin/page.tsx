@@ -235,12 +235,12 @@ export default function AdminPage() {
               email={email}
               onLogout={() => signOut({ callbackUrl: "/login" })}
             />
-
             <SearchCard
               search={search}
               setSearch={setSearch}
               companyCount={companyCount}
               caseStudyCount={caseStudyCount}
+              userEmail={email}
             />
           </div>
 

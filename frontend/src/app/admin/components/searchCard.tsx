@@ -7,6 +7,7 @@ type SearchCardProps = {
   setSearch: (value: string) => void;
   companyCount: number;
   caseStudyCount: number;
+  userEmail?: string;
 };
 
 export default function SearchCard({
@@ -14,6 +15,7 @@ export default function SearchCard({
   setSearch,
   companyCount,
   caseStudyCount,
+  userEmail,
 }: SearchCardProps) {
   return (
     <div
@@ -46,7 +48,7 @@ export default function SearchCard({
           </p>
         </div>
 
-        <AdminTutorial />
+        <AdminTutorial userEmail={userEmail} />
       </div>
 
       {/* Search Bar */}

@@ -53,7 +53,11 @@ type HighlightRect = {
   height: number;
 };
 
-export default function AdminTutorial() {
+type AdminTutorialProps = {
+  userEmail?: string;
+};
+
+export default function AdminTutorial({ userEmail }: AdminTutorialProps) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
@@ -65,27 +69,44 @@ export default function AdminTutorial() {
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === TUTORIAL_STEPS.length - 1;
 
+  const tutorialStorageKey = userEmail
+    ? `adminTutorialSeen:${userEmail}`
+    : "adminTutorialSeen";
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Auto-open once per browser/device per email
+  useEffect(() => {
+    if (!mounted) return;
+
+    const hasSeenTutorial = window.localStorage.getItem(tutorialStorageKey);
+
+    if (!hasSeenTutorial) {
+      setOpen(true);
+      setStepIndex(0);
+      window.localStorage.setItem(tutorialStorageKey, "true");
+    }
+  }, [mounted, tutorialStorageKey]);
 
   useEffect(() => {
     if (!open || !mounted) return;
 
     const updateHighlight = () => {
-    const selector = currentStep.selector;
+      const selector = currentStep.selector;
 
-    if (!selector) {
-    setHighlightRect(null);
-    return;
-    }
+      if (!selector) {
+        setHighlightRect(null);
+        return;
+      }
 
-    const element = document.querySelector(selector);
+      const element = document.querySelector(selector);
 
-    if (!element) {
-    setHighlightRect(null);
-    return;
-    }
+      if (!element) {
+        setHighlightRect(null);
+        return;
+      }
 
       const rect = element.getBoundingClientRect();
       const padding = 10;
@@ -99,15 +120,15 @@ export default function AdminTutorial() {
     };
 
     if (currentStep.selector) {
-    const element = document.querySelector(currentStep.selector);
+      const element = document.querySelector(currentStep.selector);
 
-    if (element) {
+      if (element) {
         element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
         });
-    }
+      }
     }
 
     const timeout = window.setTimeout(updateHighlight, 350);
@@ -122,6 +143,11 @@ export default function AdminTutorial() {
     };
   }, [open, mounted, stepIndex, currentStep.selector]);
 
+  const handleOpenManually = () => {
+    setOpen(true);
+    setStepIndex(0);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setStepIndex(0);
@@ -131,17 +157,14 @@ export default function AdminTutorial() {
   const tutorialModal =
     open && mounted ? (
       <div className="fixed inset-0 z-[9999]">
-        {/* Dimmed overlay with a cutout around the highlighted area */}
         {highlightRect ? (
           <>
-            {/* Top */}
             <div
               className="fixed left-0 right-0 top-0 bg-black/60 backdrop-blur-sm"
               style={{ height: highlightRect.top }}
               onClick={handleClose}
             />
 
-            {/* Left */}
             <div
               className="fixed left-0 bg-black/60 backdrop-blur-sm"
               style={{
@@ -152,7 +175,6 @@ export default function AdminTutorial() {
               onClick={handleClose}
             />
 
-            {/* Right */}
             <div
               className="fixed right-0 bg-black/60 backdrop-blur-sm"
               style={{
@@ -163,7 +185,6 @@ export default function AdminTutorial() {
               onClick={handleClose}
             />
 
-            {/* Bottom */}
             <div
               className="fixed left-0 right-0 bottom-0 bg-black/60 backdrop-blur-sm"
               style={{
@@ -172,7 +193,6 @@ export default function AdminTutorial() {
               onClick={handleClose}
             />
 
-            {/* Highlight outline */}
             <div
               className="
                 fixed
@@ -199,7 +219,6 @@ export default function AdminTutorial() {
           />
         )}
 
-        {/* Centered Tutorial Modal */}
         <div className="fixed inset-0 flex items-center justify-center px-4 pointer-events-none">
           <div
             className="
@@ -327,10 +346,9 @@ export default function AdminTutorial() {
 
   return (
     <>
-      {/* Info Button */}
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={handleOpenManually}
         className="
           w-11
           h-11
@@ -343,6 +361,8 @@ export default function AdminTutorial() {
           border-3
           border-white
           hover:scale-105
+          hover:bg-white/20
+          hover:opacity-70
           transition
           shrink-0
         "
@@ -351,7 +371,9 @@ export default function AdminTutorial() {
         i
       </button>
 
-      {mounted && tutorialModal ? createPortal(tutorialModal, document.body) : null}
+      {mounted && tutorialModal
+        ? createPortal(tutorialModal, document.body)
+        : null}
     </>
   );
 }
