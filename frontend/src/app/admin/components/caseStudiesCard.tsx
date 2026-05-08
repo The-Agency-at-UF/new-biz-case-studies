@@ -12,6 +12,11 @@ type CaseStudiesCardProps = {
   setSelectedCaseStudyIDs: (ids: string[]) => void;
   onToggleCaseStudy?: (caseStudyID: string, isChecked: boolean) => void;
   isEditingCompany: boolean;
+
+  bulkMode: boolean;
+  setBulkMode: (value: boolean) => void;
+  bulkSelectedCaseStudyIDs: string[];
+  setBulkSelectedCaseStudyIDs: (ids: string[]) => void;
 };
 
 const TAG_COLORS = ["#AA9AFF", "#FF4D56", "#FFB13D", "#8B5CF6"];
@@ -42,6 +47,10 @@ export default function CaseStudiesCard({
   setSelectedCaseStudyIDs,
   onToggleCaseStudy,
   isEditingCompany,
+  bulkMode,
+  setBulkMode,
+  bulkSelectedCaseStudyIDs,
+  setBulkSelectedCaseStudyIDs,
 }: CaseStudiesCardProps) {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<any | null>(null);
   const [typeDropdownOpen, setTypeDropdownOpen] = useState(false);
@@ -53,9 +62,13 @@ export default function CaseStudiesCard({
     typeof id === "string" ? id : id.CaseStudyID
   );
 
+  const activeSelectedIDs = bulkMode
+    ? bulkSelectedCaseStudyIDs
+    : cleanSelectedIDs;
+
   const sortedCaseStudies = [...caseStudies].sort((a, b) => {
-    const aSelected = cleanSelectedIDs.includes(a.CaseStudyID);
-    const bSelected = cleanSelectedIDs.includes(b.CaseStudyID);
+    const aSelected = activeSelectedIDs.includes(a.CaseStudyID);
+    const bSelected = activeSelectedIDs.includes(b.CaseStudyID);
 
     if (aSelected && !bSelected) return -1;
     if (!aSelected && bSelected) return 1;
@@ -68,6 +81,16 @@ export default function CaseStudiesCard({
       setSelectedTags(selectedTags.filter((t) => t !== tag));
     } else {
       setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  const toggleBulkCaseStudy = (caseStudyID: string) => {
+    if (bulkSelectedCaseStudyIDs.includes(caseStudyID)) {
+      setBulkSelectedCaseStudyIDs(
+        bulkSelectedCaseStudyIDs.filter((id) => id !== caseStudyID)
+      );
+    } else {
+      setBulkSelectedCaseStudyIDs([...bulkSelectedCaseStudyIDs, caseStudyID]);
     }
   };
 
@@ -94,9 +117,52 @@ export default function CaseStudiesCard({
 
         {/* HEADER */}
         <div className="relative z-20 mb-4">
-          <div className="text-white/90 text-xl font-semibold mb-3">
-            Case Studies
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div>
+              <div className="text-white/90 text-xl font-semibold">
+                Case Studies
+              </div>
+
+              {bulkMode && (
+                <p className="text-white/40 text-xs mt-1">
+                  Select case studies, then click + on a company.
+                </p>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setBulkMode(!bulkMode)}
+              className={`
+                px-4 py-2 rounded-full text-xs transition border shrink-0
+                ${
+                  bulkMode
+                    ? "bg-[#AA9AFF] border-[#AA9AFF] text-white"
+                    : "bg-white/10 border-white/20 text-white/70 hover:text-white hover:bg-white/15"
+                }
+              `}
+            >
+              {bulkMode ? "Exit Bulk Add" : "Bulk Add"}
+            </button>
           </div>
+
+          {bulkMode && (
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded-full text-xs bg-white/10 text-white/70">
+                {bulkSelectedCaseStudyIDs.length} selected
+              </span>
+
+              {bulkSelectedCaseStudyIDs.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setBulkSelectedCaseStudyIDs([])}
+                  className="px-3 py-1 rounded-full text-xs bg-white/10 text-white/50 hover:text-white transition"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row gap-3">
             {/* TYPE OF WORK DROPDOWN */}
@@ -328,31 +394,41 @@ export default function CaseStudiesCard({
         {/* LIST */}
         <div className="relative z-10 space-y-4 overflow-y-auto max-h-[480px] xl:max-h-[520px] pr-2 customScroll">
           {sortedCaseStudies.map((study) => {
-            const isChecked = cleanSelectedIDs.includes(study.CaseStudyID);
+            const isSelected = activeSelectedIDs.includes(study.CaseStudyID);
 
             return (
               <div
-                key={study.CaseStudyID + isChecked}
-                onClick={() => setSelectedCaseStudy(study)}
+                key={study.CaseStudyID + isSelected + bulkMode}
+                onClick={() => {
+                  if (bulkMode) {
+                    toggleBulkCaseStudy(study.CaseStudyID);
+                  } else {
+                    setSelectedCaseStudy(study);
+                  }
+                }}
                 className={`flex items-center justify-between border border-white/10 rounded-lg px-4 py-3 transition cursor-pointer ${
-                  isChecked
+                  isSelected
                     ? "bg-white/15 border-[#AA9AFF]"
                     : "bg-white/5 hover:bg-white/10"
                 }`}
               >
                 {/* LEFT */}
                 <div className="flex items-center gap-3">
-                  {/* CHECKBOX */}
                   <input
                     type="checkbox"
-                    checked={isChecked}
+                    checked={isSelected}
                     readOnly
                     onClick={(e) => {
                       e.stopPropagation();
 
+                      if (bulkMode) {
+                        toggleBulkCaseStudy(study.CaseStudyID);
+                        return;
+                      }
+
                       if (!isEditingCompany) return;
 
-                      if (isChecked) {
+                      if (isSelected) {
                         setSelectedCaseStudyIDs(
                           cleanSelectedIDs.filter(
                             (id) => id !== study.CaseStudyID
@@ -365,7 +441,7 @@ export default function CaseStudiesCard({
                         ]);
                       }
 
-                      onToggleCaseStudy?.(study.CaseStudyID, !isChecked);
+                      onToggleCaseStudy?.(study.CaseStudyID, !isSelected);
                     }}
                     className="accent-[#AA9AFF]"
                   />
@@ -420,7 +496,6 @@ export default function CaseStudiesCard({
             "
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setSelectedCaseStudy(null)}
               className="absolute top-5 right-5 text-white/40 hover:text-white transition text-xl"
@@ -428,7 +503,6 @@ export default function CaseStudiesCard({
               ✕
             </button>
 
-            {/* Header */}
             <div className="mb-5 pr-8">
               <p className="text-white/40 text-xs uppercase tracking-[0.2em] mb-2">
                 Case Study
@@ -443,7 +517,6 @@ export default function CaseStudiesCard({
               </p>
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
               {(selectedCaseStudy.Tags || []).map((tag: string, i: number) => (
                 <span
@@ -455,7 +528,6 @@ export default function CaseStudiesCard({
               ))}
             </div>
 
-            {/* Description */}
             <div className="space-y-2">
               <p className="text-white/50 text-xs uppercase tracking-[0.2em]">
                 Description
@@ -468,7 +540,6 @@ export default function CaseStudiesCard({
               </p>
             </div>
 
-            {/* Featured On */}
             <div className="space-y-2 mt-6">
               <p className="text-white/50 text-xs uppercase tracking-[0.2em]">
                 Featured On

@@ -9,6 +9,10 @@ type CompaniesCardProps = {
   allTags: string[];
   onCompanyClick: (company: any) => void;
   selectedCompanyForEdit: any | null;
+
+  bulkMode: boolean;
+  bulkSelectedCount: number;
+  onBulkAddToCompany: (company: any) => Promise<void>;
 };
 
 export default function CompaniesCard({
@@ -18,9 +22,13 @@ export default function CompaniesCard({
   allTags,
   onCompanyClick,
   selectedCompanyForEdit,
+  bulkMode,
+  bulkSelectedCount,
+  onBulkAddToCompany,
 }: CompaniesCardProps) {
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   const [copiedCompanyID, setCopiedCompanyID] = useState<string | null>(null);
+  const [bulkAddedCompanyID, setBulkAddedCompanyID] = useState<string | null>(null);
 
   const handleSelectIndustry = (tag: string) => {
     if (selectedTag === tag) {
@@ -53,6 +61,23 @@ export default function CompaniesCard({
     }
   };
 
+  const handleBulkAdd = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    company: any
+  ) => {
+    e.stopPropagation();
+
+    if (bulkSelectedCount === 0) return;
+
+    await onBulkAddToCompany(company);
+
+    setBulkAddedCompanyID(company.CompanyID);
+
+    setTimeout(() => {
+      setBulkAddedCompanyID(null);
+    }, 1500);
+  };
+
   return (
     <div
       className="
@@ -73,6 +98,15 @@ export default function CompaniesCard({
         <div className="text-white/90 text-xl font-semibold mb-3">
           Companies
         </div>
+
+        {bulkMode && (
+          <div className="mb-3 rounded-xl border border-[#AA9AFF]/30 bg-[#AA9AFF]/10 px-3 py-2">
+            <p className="text-xs text-white/80">
+              Bulk Add Mode: click + to add {bulkSelectedCount} selected case
+              {bulkSelectedCount === 1 ? " study" : " studies"}.
+            </p>
+          </div>
+        )}
 
         {/* INDUSTRY DROPDOWN */}
         <div className="relative w-full">
@@ -119,7 +153,6 @@ export default function CompaniesCard({
                 customScroll
               "
             >
-              {/* Clear filter option */}
               <button
                 type="button"
                 onClick={() => {
@@ -219,6 +252,7 @@ export default function CompaniesCard({
             selectedCompanyForEdit?.CompanyID === company.CompanyID;
 
           const wasCopied = copiedCompanyID === company.CompanyID;
+          const wasBulkAdded = bulkAddedCompanyID === company.CompanyID;
 
           return (
             <div
@@ -246,7 +280,6 @@ export default function CompaniesCard({
 
               {/* Right side */}
               <div className="flex items-center gap-2 shrink-0">
-                {/* Industry tag */}
                 <span
                   className={`
                     text-xs px-2 py-1 rounded-full max-w-[120px] truncate
@@ -260,7 +293,35 @@ export default function CompaniesCard({
                   {company.Industry}
                 </span>
 
-                {/* Copy link button */}
+                {bulkMode && (
+                  <button
+                    type="button"
+                    onClick={(e) => handleBulkAdd(e, company)}
+                    disabled={bulkSelectedCount === 0}
+                    title={
+                      bulkSelectedCount === 0
+                        ? "Select case studies first"
+                        : "Add selected case studies"
+                    }
+                    className="
+                      w-7 h-7
+                      flex items-center justify-center
+                      text-white
+                      hover:opacity-70
+                      transition
+                      shrink-0
+                      disabled:opacity-25
+                      disabled:cursor-not-allowed
+                    "
+                  >
+                    {wasBulkAdded ? (
+                      <span className="text-xs">✓</span>
+                    ) : (
+                      <span className="text-lg leading-none">+</span>
+                    )}
+                  </button>
+                )}
+
                 <button
                   type="button"
                   onClick={(e) =>

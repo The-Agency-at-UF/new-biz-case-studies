@@ -1,3 +1,7 @@
+"use client";
+
+import AdminTutorial from "./adminTutorial";
+
 type SearchCardProps = {
   search: string;
   setSearch: (value: string) => void;
@@ -13,6 +17,7 @@ export default function SearchCard({
 }: SearchCardProps) {
   return (
     <div
+      data-tour="stats-search"
       className="
         relative
         w-full min-h-[237px]
@@ -25,19 +30,23 @@ export default function SearchCard({
         text-white
       "
     >
-      {/* Glow (optional but nice) */}
+      {/* Glow */}
       <div className="absolute inset-0 rounded-[20px] overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(255,80,150,0.2),transparent_50%)]" />
       </div>
 
-      {/* Stats */}
-      <div className="relative z-10 space-y-2">
-        <p className="text-xl font-semibold text-white/90">
-          Case Studies: {caseStudyCount}
-        </p>
-        <p className="text-xl font-semibold text-white/90">
-          Companies: {companyCount}
-        </p>
+      {/* Stats + Help Button */}
+      <div className="relative z-10 flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <p className="text-xl font-semibold text-white/90">
+            Case Studies: {caseStudyCount}
+          </p>
+          <p className="text-xl font-semibold text-white/90">
+            Companies: {companyCount}
+          </p>
+        </div>
+
+        <AdminTutorial />
       </div>
 
       {/* Search Bar */}

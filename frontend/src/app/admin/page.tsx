@@ -15,13 +15,7 @@ import { useEffect, useState } from "react";
 import {
   fetchOverview,
   checkWhitelist,
-  deleteCompany,
-  deleteCaseStudy,
-  insertCompany,
-  insertCaseStudy,
   updateCompany,
-  updateCaseStudy,
-  updateCaseStudyTags,
   fetchCaseStudies,
 } from "./backend/backend";
 
@@ -35,10 +29,24 @@ export default function AdminPage() {
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [search, setSearch] = useState("");
-  const [selectedCaseStudyTags, setSelectedCaseStudyTags] = useState<string[]>([]);
-  const [selectedCompanyTag, setSelectedCompanyTag] = useState<string | null>(null);
-  const [selectedCompanyForEdit, setSelectedCompanyForEdit] = useState<any | null>(null);
-  const [selectedCaseStudyIDs, setSelectedCaseStudyIDs] = useState<string[]>([]);
+
+  const [selectedCaseStudyTags, setSelectedCaseStudyTags] = useState<string[]>(
+    []
+  );
+  const [selectedCompanyTag, setSelectedCompanyTag] = useState<string | null>(
+    null
+  );
+  const [selectedCompanyForEdit, setSelectedCompanyForEdit] = useState<
+    any | null
+  >(null);
+  const [selectedCaseStudyIDs, setSelectedCaseStudyIDs] = useState<string[]>(
+    []
+  );
+
+  const [bulkMode, setBulkMode] = useState(false);
+  const [bulkSelectedCaseStudyIDs, setBulkSelectedCaseStudyIDs] = useState<
+    string[]
+  >([]);
 
   const email = session?.user?.email ?? undefined;
 
@@ -106,22 +114,11 @@ export default function AdminPage() {
     }
   }, [isWhitelisted]);
 
-  const handleDeleteCompany = async (companyID: string) => {
-    if (!confirm(`Are you sure you want to delete company ${companyID}?`))
-      return;
-
-    try {
-      const response = await deleteCompany(companyID);
-
-      if (response.ok) {
-        fetchData();
-      } else {
-        alert("Failed to delete company");
-      }
-    } catch (error) {
-      console.error("Error deleting company:", error);
+  useEffect(() => {
+    if (!bulkMode) {
+      setBulkSelectedCaseStudyIDs([]);
     }
-  };
+  }, [bulkMode]);
 
   const handleToggleCaseStudy = async (
     caseStudyID: string,
@@ -137,8 +134,6 @@ export default function AdminPage() {
       ? [...currentIDs, caseStudyID]
       : currentIDs.filter((id) => id !== caseStudyID);
 
-    console.log("sending to backend:", updatedIDs);
-
     try {
       await updateCompany(selectedCompanyForEdit.CompanyID, {
         Name: selectedCompanyForEdit.Name,
@@ -152,6 +147,31 @@ export default function AdminPage() {
     }
   };
 
+  const handleBulkAddToCompany = async (company: any) => {
+    if (bulkSelectedCaseStudyIDs.length === 0) return;
+
+    const existingIDs = (company.CaseStudies || []).map((cs: any) =>
+      typeof cs === "string" ? cs : cs.CaseStudyID
+    );
+
+    const mergedIDs = Array.from(
+      new Set([...existingIDs, ...bulkSelectedCaseStudyIDs])
+    );
+
+    try {
+      await updateCompany(company.CompanyID, {
+        Name: company.Name,
+        Industry: company.Industry,
+        CaseStudies: mergedIDs,
+      });
+
+      await fetchData();
+    } catch (error) {
+      console.error("Error bulk adding case studies:", error);
+      alert("Failed to add selected case studies.");
+    }
+  };
+
   useEffect(() => {
     if (selectedCompanyForEdit) {
       setSelectedCaseStudyIDs(selectedCompanyForEdit.CaseStudies || []);
@@ -159,23 +179,6 @@ export default function AdminPage() {
       setSelectedCaseStudyIDs([]);
     }
   }, [selectedCompanyForEdit]);
-
-  const handleDeleteCaseStudy = async (caseStudyID: string) => {
-    if (!confirm(`Are you sure you want to delete case study ${caseStudyID}?`))
-      return;
-
-    try {
-      const response = await deleteCaseStudy(caseStudyID);
-
-      if (response.ok) {
-        fetchData();
-      } else {
-        alert("Failed to delete case study");
-      }
-    } catch (error) {
-      console.error("Error deleting case study:", error);
-    }
-  };
 
   if (status === "loading" || isLoadingWhitelist) {
     return (
@@ -241,45 +244,60 @@ export default function AdminPage() {
             />
           </div>
 
-          <CaseStudiesCard
-            caseStudies={filteredCaseStudies}
-            companies={data}
-            selectedTags={selectedCaseStudyTags}
-            setSelectedTags={setSelectedCaseStudyTags}
-            allTags={allCaseStudyTags}
-            selectedCaseStudyIDs={selectedCaseStudyIDs}
-            setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
-            onToggleCaseStudy={handleToggleCaseStudy}
-            isEditingCompany={selectedCompanyForEdit !== null}
-          />
+          <div data-tour="case-studies">
+            <CaseStudiesCard
+              caseStudies={filteredCaseStudies}
+              companies={data}
+              selectedTags={selectedCaseStudyTags}
+              setSelectedTags={setSelectedCaseStudyTags}
+              allTags={allCaseStudyTags}
+              selectedCaseStudyIDs={selectedCaseStudyIDs}
+              setSelectedCaseStudyIDs={setSelectedCaseStudyIDs}
+              onToggleCaseStudy={handleToggleCaseStudy}
+              isEditingCompany={selectedCompanyForEdit !== null}
+              bulkMode={bulkMode}
+              setBulkMode={setBulkMode}
+              bulkSelectedCaseStudyIDs={bulkSelectedCaseStudyIDs}
+              setBulkSelectedCaseStudyIDs={setBulkSelectedCaseStudyIDs}
+            />
+          </div>
         </div>
 
         {/* RIGHT SIDE */}
         <div className="flex min-w-0 flex-col gap-6">
-          <AddCompanyButton onCompanyAdded={fetchData} />
+          <div data-tour="add-company">
+            <AddCompanyButton onCompanyAdded={fetchData} />
+          </div>
 
-          <CompaniesCard
-            companies={filteredData}
-            selectedTag={selectedCompanyTag}
-            setSelectedTag={setSelectedCompanyTag}
-            allTags={allCompanyTags}
-            onCompanyClick={(company) => {
-              if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
-                setSelectedCompanyForEdit(null);
-                setSelectedCaseStudyIDs([]);
-              } else {
-                const extractedIDs = (company.CaseStudies || []).map(
-                  (cs: any) => {
-                    return typeof cs === "string" ? cs : cs.CaseStudyID;
-                  }
-                );
+          <div data-tour="companies">
+            <CompaniesCard
+              companies={filteredData}
+              selectedTag={selectedCompanyTag}
+              setSelectedTag={setSelectedCompanyTag}
+              allTags={allCompanyTags}
+              onCompanyClick={(company) => {
+                if (bulkMode) return;
 
-                setSelectedCompanyForEdit(company);
-                setSelectedCaseStudyIDs(extractedIDs);
-              }
-            }}
-            selectedCompanyForEdit={selectedCompanyForEdit}
-          />
+                if (selectedCompanyForEdit?.CompanyID === company.CompanyID) {
+                  setSelectedCompanyForEdit(null);
+                  setSelectedCaseStudyIDs([]);
+                } else {
+                  const extractedIDs = (company.CaseStudies || []).map(
+                    (cs: any) => {
+                      return typeof cs === "string" ? cs : cs.CaseStudyID;
+                    }
+                  );
+
+                  setSelectedCompanyForEdit(company);
+                  setSelectedCaseStudyIDs(extractedIDs);
+                }
+              }}
+              selectedCompanyForEdit={selectedCompanyForEdit}
+              bulkMode={bulkMode}
+              bulkSelectedCount={bulkSelectedCaseStudyIDs.length}
+              onBulkAddToCompany={handleBulkAddToCompany}
+            />
+          </div>
         </div>
       </div>
     </div>
