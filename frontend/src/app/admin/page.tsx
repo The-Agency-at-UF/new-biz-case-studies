@@ -303,9 +303,17 @@ export default function AdminPage() {
     new Set(caseStudies.flatMap((cs) => cs.Tags || []))
   );
 
-  const allCompanyTags = Array.from(
-    new Set(data.map((company) => company.Industry).filter(Boolean))
-  );
+  const allCompanyTags = [
+  "Technology",
+  "Beauty & Skincare",
+  "Travel & Hospitality",
+  "Food/Beverage",
+  "Sports & Entertainment",
+  "Real Estate",
+  "Education",
+  "Marketing & Research",
+  "Healthcare",
+  ];
 
   const filteredCaseStudies = caseStudies
     .filter((cs) => cs.Name.toLowerCase().includes(search.toLowerCase()))

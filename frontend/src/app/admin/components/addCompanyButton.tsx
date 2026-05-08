@@ -25,6 +25,18 @@ const TYPE_OF_WORK_OPTIONS = [
   "Media - Brand Experience",
 ];
 
+const COMPANY_INDUSTRY_OPTIONS = [
+  "Technology",
+  "Beauty & Skincare",
+  "Travel & Hospitality",
+  "Food/Beverage",
+  "Sports & Entertainment",
+  "Real Estate",
+  "Education",
+  "Marketing & Research",
+  "Healthcare",
+];
+
 const getIndustryOptions = (allTags: string[]) =>
   allTags.filter((tag) => !TYPE_OF_WORK_OPTIONS.includes(tag)).sort();
 
@@ -64,7 +76,7 @@ export default function AddCompanyButton({
     new Set(allCaseStudies.flatMap((study) => study.Tags || []))
   );
 
-  const industryOptions = getIndustryOptions(allTags);
+  const industryOptions = COMPANY_INDUSTRY_OPTIONS;
 
   const selectedCaseStudies = allCaseStudies.filter((study) =>
     selectedIDs.includes(study.CaseStudyID)
