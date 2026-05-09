@@ -30,6 +30,24 @@ const SECTION_MAP = {
 function AdventureSections({ companySlug }: { companySlug: string }) {
   const { sectionOrder, firstSectionRef } = useAdventure();
 
+  React.useLayoutEffect(() => {
+    if (!sectionOrder.length) return;
+
+    let firstScroll = 0;
+    let secondScroll = 0;
+
+    firstScroll = requestAnimationFrame(() => {
+      secondScroll = requestAnimationFrame(() => {
+        firstSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(firstScroll);
+      cancelAnimationFrame(secondScroll);
+    };
+  }, [sectionOrder, firstSectionRef]);
+
   // Add IntersectionObserver to update URL hash based on visible section
   React.useEffect(() => {
     if (!sectionOrder.length) return;

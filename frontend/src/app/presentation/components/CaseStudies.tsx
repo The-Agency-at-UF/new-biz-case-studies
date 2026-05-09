@@ -3,6 +3,7 @@
 import CaseStudyCard from "./CaseStudyCard"
 import { useState } from "react"
 
+//call all from the data file instead of hardcoding here, this is just for testing purposes
 const caseStudies = [
   {
     title: "BLISS",

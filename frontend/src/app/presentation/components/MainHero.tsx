@@ -33,6 +33,10 @@ export default function MainHero({ children }: MainHeroProps) {
     const { selectBlob } = useAdventure();
     const [scrollProgress, setScrollProgress] = useState(0);
 
+    function handleBlobClick(blob: 1 | 2 | 3) {
+        selectBlob(blob);
+    }
+
     useEffect(() => {
         if (!sectionRef.current) return;
 
@@ -176,7 +180,7 @@ export default function MainHero({ children }: MainHeroProps) {
                             className={`absolute left-[18%] sm:left-[20%] md:left-[20%] lg:left-[24%] -translate-x-1/2 bottom-[20%] sm:bottom-[18%] md:bottom-[calc(18%+2rem)] w-[22vw] h-[22vw] max-w-[300px] max-h-[300px] flex items-center justify-center text-center pointer-events-auto text-white cursor-pointer bg-transparent border-none text-[clamp(0.9rem,2.5rem,2.5rem)] ${gentonaBook.className}`}
                             whileHover={{ scale: 1.2 }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            onClick={() => selectBlob(1)}
+                            onClick={() => handleBlobClick(1)}
                         >
                             What is the Agency?
                         </motion.button>
@@ -186,7 +190,7 @@ export default function MainHero({ children }: MainHeroProps) {
                             className={`absolute left-1/2 -translate-x-1/2 bottom-[18%] sm:bottom-[calc(18%+0.5rem)] md:bottom-[calc(18%+2rem)] w-[22vw] h-[22vw] max-w-[300px] max-h-[300px] flex items-center justify-center text-center pointer-events-auto text-white cursor-pointer bg-transparent border-none text-[clamp(0.9rem,2.5rem,2.5rem)] ${gentonaBook.className}`}
                             whileHover={{ scale: 1.2 }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            onClick={() => selectBlob(2)}
+                            onClick={() => handleBlobClick(2)}
                         >
                             Our Services
                         </motion.button>
@@ -196,7 +200,7 @@ export default function MainHero({ children }: MainHeroProps) {
                             className={`absolute left-[82%] sm:left-[81%] md:left-[76%] lg:left-[80%] -translate-x-1/2 bottom-[20%] sm:bottom-[18%] md:bottom-[calc(18%+2rem)] w-[22vw] h-[22vw] max-w-[300px] max-h-[300px] flex items-center justify-center text-center pointer-events-auto text-white cursor-pointer bg-transparent border-none text-[clamp(0.9rem,2.5rem,2.5rem)] ${gentonaBook.className}`}
                             whileHover={{ scale: 1.2 }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            onClick={() => selectBlob(3)}
+                            onClick={() => handleBlobClick(3)}
                         >
                             See our work
                         </motion.button>
