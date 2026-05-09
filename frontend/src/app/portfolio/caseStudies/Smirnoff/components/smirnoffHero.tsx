@@ -22,7 +22,7 @@ export default function SmirnoffHero() {
         className="min-h-[40vh] w-full object-cover md:min-h-[50vh] h-auto"
       />
       <div
-        className="absolute inset-0 flex flex-col px-15 md:px-30 lg:px-40"
+        className="absolute inset-0 flex flex-col px-6 md:px-12 lg:px-20"
         style={{
           background:
             "linear-gradient(180deg, rgba(145, 32, 38,0.1) 0%, rgba(145, 32, 38,0.36) 30%, rgba(145, 32, 38,0.72) 58%, rgba(145, 32, 38,0.92) 78%, rgba(145, 32, 38,1) 100%)",

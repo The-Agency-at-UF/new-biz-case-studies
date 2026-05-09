@@ -1,3 +1,5 @@
+"use client";
+
 import { CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 import { motion } from "framer-motion";
 

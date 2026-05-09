@@ -14,7 +14,7 @@ export default function SmirnoffFooter() {
         />
         <div className={`${FRAME_SIDE_CLASS} left-0`} style={{ backgroundColor: FRAME_RED }} aria-hidden />
         <div className={`${FRAME_SIDE_CLASS} right-0`} style={{ backgroundColor: FRAME_RED }} aria-hidden />
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center px-15 pt-8 md:px-30 md:pt-12 lg:px-40 lg:pt-14">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center px-6 pt-8 md:px-12 md:pt-12 lg:px-20 lg:pt-14">
           <img
             src="/assets/Smirnoff/smirnoffLogo.png"
             className="h-auto w-full max-w-3xl"
