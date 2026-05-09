@@ -11,13 +11,14 @@ import BlissFooter from "./components/blissFooter";
 
 export default function BlissPage() {
   return (
-    <div className="relative min-h-screen text-foreground bg-[#F55096]">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#F55096] text-foreground">
       <BackButton />
 
       <NavBar />
       <BlissHero />
 
-      <div className="space-y-40 overflow-visible">
+      <div className="overflow-visible">
+        
         <BlissOpportunity />
         <BlissImages />
         <BlissSolution />

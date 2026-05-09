@@ -6,15 +6,20 @@ import { motion } from "framer-motion";
 export default function EchoPlusImage() {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2, margin: "0px 0px -120px 0px" }}
+      transition={{
+        duration: 1,
+        delay: 0.25,
+        ease: [0.21, 0.47, 0.32, 0.98],
+      }}
       className="absolute z-20"
       style={{
-        width: "54.53vw", // 1047px on a 1920px screen
-        height: "70.16vw", // 1347px on a 1920px screen
-        right: "-10vw", // (1020.5px - 1047px/2) on a 1920px screen
-        top: "28vw", // 600.7px on a 1920px screen
+        width: "54.53vw",
+        height: "70.16vw",
+        right: "-10vw",
+        top: "28vw",
       }}
     >
       <Image

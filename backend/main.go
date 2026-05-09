@@ -236,14 +236,15 @@ func main() {
 	r.PUT("/api/casestudy/:casestudyid", func(c *gin.Context) {
 		caseStudyID := c.Param("casestudyid")
 		var req struct {
-			Name string   `json:"Name"`
-			Tags []string `json:"Tags"`
+			Name        string   `json:"Name"`
+			Tags        []string `json:"Tags"`
+			Description string   `json:"Description`
 		}
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		if err := help.UpdateCaseStudy(caseStudyID, req.Name, req.Tags); err != nil {
+		if err := help.UpdateCaseStudy(caseStudyID, req.Name, req.Tags, req.Description); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
