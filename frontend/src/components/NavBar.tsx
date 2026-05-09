@@ -90,6 +90,7 @@ export default function PortfolioBar() {
                 src="/logos/Agency_logo.png"
                 alt="The Agency Logo"
                 fill
+                sizes="(max-width: 640px) 7rem, (max-width: 1024px) 9rem, 11rem"
                 className="object-contain object-left"
                 priority
               />

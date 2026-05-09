@@ -55,6 +55,12 @@ export const franklinGothicRegular = localFont({
   variable: "--font-franklin-gothic-regular",
 });
 
+export const franklinGothicBold = localFont({
+  src: "../../public/fonts/Franklin Gothic Bold.ttf",
+  display: "swap",
+  variable: "--font-franklin-gothic-bold",
+});
+
 export const obviouslyExtendedMedium = localFont({
   src: "../../public/fonts/Obviously-ExtendedMedium.otf",
   display: "swap",

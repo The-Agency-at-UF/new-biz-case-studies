@@ -8,7 +8,7 @@ export default function BackButton() {
   return (
     <button
       type="button"
-      onClick={() => router.back()}
+      onClick={() => router.push('/#case-studies')}
       className="
         fixed bottom-[2rem] right-[2rem] z-[1000]
         rounded-full px-6 py-3
