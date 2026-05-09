@@ -20,7 +20,7 @@ export default function CokeFooter() {
   };
 
   return (
-    <div className="flex justify-center bg-[#EC1C24] px-6 pb-16 pt-8 md:px-12 md:pb-24">
+    <div className="flex justify-center px-6 pb-16 pt-8 md:px-12 md:pb-24">
       <motion.div
         custom={1}
         initial="hidden"

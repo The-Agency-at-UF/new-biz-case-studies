@@ -63,7 +63,7 @@ export default function CokeZeroPage() {
           <CokePhoneScreens />
         </div>
 
-        <div className="relative z-10 mt-25 bg-[#EC1C24] md:mt-45">
+        <div className="relative z-10 mt-25 md:mt-45">
           <CokeFooter />
         </div>
       </div>
