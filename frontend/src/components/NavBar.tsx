@@ -87,7 +87,7 @@ export default function PortfolioBar() {
               onClick={() => setMenuOpen(false)}
             >
               <Image
-                src="/Agency_logo.png"
+                src="/logos/Agency_logo.png"
                 alt="The Agency Logo"
                 fill
                 className="object-contain object-left"
