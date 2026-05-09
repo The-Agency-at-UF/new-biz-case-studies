@@ -1,8 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const CYCLING_IMAGES = [
+  { src: "/assets/Bliss/grapefruit aloe lotion w shadow 1.png", alt: "Grapefruit Aloe lotion" },
+  { src: "/assets/Bliss/lemon sage lotion w shadow 1.png", alt: "Lemon Sage lotion" },
+  { src: "/assets/Bliss/orange pepper lotion w shadow 1.png", alt: "Orange Pepper lotion" },
+];
 
 export default function BlissImages() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % CYCLING_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (custom: number) => ({
@@ -43,46 +58,54 @@ export default function BlissImages() {
   };
 
   return (
-    <section className="relative w-full overflow-visible bg-[#F55096] px-8 py-[clamp(4rem,8vw,8rem)] md:px-10 lg:px-12">
-      <div className="relative flex min-h-[clamp(460px,56vw,820px)] items-center justify-center overflow-visible">
-        {/* Left decorative group - intentionally spills off page */}
-        <div className="relative min-h-[clamp(420px,52vw,760px)] flex-1 overflow-visible">
-          <motion.img
-            src="/assets/Bliss/cream.png"
-            alt="Cream"
-            custom={1}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={floatInLeft}
-            className="absolute left-[-45%] top-1/2 z-0 w-[clamp(420px,62vw,980px)] -translate-y-1/2 scale-140"
-          />
+    <section className="relative w-full overflow-hidden bg-[#F55096] py-[clamp(3rem,8vw,10rem)]">
+      <div className="relative min-h-[clamp(280px,55vw,860px)] overflow-visible">
+        {/* Background cream blob */}
+        <motion.img
+          src="/assets/Bliss/cream.png"
+          alt=""
+          aria-hidden="true"
+          custom={1}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={floatInLeft}
+          className="absolute left-[clamp(-20%,-15vw,-10%)] top-[35%] z-0 h-[clamp(260px,55vw,920px)] w-auto -translate-y-1/2"
+        />
 
+        {/* Cycling product images — large, anchored left, clips off screen intentionally */}
+        <AnimatePresence mode="wait">
           <motion.img
-            src="/assets/Bliss/grapefruit_with_shadow.png"
-            alt="Grapefruit"
-            custom={2}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="absolute left-[-28%] top-1/2 z-10 w-[clamp(340px,50vw,820px)] -translate-y-1/2 rotate-[30deg]"
+            key={activeIndex}
+            src={CYCLING_IMAGES[activeIndex].src}
+            alt={CYCLING_IMAGES[activeIndex].alt}
+            initial={{ opacity: 0, x: -200, rotate: -18, scale: 0.85 }}
+            animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 160, rotate: 12, scale: 0.9, transition: { duration: 0.35, ease: "easeIn" } }}
+            transition={{
+              type: "spring",
+              stiffness: 140,
+              damping: 18,
+              mass: 1,
+              opacity: { duration: 0.3 },
+            }}
+            className="absolute left-[clamp(-20%,-15vw,-10%)] top-[35%] z-10 h-[clamp(260px,55vw,920px)] w-auto object-contain -translate-y-1/2"
           />
-        </div>
+        </AnimatePresence>
 
         {/* Right TikTok mockup */}
         <motion.div
           custom={3}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           variants={floatInRight}
-          className="relative flex flex-1 items-center justify-center"
+          className="absolute right-[clamp(5%,10vw,12%)] bottom-0"
         >
           <img
             src="/assets/Bliss/Bliss_Ticktok_Video.png"
             alt="TikTok mockup"
-            className="w-[clamp(180px,22vw,320px)] translate-x-[10%] drop-shadow-2xl"
+            className="w-[clamp(150px,30vw,560px)] max-h-[clamp(280px,50vw,75vh)] object-contain drop-shadow-2xl"
           />
         </motion.div>
       </div>

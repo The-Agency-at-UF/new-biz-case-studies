@@ -3,6 +3,7 @@
 import { gentonaMedium, gentonaBook } from "@/app/fonts";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CaseStudyHeroLogo } from "@/components/CaseStudy";
 
 export default function AmazonAlexaHero() {
   const fadeInUp = {
@@ -28,8 +29,8 @@ export default function AmazonAlexaHero() {
           className="bg-[url('/assets/AmazonAlexa/amazonbg.png')] bg-cover bg-no-repeat w-full h-auto md:-translate-y-35 lg:-translate-y-40"
         />
         {/*Case Study rectangle */}
-        <div className="absolute flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 bg-gradient-to-t from-[#1D3B56] from-40% via-[#1D3B57]/3 via-80% to-transparent">
-            <div className="h-full z-10 flex flex-col justify-center items-start py-10">
+        <div className="absolute flex flex-col h-full w-full inset-0 bg-gradient-to-t from-[#1D3B56] from-40% via-[#1D3B57]/3 via-80% to-transparent">
+            <div className="w-full px-6 md:px-12 lg:px-20 h-full z-10 flex flex-col justify-center items-start py-10">
                 <motion.p
                   custom={1}
                   initial="hidden"
@@ -38,13 +39,9 @@ export default function AmazonAlexaHero() {
                   className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-white px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold text-white tracking-wider uppercase bg-[#1E667D]/30 backdrop-blur-sm w-fit mb-4 lg:mb-8`}
                 >
                 case study</motion.p>
-                <motion.img
-                  custom={2}
-                  initial="hidden"
-                  animate="visible"
-                  variants={fadeInUp}
-                  src="/assets/AmazonAlexa/alexa_logos.png"
-                  className="align-left max-h-[170px] w-auto object-contain "
+                <CaseStudyHeroLogo
+                  clientLogoSrc="/logos/alexa-logo.png"
+                  clientLogoAlt="Amazon Alexa Logo"
                 />
                 <motion.hr
                   initial={{ scaleX: 0 }}

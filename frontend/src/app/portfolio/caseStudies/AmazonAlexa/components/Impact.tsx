@@ -1,9 +1,10 @@
 "use client";
 
-import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
+import { gentonaBold, gentonaBook } from "../../../../fonts";
 import Image from "next/image";
 import EchoMiniImage from "./EchoMiniImage";
 import { motion } from "framer-motion";
+import { CaseStudyContent, CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 
 export default function ImpactSection() {
   const viewportSettings = {
@@ -47,41 +48,34 @@ export default function ImpactSection() {
         />
       </motion.div>
 
-      <div className="mt-8 flex max-w-none flex-col gap-6 px-15 md:px-30 lg:mt-16 lg:gap-18 lg:px-40">
-        <motion.h2
-          custom={2}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
-          variants={fadeInUp}
-          className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal lg:text-[8rem]`}
-        >
-          <span className="block text-white">The</span>
-          <span className="block text-[#5FCAF4]">Impact</span>
-        </motion.h2>
+      <CaseStudyContent className="!py-0 mt-8 lg:mt-16">
+        <div className="flex max-w-none flex-col gap-6 lg:gap-18">
+          <CaseStudyHeader preTitle="The" title="Impact" caseStudyId="amazonAlexa" />
 
-        <motion.p
+        <motion.div
           custom={3}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={fadeInUp}
-          className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white lg:text-4xl`}
         >
-          Generated insights on topics such as video games, music, anime and TV
-          shows to be used by the Amazon Alexa Personality Team for years to
-          come.
-          <br />
-          <br />
-          Wrote{" "}
-          <span className={`${gentonaBold.className}`}>
-            over 250 approved responses,
-          </span>{" "}
-          which can be heard by millions around the world in{" "}
-          <span className={`${gentonaBold.className}`}>8 languages</span> and{" "}
-          <span className={`${gentonaBold.className}`}>42 countries</span>.
-        </motion.p>
-      </div>
+          <CaseStudyText weight="light">
+            Generated insights on topics such as video games, music, anime and TV
+            shows to be used by the Amazon Alexa Personality Team for years to
+            come.
+            <br />
+            <br />
+            Wrote{" "}
+            <span className={`${gentonaBold.className}`}>
+              over 250 approved responses,
+            </span>{" "}
+            which can be heard by millions around the world in{" "}
+            <span className={`${gentonaBold.className}`}>8 languages</span> and{" "}
+            <span className={`${gentonaBold.className}`}>42 countries</span>.
+          </CaseStudyText>
+        </motion.div>
+        </div>
+      </CaseStudyContent>
     </section>
   );
 }

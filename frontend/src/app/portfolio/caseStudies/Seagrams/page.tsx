@@ -4,7 +4,7 @@ import BackButton from "../../../../components/BackButton";
 import SeagramsHero from "./components/hero";
 import OpportunitySection from "./components/opportunity";
 import SeagramsPackageStrip from "./components/packagestrip";
-import HowWeQuenchedItSection from "./components/quenched";
+import HowWeQuenchedItSection from "./components/solution";
 import SeagramsImpactSection from "./components/impact";
 import SeagramsFooter from "./components/footer";
 
