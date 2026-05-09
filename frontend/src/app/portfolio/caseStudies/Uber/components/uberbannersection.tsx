@@ -2,7 +2,7 @@ import { gentonaMedium } from "@/app/fonts";
 
 export default function UberBannerSection() {
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 pb-38 bg-[#142328]">
+    <div className="relative flex flex-col h-full px-6 md:px-12 lg:px-20 inset-0 pb-38 bg-[#142328]">
       <div className="flex flex-row gap-4 items-stretch">
         <img
           src="/assets/Uber/Uber_Banner1.png"
