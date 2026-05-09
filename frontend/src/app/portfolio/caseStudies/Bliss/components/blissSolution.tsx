@@ -1,32 +1,98 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
 
 export default function BlissSolution() {
-    return (
-    <div className="relative w-full h-full overflow-hidden">
-        {/*<img src="/assets/Bliss/opportunityBackground.png" className=" relative inset-0 w-full h-full object-cover"></img>*/}
-        {/*Case Study rectangle */}
-        <div className = "relative bg-[#F55096] z-10 flex flex-row justify-center h-full px-8 md:px-10 lg:px-12 py-20">
-          <div className="max-w-2xl flex flex-col gap-6 lg:gap-12 flex-[1_1_65%] min-w-0">
-            <h2 className={`${gentonaMedium.className} text-4xl md:text-6xl lg:text-[6rem] font-black uppercase leading-[0.8] tracking-normal`}>
-              <span className="block text-white">The</span>
-              <span className="block text-[#5FCAF4]">Solution</span>
-            </h2>
-              <p className={`${gentonaBook.className} text-sm md:text-2xl lg:text-3xl font-light text-white leading-tight tracking-wide`}>
-                During the campaign, we analyzed more than –<span className={`${gentonaBold.className}`}>312k social media posts</span> to guide our strategy. Our team consulted the Bliss' CMO, board of directors and marketing teams weekly and monthly to optimize our marketing strategy throughout the year.
-                <br></br><br></br>
-                Our AI-generated <span className={`${gentonaBold.className}`}>"mind maps"</span> illustrate the conversations forming and evolving over time across online spaces: social, news, blogs, forums, eCommerce, reviews, comments, etc. The AI analyzes sentence structure, common keywords and upload time among multiple posts.
-                <br></br><br></br>
-                The numbers don't lie: <span className={`${gentonaBold.className}`}>Purposeful community management is key to brand loyalty.</span>
-              </p>
-          </div>
-          <div className="flex justify-end items-end flex-[1_1_35%] min-w-0 ">
-            <img
-              src="/assets/Bliss/fixed_open_tub.png"
-              alt="Right element"
-              className="w-full scale-225 translate-x-[-40%] translate-y-[-20%] md:translate-y-[-5%] overflow-hidden"
-          />
-          </div>
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.15,
+        ease: [0.21, 0.47, 0.32, 0.98] as const,
+      },
+    }),
+  };
+
+  const floatInRight = {
+    hidden: { opacity: 0, x: 70 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1,
+        delay: custom * 0.15,
+        ease: [0.21, 0.47, 0.32, 0.98] as const,
+      },
+    }),
+  };
+
+  return (
+    <section className="relative w-full overflow-visible bg-[#F55096]">
+      <div className="relative z-10 flex h-full flex-row justify-center overflow-visible bg-[#F55096] px-8 py-20 md:px-10 lg:px-12">
+        <div className="max-w-2xl flex min-w-0 flex-[1_1_65%] flex-col gap-6 lg:gap-12">
+          <motion.h2
+            custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal md:text-6xl lg:text-[6rem]`}
+          >
+            <span className="block text-white">The</span>
+            <span className="block text-[#5FCAF4]">Solution</span>
+          </motion.h2>
+
+          <motion.p
+            custom={2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white md:text-2xl lg:text-3xl`}
+          >
+            During the campaign, we analyzed more than –{" "}
+            <span className={`${gentonaBold.className}`}>
+              312k social media posts
+            </span>{" "}
+            to guide our strategy. Our team consulted the Bliss' CMO, board of
+            directors and marketing teams weekly and monthly to optimize our
+            marketing strategy throughout the year.
+            <br />
+            <br />
+            Our AI-generated{" "}
+            <span className={`${gentonaBold.className}`}>"mind maps"</span>{" "}
+            illustrate the conversations forming and evolving over time across
+            online spaces: social, news, blogs, forums, eCommerce, reviews,
+            comments, etc. The AI analyzes sentence structure, common keywords
+            and upload time among multiple posts.
+            <br />
+            <br />
+            The numbers don't lie:{" "}
+            <span className={`${gentonaBold.className}`}>
+              Purposeful community management is key to brand loyalty.
+            </span>
+          </motion.p>
         </div>
+
+        <motion.div
+          custom={3}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={floatInRight}
+          className="flex min-w-0 flex-[1_1_35%] items-end justify-end overflow-visible"
+        >
+          <img
+            src="/assets/Bliss/fixed_open_tub.png"
+            alt="Bliss product tub"
+            className="w-full scale-200 translate-x-[-20%] translate-y-[-20%] overflow-visible md:translate-y-[-5%]"
+          />
+        </motion.div>
       </div>
-    );
+    </section>
+  );
 }

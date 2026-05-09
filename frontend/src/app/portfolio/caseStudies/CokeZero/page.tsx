@@ -34,14 +34,13 @@ export default function CokeZeroPage() {
       <NavBar />
 
       <div
-        className={`${gentona.className} text-white overflow-x-hidden`}
+        className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#EC1C24] text-white`}
         style={{
-          backgroundColor: "#121212",
+          backgroundColor: "#EC1C24",
           backgroundImage: `url(${cokeBackground.src})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "top center",
           backgroundSize: "100% auto",
-          minHeight: "max(100vh, calc(100vw * 5783 / 1920))",
         }}
       >
         <div className="relative">
@@ -64,7 +63,7 @@ export default function CokeZeroPage() {
           <CokePhoneScreens />
         </div>
 
-        <div className="relative z-10 mt-25 md:mt-45">
+        <div className="relative z-10 mt-25 bg-[#EC1C24] md:mt-45">
           <CokeFooter />
         </div>
       </div>

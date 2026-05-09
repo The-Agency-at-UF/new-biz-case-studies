@@ -5,6 +5,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function SolutionSection() {
+  const viewportSettings = {
+    once: true,
+    amount: 0.25,
+    margin: "0px 0px -120px 0px",
+  } as const;
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (custom: number) => ({
@@ -19,16 +25,16 @@ export default function SolutionSection() {
   };
 
   return (
-    <div className="relative flex flex-col h-full pt-8 pb-20 lg:pb-40 gap-16 lg:gap-32">
+    <section className="relative flex h-full flex-col gap-16 pt-8 pb-20 lg:gap-32 lg:pb-40">
       <motion.div
         custom={1}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={viewportSettings}
         variants={fadeInUp}
         className="relative mx-auto"
         style={{
-          width: "58.33vw", // 1120px on a 1920px screen
+          width: "58.33vw",
           aspectRatio: "1120 / 1096",
         }}
       >
@@ -39,35 +45,45 @@ export default function SolutionSection() {
           className="object-contain"
         />
       </motion.div>
-      <motion.div
-        custom={2}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeInUp}
-        className="max-w-none flex flex-col gap-6 lg:gap-18 px-15 md:px-30 lg:px-40"
-      >
-        <h2 className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.8] tracking-normal`}>
+
+      <div className="flex max-w-none flex-col gap-6 px-15 md:px-30 lg:gap-18 lg:px-40">
+        <motion.h2
+          custom={2}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={fadeInUp}
+          className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal lg:text-[8rem]`}
+        >
           <span className="block text-white">The</span>
           <span className="block text-[#5FCAF4]">Solution</span>
-        </h2>
-        <p
-          className={`${gentonaBook.className} text-sm lg:text-4xl font-light text-white leading-tight tracking-wide`}
+        </motion.h2>
+
+        <motion.p
+          custom={3}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={fadeInUp}
+          className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white lg:text-4xl`}
         >
-          After rounds of social listening and market research, members of our team would 
-          present concise research packages to the Amazon Alexa Personality Team on a wide 
-          range of culturally relevant, Gen Z-related topics.{" "}
+          After rounds of social listening and market research, members of our
+          team would present concise research packages to the Amazon Alexa
+          Personality Team on a wide range of culturally relevant, Gen Z-related
+          topics.{" "}
           <span className={`${gentonaBold.className}`}>
-            In simple terms, we told them what is hot and what is not,
-            according to our research.
+            In simple terms, we told them what is hot and what is not, according
+            to our research.
           </span>
           <br />
           <br />
-          Using these insights, our copywriters collaborated with the personality team in a 
-          writers’ room setting. Together, we finalized over <span className={`${gentonaBold.className}`}>250</span> engaging and research-based 
-          responses for some of the most frequently asked questions among young audiences.
-        </p>
-      </motion.div>
-    </div>
+          Using these insights, our copywriters collaborated with the
+          personality team in a writers’ room setting. Together, we finalized
+          over <span className={`${gentonaBold.className}`}>250</span> engaging
+          and research-based responses for some of the most frequently asked
+          questions among young audiences.
+        </motion.p>
+      </div>
+    </section>
   );
 }

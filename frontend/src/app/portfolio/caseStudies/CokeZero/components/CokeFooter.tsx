@@ -20,29 +20,29 @@ export default function CokeFooter() {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-[#EC1C24] px-6 pb-16 pt-8 md:px-12 md:pb-24">
       <motion.div
         custom={1}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeInUp}
-        className="flex items-center justify-center gap-4 mt-6 mb-4"
+        className="flex flex-col items-center justify-center gap-5 text-white lg:flex-row lg:gap-6"
       >
-          <Image
-            src={cokeZero}
-            alt="Coca Cola Zero Sugar"
-            className="w-70 h-auto pr-2"
-          />
+        <Image
+          src={cokeZero}
+          alt="Coca Cola Zero Sugar"
+          className="h-auto w-full max-w-[280px] sm:max-w-[360px]"
+        />
 
-          <p className="font-bold text-4xl">X</p>
+        <p className="text-3xl font-bold lg:text-4xl">X</p>
 
-          <Image
-            src={agencyLogo}
-            alt="The Agency at the University of Florida"
-            className="w-110 h-auto pl-2"
-          />
-        </motion.div>
+        <Image
+          src={agencyLogo}
+          alt="The Agency at the University of Florida"
+          className="h-auto w-full max-w-[320px] sm:max-w-[460px]"
+        />
+      </motion.div>
     </div>
   );
 }
