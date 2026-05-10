@@ -36,7 +36,7 @@ export function CaseStudyHeader({ preTitle, title, caseStudyId, className = "", 
       variants={fadeInUp}
       className={`py-6 ${className}`}
     >
-      {preTitle && <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase">{preTitle}</h2>}
+      {preTitle && <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white uppercase">{preTitle}</h2>}
       <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold uppercase" style={{ color }}>
         {title}
       </h2>
