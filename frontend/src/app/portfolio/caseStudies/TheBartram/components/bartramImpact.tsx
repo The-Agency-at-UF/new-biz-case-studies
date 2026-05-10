@@ -38,7 +38,7 @@ const impactPoints = [
 export default function BartramImpact() {
   return (
     <CaseStudyContent className="bg-[#A4D1D9]">
-     <div className="relative z-10 w-full h-full px-9 md:px-18 lg:px-20">
+    <div className="relative z-10 w-full h-full">
   
   <CaseStudyHeader preTitle="The" title="Impact" caseStudyId="theBartram" />
 

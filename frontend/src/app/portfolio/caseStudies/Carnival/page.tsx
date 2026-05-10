@@ -2,7 +2,6 @@ import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
 
-import carnivalBackground from "./assets/Carnival-Background.png";
 import CarnivalHeadlinesSection from "./components/CarnivalHeadlinesSection";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
 import CarnivalMeaningSection from "./components/CarnivalMeaningSection";
@@ -20,7 +19,7 @@ export default function CarnivalPage() {
         className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#004E8E] text-white`}
         style={{
           backgroundColor: "#004E8E",
-          backgroundImage: `url(${carnivalBackground.src})`,
+          backgroundImage: 'url(/assets/Carnival/Carnival-Background.png)',
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% auto",

@@ -10,7 +10,7 @@ export default function Bartram_Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="flex items-center justify-center px-15 md:px-30 lg:px-40"
+        className="flex items-center justify-center w-full px-6 md:px-12 lg:px-20"
       >
         <img src="/assets/TheBartram/bottom_logo.png" alt="The Bartram and Agency logo" className="relative w-2/3 lg:w-1/2 h-auto" />
       </motion.div>

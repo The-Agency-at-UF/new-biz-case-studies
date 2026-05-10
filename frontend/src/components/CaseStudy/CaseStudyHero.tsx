@@ -30,6 +30,8 @@ interface CaseStudyHeroProps {
   clientLogoClassName?: string;
   agencyLogoClassName?: string;
   xClassName?: string;
+  agencyLogoSrc?: string | null;
+  agencyLogoAlt?: string;
   lineClassName?: string;
   subtitleClassName?: string;
   lineDelayOffset?: number;
@@ -49,6 +51,8 @@ export function CaseStudyHero({
   clientLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
   agencyLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
   xClassName = "font-bold text-2xl md:text-3xl lg:text-4xl text-white",
+  agencyLogoSrc = "/logos/Agency_logo_2.png",
+  agencyLogoAlt = "The Agency at the University of Florida",
   lineClassName = "h-1 mt-6 mb-6 origin-left w-full",
   subtitleClassName = "block max-w-full text-xl lg:text-4xl text-white font-semibold",
   lineDelayOffset = 0.15,
@@ -82,6 +86,8 @@ export function CaseStudyHero({
             clientLogoClassName={clientLogoClassName}
             agencyLogoClassName={agencyLogoClassName}
             xClassName={xClassName}
+            agencyLogoSrc={agencyLogoSrc}
+            agencyLogoAlt={agencyLogoAlt}
           />
         )}
 

@@ -31,7 +31,7 @@ const floatInLeft = {
 
 export default function UFAdmissionsSolution() {
   return (
-    <section className="w-full relative overflow-hidden flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32">
+    <section className="w-full relative overflow-hidden flex flex-col justify-center py-32">
       <div className="absolute right-0 top-0 bottom-0 w-3/4 opacity-30 rounded-l-[500px] overflow-hidden">
         <img src="/assets/UF-Admissions/gatorScales.png" alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#111B61] via-transparent to-transparent pointer-events-none" />

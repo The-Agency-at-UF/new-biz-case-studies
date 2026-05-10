@@ -6,7 +6,7 @@ export default function Bartram_Hero() {
   return (
     <div className="relative">
       <img src="/assets/TheBartram/background.png" className="w-full h-auto" />
-      <div className="absolute flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 bg-gradient-to-t from-[#A4D1D9] from-20% via-[#A4D1D9]/3 via-80% to-transparent">
+      <div className="absolute flex flex-col h-full w-full px-6 md:px-12 lg:px-20 inset-0 bg-gradient-to-t from-[#A4D1D9] from-20% via-[#A4D1D9]/3 via-80% to-transparent">
         <div className="h-full z-10 flex flex-col justify-center py-10">
           <CaseStudyHero
             caseStudyId="theBartram"

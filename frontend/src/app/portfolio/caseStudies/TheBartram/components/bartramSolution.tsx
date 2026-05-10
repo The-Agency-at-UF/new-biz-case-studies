@@ -20,7 +20,7 @@ const fadeInUp = {
 export default function BartramSolution() {
   return (
     <CaseStudyContent className="bg-[#A4D1D9]">
-      <div className="max-w-none flex flex-col gap-6 lg:gap-18 px-9 md:px-18 lg:px-20">
+      <div className="max-w-none flex flex-col gap-6 lg:gap-18">
         <CaseStudyHeader preTitle="The" title="Solution" caseStudyId="theBartram" />
 
         <motion.div

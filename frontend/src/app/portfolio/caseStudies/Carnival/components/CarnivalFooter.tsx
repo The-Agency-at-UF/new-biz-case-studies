@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
-import carnivalLogo from "../assets/carnival-Logo.svg";
 
 export default function CarnivalFooter() {
   return (
@@ -16,8 +15,10 @@ export default function CarnivalFooter() {
         className="flex flex-col items-center justify-center gap-5 text-white lg:flex-row lg:gap-6"
       >
         <Image
-          src={carnivalLogo}
+          src="/assets/Carnival/carnival-Logo.svg"
           alt="Carnival"
+          width={300}
+          height={150}
           className="h-auto w-full max-w-[280px] sm:max-w-[360px]"
         />
 

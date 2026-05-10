@@ -31,7 +31,7 @@ const floatInRight = {
 
 export default function UFAdmissionsOpportunity() {
   return (
-    <section className="w-full relative overflow-hidden flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32">
+    <section className="w-full relative overflow-hidden flex flex-col justify-center py-32">
       <div className="absolute inset-0 opacity-40">
         <img src="/assets/UF-Admissions/gatorScales.png" alt="" className="w-full h-full object-cover" />
       </div>

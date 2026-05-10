@@ -44,7 +44,7 @@ export default function UFAdmissionsImpact() {
   ];
 
   return (
-    <section className="w-full relative overflow-hidden flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32">
+    <section className="w-full relative overflow-hidden flex flex-col justify-center py-32">
       <div className="absolute inset-0 bg-[rgba(14,5,51,0.41)] pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#111B61] via-transparent to-[#111B61] pointer-events-none" />
 
