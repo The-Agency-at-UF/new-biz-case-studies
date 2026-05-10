@@ -7,11 +7,12 @@ import EchoPlusImage from "./components/EchoPlusImage";
 import SolutionSection from "./components/Solution";
 import ImpactSection from "./components/Impact";
 import Footer from "./components/Footer";
+import SharedFooter from "../../../../components/Footer";
 
 export default function AmazonAlexaPage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#1D3B57]">
-      <BackButton />
+    <main className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#1D3B57]">
+      <BackButton currentStudy="AmazonAlexa" />
 
       <NavBar />
       <NewHero />
@@ -23,6 +24,7 @@ export default function AmazonAlexaPage() {
       <SolutionSection />
       <ImpactSection />
       <Footer />
+      <SharedFooter />
     </main>
   );
 }

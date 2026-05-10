@@ -108,7 +108,7 @@ export default function DynamicCaseStudiesGrid({ companySlug }: Props) {
               description={study.Name}
               tags={(study.Tags || []).join(" • ")}
               image={`https://new-biz-case-studies-bucket.s3.amazonaws.com/case-studies/${camelCase(study.Name)}${getImageExtension(study.Name)}`}
-              href={`/portfolio/caseStudies/${toCamelCase(study.Name)}`}
+              href={`/portfolio/caseStudies/${toCamelCase(study.Name)}?company=${encodeURIComponent(companySlug)}`}
             />
           </div>
         );

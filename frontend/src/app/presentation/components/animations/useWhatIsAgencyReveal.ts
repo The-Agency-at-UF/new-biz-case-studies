@@ -22,6 +22,12 @@ export function useWhatIsAgencyReveal() {
     if (!section || !videoOverlay || !content || !video || !tvOverlay) return;
 
     const refresh = () => ScrollTrigger.refresh();
+    const startVideo = () => {
+      video.play().catch(() => {
+        // If the browser blocks autoplay on first paint, the next user gesture
+        // or layout refresh can retry playback.
+      });
+    };
 
     const ctx = gsap.context(() => {
 
@@ -47,6 +53,10 @@ export function useWhatIsAgencyReveal() {
           });
         },
       });
+
+      if (video.readyState >= 2) {
+        startVideo();
+      }
 
       // Phase 2 — scroll drives video expansion
       const tl = gsap.timeline({
@@ -122,10 +132,14 @@ export function useWhatIsAgencyReveal() {
 
     const rafId = window.requestAnimationFrame(refresh);
     window.addEventListener("load", refresh);
+    video.addEventListener("loadeddata", startVideo, { once: true });
+    video.addEventListener("canplay", startVideo, { once: true });
 
     return () => {
       window.cancelAnimationFrame(rafId);
       window.removeEventListener("load", refresh);
+      video.removeEventListener("loadeddata", startVideo);
+      video.removeEventListener("canplay", startVideo);
       ctx.revert();
     };
   }, []);

@@ -27,11 +27,11 @@ const SECTION_MAP = {
   services: Services,
 };
 
-function AdventureSections({ companySlug }: { companySlug: string }) {
+function AdventureSections({ companySlug, skipInitialScroll }: { companySlug: string; skipInitialScroll?: boolean }) {
   const { sectionOrder, firstSectionRef } = useAdventure();
 
   React.useLayoutEffect(() => {
-    if (!sectionOrder.length) return;
+    if (!sectionOrder.length || skipInitialScroll) return;
 
     let firstScroll = 0;
     let secondScroll = 0;
@@ -46,7 +46,7 @@ function AdventureSections({ companySlug }: { companySlug: string }) {
       cancelAnimationFrame(firstScroll);
       cancelAnimationFrame(secondScroll);
     };
-  }, [sectionOrder, firstSectionRef]);
+  }, [sectionOrder, firstSectionRef, skipInitialScroll]);
 
   // Add IntersectionObserver to update URL hash based on visible section
   React.useEffect(() => {
@@ -105,6 +105,8 @@ function AdventureSections({ companySlug }: { companySlug: string }) {
 }
 
 function CompanyPageContent({ companySlug }: { companySlug: string }) {
+  const { sectionOrder } = useAdventure();
+
   return (
     <SmoothScrollWrapper>
       <NavBar />

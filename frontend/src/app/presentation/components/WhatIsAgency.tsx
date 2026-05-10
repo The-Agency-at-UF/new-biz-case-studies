@@ -39,6 +39,7 @@ export default function WhatIsAgency() {
           muted={isMuted}
           loop
           playsInline
+          preload="auto"
           style={{
             position: "absolute",
             left: "6.28%",

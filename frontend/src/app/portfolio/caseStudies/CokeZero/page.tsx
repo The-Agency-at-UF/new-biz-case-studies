@@ -8,6 +8,7 @@ import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
 import CokeFooter from "./components/CokeFooter";
+import SharedFooter from "../../../../components/Footer";
 
 import localFont from "next/font/local";
 
@@ -30,7 +31,7 @@ const gentona = localFont({
 export default function CokeZeroPage() {
   return (
     <>
-      <BackButton />
+      <BackButton currentStudy="CokeZero" />
       <NavBar />
 
       <div
@@ -66,6 +67,8 @@ export default function CokeZeroPage() {
         <div className="relative z-10 mt-25 md:mt-45">
           <CokeFooter />
         </div>
+
+        <SharedFooter />
       </div>
     </>
   );

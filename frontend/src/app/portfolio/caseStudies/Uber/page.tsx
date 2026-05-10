@@ -10,11 +10,12 @@ import UberEatsScrollStrip from "./components/ubereatsscrollstrip";
 import UberExecutionSection from "./components/uberexecutionsection";
 import UberBannerSection from "./components/uberbannersection";
 import UberFooter from "./components/uberfooter";
+import SharedFooter from "../../../../components/Footer";
 
 export default function UberPage() {
   return (
     <div className="relative min-h-screen w-full text-foreground bg-[#142328]">
-      <BackButton />
+      <BackButton currentStudy="Uber" />
 
       <NavBar />
       <UberHero />
@@ -26,6 +27,7 @@ export default function UberPage() {
       <UberExecutionSection />
       <UberBannerSection />
       <UberFooter />
+      <SharedFooter />
     </div>
   );
 }

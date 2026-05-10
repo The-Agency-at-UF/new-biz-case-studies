@@ -8,11 +8,12 @@ import CarnivalMeaningSection from "./components/CarnivalMeaningSection";
 import CarnivalOpportunitySection from "./components/CarnivalOpportunitySection";
 import CarnivalStatsSection from "./components/CarnivalStatsSection";
 import CarnivalSolutionSection from "./components/CarnivalSolutionSection";
+import SharedFooter from "../../../../components/Footer";
 
 export default function CarnivalPage() {
   return (
     <>
-      <BackButton />
+      <BackButton currentStudy="Carnival" />
       <NavBar />
 
       <main
@@ -46,6 +47,8 @@ export default function CarnivalPage() {
         <div className="relative z-10 mt-4 md:mt-8">
           <CarnivalHeadlinesSection />
         </div>
+
+        <SharedFooter />
       </main>
     </>
   );

@@ -2,6 +2,8 @@
 // component has arrived ;)
 "use client";
 
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const MailIcon = () => (
@@ -42,8 +44,36 @@ export default function AgencyFooter({
   phone = "(352) 294-3848",
   email = "theagency@jou.ufl.edu",
 }: Props) {
+  const pathname = usePathname();
+  const [contactHref, setContactHref] = useState("#contact-us");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const url = new URL(window.location.href);
+    const companyFromQuery = url.searchParams.get("company");
+    const segments = (pathname || window.location.pathname || "/").split("/").filter(Boolean);
+    const companyFromPath = segments.length === 1 && !["presentation", "portfolio", "admin", "login"].includes(segments[0])
+      ? segments[0]
+      : null;
+
+    const companySlug = companyFromQuery ?? companyFromPath;
+
+    if (companySlug && (pathname || "").startsWith("/portfolio/caseStudies/")) {
+      setContactHref(`/${companySlug}#contact-us`);
+      return;
+    }
+
+    if (companySlug) {
+      setContactHref("#contact-us");
+      return;
+    }
+
+    setContactHref("/presentation#contact-us");
+  }, [pathname]);
+
   return (
-    <footer className="w-full bg-black text-white">
+    <footer className="mt-auto w-full bg-black text-white">
       
       {/* Gradient Bar */}
       <div className="h-[4px] w-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500" />
@@ -84,7 +114,7 @@ export default function AgencyFooter({
           {/* CTA */}
           <div className="p-[2px] rounded-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500">
               <Link
-                href="#"
+                href={contactHref}
                 className="block px-6 py-2 text-xs font-bold uppercase tracking-widest bg-white text-black rounded-full hover:bg-transparent hover:text-white transition"
               >
                 Contact Us
