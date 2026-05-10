@@ -1,9 +1,8 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
 import { motion } from "framer-motion";
 import { CaseStudyId, CASE_STUDY_COLORS } from "@/config/caseStudies";
-import agencyLogo from "@/app/portfolio/caseStudies/CokeZero/assets/AgencyLogoFull.png";
+import { CaseStudyHeroLogo } from "./CaseStudyHeroLogo";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -20,67 +19,94 @@ const fadeInUp = {
 
 interface CaseStudyHeroProps {
   caseStudyId: CaseStudyId;
-  clientLogo: StaticImageData | string;
+  clientLogoSrc: string;
   clientLogoAlt: string;
   subtitle: string;
   className?: string;
+  containerClassName?: string;
+  showCaseStudyTag?: boolean;
+  caseStudyTagClassName?: string;
+  logoClassName?: string;
+  clientLogoClassName?: string;
+  agencyLogoClassName?: string;
+  xClassName?: string;
+  lineClassName?: string;
+  subtitleClassName?: string;
+  lineDelayOffset?: number;
+  renderLogo?: boolean;
 }
 
-export function CaseStudyHero({ caseStudyId, clientLogo, clientLogoAlt, subtitle, className = "" }: CaseStudyHeroProps) {
+export function CaseStudyHero({
+  caseStudyId,
+  clientLogoSrc,
+  clientLogoAlt,
+  subtitle,
+  className = "",
+  containerClassName = "relative z-10 w-full max-w-[1600px] mx-auto",
+  showCaseStudyTag = true,
+  caseStudyTagClassName = "inline-flex h-[50px] w-[160px] items-center justify-center bg-black/40 text-xl font-bold text-white outline outline-[4px] mb-6",
+  logoClassName = "",
+  clientLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
+  agencyLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
+  xClassName = "font-bold text-2xl md:text-3xl lg:text-4xl text-white",
+  lineClassName = "h-1 mt-6 mb-6 origin-left w-full",
+  subtitleClassName = "block max-w-full text-xl lg:text-4xl text-white font-semibold",
+  lineDelayOffset = 0.15,
+  renderLogo = true,
+}: CaseStudyHeroProps) {
   const lineColor = CASE_STUDY_COLORS[caseStudyId].line;
 
   return (
-    <div className={`relative z-35 text-white w-full max-w-6xl px-6 md:px-12 lg:px-20 ${className}`}>
-      <motion.p
-        custom={1}
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="inline-flex h-[50px] w-[160px] items-center justify-center bg-black/40 text-xl font-bold text-white outline outline-[4px] mb-5"
-        style={{ outlineColor: lineColor }}
-      >
-        Case Study
-      </motion.p>
+    <section className={className}>
+      <div className={containerClassName}>
+        {/* 1. Case Study Tag */}
+        {showCaseStudyTag && (
+          <motion.p
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className={caseStudyTagClassName}
+            style={{ outlineColor: lineColor }}
+          >
+            Case Study
+          </motion.p>
+        )}
 
-      <motion.div
-        custom={2}
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="flex items-center gap-4 mt-6 mb-4"
-      >
-        <Image
-          src={clientLogo}
-          alt={clientLogoAlt}
-          className="w-75 h-auto pr-2"
-        />
+        {/* 2. Hero Logo with Agency Logo */}
+        {renderLogo && (
+          <CaseStudyHeroLogo
+            clientLogoSrc={clientLogoSrc}
+            clientLogoAlt={clientLogoAlt}
+            className={logoClassName}
+            clientLogoClassName={clientLogoClassName}
+            agencyLogoClassName={agencyLogoClassName}
+            xClassName={xClassName}
+          />
+        )}
 
-        <p className="font-bold text-4xl">X</p>
+        <div className="inline-block max-w-full align-top">
+          {/* 3. Divider Line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1, delay: lineDelayOffset, ease: "circOut" }}
+            className={lineClassName}
+            style={{ backgroundColor: lineColor }}
+          />
 
-        <Image
-          src={agencyLogo}
-          alt="The Agency at the University of Florida"
-          className="w-110 h-auto pl-2"
-        />
-      </motion.div>
-
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1, delay: 0.15, ease: "circOut" }}
-        className="w-250 h-[3px] mt-6 origin-left"
-        style={{ backgroundColor: lineColor }}
-      />
-
-      <motion.h3
-        custom={1}
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="mt-6 w-250 max-w-full text-4xl font-bold leading-tight"
-      >
-        {subtitle}
-      </motion.h3>
-    </div>
+          {/* 4. Subtitle */}
+          <motion.h3
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className={subtitleClassName}
+          >
+            {subtitle}
+          </motion.h3>
+        </div>
+      </div>
+    </section>
   );
 }

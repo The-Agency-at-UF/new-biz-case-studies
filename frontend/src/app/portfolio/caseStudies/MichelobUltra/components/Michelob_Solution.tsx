@@ -1,15 +1,15 @@
 import localFont from "next/font/local";
 const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Medium.otf",
   display: "swap",
 });
 const gentonaBook = localFont({
-  src: "../../../../../../public/fonts/Gentona Book.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Book.otf",
   display: "swap",
 });
 
 const gentonaBold = localFont({
-  src: "../../../../../../public/fonts/Gentona Bold.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Bold.otf",
   display: "swap",
 });
 

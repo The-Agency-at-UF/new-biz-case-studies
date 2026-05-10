@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
 const franklinGothicBold = localFont({
-  src: "../../../public/fonts/Franklin Gothic Bold.ttf",
+  src: "../../../src/app/fonts/franklin-gothic/Franklin Gothic Bold.ttf",
   display: "swap",
 });
 

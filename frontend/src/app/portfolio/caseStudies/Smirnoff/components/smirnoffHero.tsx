@@ -1,14 +1,30 @@
+﻿"use client";
+
 import localFont from "next/font/local";
+import { motion } from "framer-motion";
 
 const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Medium.otf",
   display: "swap",
 });
 
 const gentonaBook = localFont({
-  src: "../../../../../../public/fonts/Gentona Book.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Book.otf",
   display: "swap",
 });
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (custom: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      delay: custom * 0.15,
+      ease: [0.21, 0.47, 0.32, 0.98] as const,
+    },
+  }),
+};
 
 const HERO_BG = "/assets/Smirnoff/image%2049.png";
 const LOGO_ACCENT = "#DA042C";
@@ -29,30 +45,54 @@ export default function SmirnoffHero() {
         }}
       >
         <div className="z-10 flex h-full flex-col justify-end pb-10 pt-10 md:pb-12 md:pt-12">
-          <p
-            className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-white px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold tracking-wider uppercase bg-[#C8102E]/30 backdrop-blur-sm w-fit text-white`}
+          {/* 1. Case Study Tag */}
+          <motion.p
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className={`${gentonaMedium.className} border-[2px] md:border-[3px] border-white px-2 md:px-6 py-1 md:max-2xl:py-2 rounded-none text-xs lg:text-lg font-bold tracking-wider uppercase bg-[#C8102E]/30 backdrop-blur-sm w-fit text-white mb-6`}
           >
             case study
-          </p>
+          </motion.p>
+          
           <div className="w-full max-w-3xl">
-            <img
+            {/* 2. Logo */}
+            <motion.img
+              custom={2}
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
               src="/assets/Smirnoff/HeroLogo.svg"
               className="h-auto w-full"
             />
-            <div
-              className=" h-1 w-full md:mt-3 md:h-1"
+          </div>
+
+          <div className="mt-3 inline-block max-w-full align-top md:mt-4">
+            {/* 3. Divider Line */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1, delay: 0.15, ease: "circOut" }}
+              className="mb-4 h-1 w-full origin-left md:h-1 md:mb-6"
               style={{
                 backgroundColor: LOGO_ACCENT,
                 boxShadow: LOGO_LINE_SHADOW,
               }}
               aria-hidden
             />
+
+            {/* 4. Subtitle */}
+            <motion.p
+              custom={3}
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              className={`${gentonaBook.className} text-xl md:text-1xl lg:text-4xl text-white leading-snug`}
+            >
+              Serving up Key Insights Until Last Call
+            </motion.p>
           </div>
-          <p
-            className={`${gentonaBook.className} mt-3 md:mt-4 mb-4 md:mb-6 text-xl md:text-1xl lg:text-4xl text-white max-w-6xl leading-snug`}
-          >
-            Serving up Key Insights Until Last Call
-          </p>
         </div>
       </div>
       <div

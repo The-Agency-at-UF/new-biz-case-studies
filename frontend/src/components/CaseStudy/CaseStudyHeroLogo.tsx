@@ -21,6 +21,8 @@ interface CaseStudyHeroLogoProps {
   clientLogoAlt: string;
   className?: string;
   clientLogoClassName?: string;
+  agencyLogoClassName?: string;
+  xClassName?: string;
 }
 
 export function CaseStudyHeroLogo({
@@ -28,6 +30,8 @@ export function CaseStudyHeroLogo({
   clientLogoAlt,
   className = "",
   clientLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
+  agencyLogoClassName = "max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left",
+  xClassName = "font-bold text-2xl md:text-3xl lg:text-4xl text-white",
 }: CaseStudyHeroLogoProps) {
   return (
     <motion.div
@@ -45,14 +49,14 @@ export function CaseStudyHeroLogo({
         className={clientLogoClassName}
       />
 
-      <p className="font-bold text-2xl md:text-3xl lg:text-4xl text-white">X</p>
+      <p className={xClassName}>X</p>
 
       <Image
         src="/logos/Agency_logo_2.png"
         alt="The Agency at the University of Florida"
         width={300}
         height={150}
-        className="max-w-[150px] md:max-w-[200px] lg:max-w-[280px] max-h-[80px] lg:max-h-[120px] object-contain object-left"
+        className={agencyLogoClassName}
       />
     </motion.div>
   );

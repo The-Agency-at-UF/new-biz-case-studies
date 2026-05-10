@@ -14,12 +14,12 @@ import localFont from "next/font/local";
 const gentona = localFont({
   src: [
     {
-      path: "../../../../../public/fonts/Gentona Book.otf",
+      path: "../../../../../src/app/fonts/gentona/Gentona Book.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../../../../public/fonts/Gentona Medium.otf",
+      path: "../../../../../src/app/fonts/gentona/Gentona Medium.otf",
       weight: "500",
       style: "normal",
     },

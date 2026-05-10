@@ -17,7 +17,7 @@ export default function TheBartramPage() {
       <NavBar />
       <Bartram_Hero />
 
-      <div className="space-y-40">
+      <div className="space-y-5">
         <BartramOpportunity />
         <BartramPhotoGallery />
         <BartramSolution />

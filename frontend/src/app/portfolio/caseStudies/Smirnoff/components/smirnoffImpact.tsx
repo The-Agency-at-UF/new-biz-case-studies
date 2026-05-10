@@ -2,11 +2,11 @@ import type { CSSProperties } from "react";
 import localFont from "next/font/local";
 
 const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Medium.otf",
   display: "swap",
 });
 const gentonaBook = localFont({
-  src: "../../../../../../public/fonts/Gentona Book.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Book.otf",
   display: "swap",
 });
 
