@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -13,13 +13,15 @@ export function useWhatIsAgencyReveal() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const tvOverlayRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const section = sectionRef.current;
     const videoOverlay = videoOverlayRef.current;
     const content = contentRef.current;
     const video = videoRef.current;
     const tvOverlay = tvOverlayRef.current;
     if (!section || !videoOverlay || !content || !video || !tvOverlay) return;
+
+    const refresh = () => ScrollTrigger.refresh();
 
     const ctx = gsap.context(() => {
 
@@ -116,14 +118,16 @@ export function useWhatIsAgencyReveal() {
         "-=0.08"
       );
 
-      // Dynamic company pages can change layout after this section mounts.
-      // Refresh once the trigger is fully created so pin/start/end values are
-      // recalculated against the final document height.
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-
     }, section);
 
-    return () => ctx.revert();
+    const rafId = window.requestAnimationFrame(refresh);
+    window.addEventListener("load", refresh);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("load", refresh);
+      ctx.revert();
+    };
   }, []);
 
   return { sectionRef, videoOverlayRef, contentRef, videoRef, tvOverlayRef };
