@@ -1,66 +1,87 @@
-"use client"
+"use client";
 
-import CaseStudyCard from "./CaseStudyCard"
-import { useState } from "react"
+import CaseStudyCard from "./CaseStudyCard";
+import { useEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-//call all from the data file instead of hardcoding here, this is just for testing purposes
-const caseStudies = [
-  {
-    title: "BLISS",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS 6",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  },
-  {
-    title: "BLISS 7",
-    description: "Helping Bliss Launch New Products, Engage Gen Z Audiences and Dive into TikTok",
-    tags:"Research • Insights • Creative Concepting • Social Listening • Social Strategy • Influencer Strategy",
-    image: "/assets/Bliss/MockUps.png",
-    href: "/portfolio/caseStudies/Bliss"
-  }
-];
+gsap.registerPlugin(ScrollTrigger);
+
+type CaseStudy = {
+  CaseStudyID: string;
+  Name: string;
+  Tags?: string[];
+  Description?: string;
+};
+
+const toCamelCase = (name: string) =>
+  name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
+
+const camelCase = (name: string) =>
+  name
+    .split(" ")
+    .map((word, i) =>
+      i === 0
+        ? word.charAt(0).toLowerCase() + word.slice(1)
+        : word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join("");
+
+const getImageExtension = (name: string) => {
+  const jpgNames = ["TheBartram", "MichelobUltra"];
+  return jpgNames.includes(toCamelCase(name)) ? ".jpg" : ".png";
+};
 
 export default function CaseStudiesGrid() {
+  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
+  const [loading, setLoading] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
-  
-  // You can adjust this to show more or fewer cards at once
+
   const visibleCount = 5;
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadCaseStudies = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const res = await fetch(`${baseUrl}/api/casestudies`, {
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setCaseStudies(data);
+
+          setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, 100);
+        } else {
+          console.error("Expected array but got:", data);
+          setCaseStudies([]);
+        }
+      } catch (err: any) {
+        if (err.name !== "AbortError") {
+          console.error("Failed to fetch case studies:", err);
+          setCaseStudies([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCaseStudies();
+
+    return () => controller.abort();
+  }, []);
 
   const handleNext = () => {
     if (startIndex + 1 <= caseStudies.length - visibleCount) {
@@ -74,25 +95,39 @@ export default function CaseStudiesGrid() {
     }
   };
 
+  if (loading) return null;
+  if (caseStudies.length === 0) return null;
+
   return (
     <section className="relative w-full h-[80vh] bg-black flex overflow-hidden">
       {caseStudies.map((study, index) => {
-        const isVisible = index >= startIndex && index < startIndex + visibleCount;
+        const isVisible =
+          index >= startIndex && index < startIndex + visibleCount;
+
+        const formattedName = toCamelCase(study.Name);
+        const imageName = camelCase(study.Name);
+        const imageExtension = getImageExtension(study.Name);
+
         return (
           <div
-            key={index}
+            key={study.CaseStudyID || index}
             className={`group relative overflow-hidden transition-all duration-700 ease-in-out border-white ${
               isVisible
                 ? "flex-1 hover:flex-[2.5] opacity-100 border-r last:border-r-0"
                 : "flex-[0_0_0px] opacity-0 border-0"
             }`}
           >
-            <CaseStudyCard {...study} />
+            <CaseStudyCard
+              title={study.Name}
+              description={study.Description || study.Name}
+              tags={(study.Tags || []).join(" • ")}
+              image={`https://new-biz-case-studies-bucket.s3.amazonaws.com/case-studies/${imageName}${imageExtension}`}
+              href={`/portfolio/caseStudies/${formattedName}`}
+            />
           </div>
         );
       })}
 
-      {/* Left Navigation Overlay */}
       {startIndex > 0 && (
         <button
           onClick={handlePrev}
@@ -102,7 +137,6 @@ export default function CaseStudiesGrid() {
         </button>
       )}
 
-      {/* Right Navigation Overlay */}
       {startIndex < caseStudies.length - visibleCount && (
         <button
           onClick={handleNext}
