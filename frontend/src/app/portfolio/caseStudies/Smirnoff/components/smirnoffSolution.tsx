@@ -1,11 +1,11 @@
 import localFont from "next/font/local";
 
 const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Medium.otf",
   display: "swap",
 });
 const gentonaBook = localFont({
-  src: "../../../../../../public/fonts/Gentona Book.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Book.otf",
   display: "swap",
 });
 
@@ -17,7 +17,7 @@ const SOLUTION_SECTION_BG =
   "linear-gradient(180deg, rgba(145,32,38,0.70) 0%, rgba(133,31,36,0.66) 8%, rgba(115,26,32,0.62) 16%, rgba(92,0,18,0.58) 28%, rgba(58,10,18,0.62) 42%, rgba(58,10,18,0.76) 58%, rgba(133,31,36,0.88) 100%)";
 const SOLUTION_TOP_BLEND =
   "linear-gradient(180deg, rgba(109,18,21,0.98) 0%, rgba(109,18,21,0.85) 18%, rgba(123,25,32,0.55) 45%, rgba(105,20,28,0.22) 72%, rgba(90,15,24,0) 100%)";
-const SECTION_PADDING = "px-15 md:px-30 lg:px-40";
+const SECTION_PADDING = "px-6 md:px-12 lg:px-20";
 const ASSETS = {
   redCircle: "/assets/Smirnoff/redCircleGradient.png",
   limes: "/assets/Smirnoff/limes.png",

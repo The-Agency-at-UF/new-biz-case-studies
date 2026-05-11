@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import solutionPhoto from "../assets/SolutionPhoto.png";
 
 export default function CarnivalSolutionSection() {
   const fadeInUp = {
@@ -100,7 +99,7 @@ export default function CarnivalSolutionSection() {
           >
             <div className="relative">
               <Image
-                src={solutionPhoto}
+                src="/assets/Carnival/SolutionPhoto.png"
                 alt="Carnival solution photo"
                 width={550}
                 height={610}

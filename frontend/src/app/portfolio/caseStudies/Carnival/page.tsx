@@ -1,26 +1,28 @@
 import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
+import CaseStudyDial from "@/components/CaseStudyDial";
 
-import carnivalBackground from "./assets/Carnival-Background.png";
 import CarnivalHeadlinesSection from "./components/CarnivalHeadlinesSection";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
 import CarnivalMeaningSection from "./components/CarnivalMeaningSection";
 import CarnivalOpportunitySection from "./components/CarnivalOpportunitySection";
 import CarnivalStatsSection from "./components/CarnivalStatsSection";
 import CarnivalSolutionSection from "./components/CarnivalSolutionSection";
+import SharedFooter from "../../../../components/Footer";
 
 export default function CarnivalPage() {
   return (
     <>
-      <BackButton />
+      <CaseStudyDial currentStudy="Carnival" />
+      <BackButton currentStudy="Carnival" />
       <NavBar />
 
       <main
         className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#004E8E] text-white`}
         style={{
           backgroundColor: "#004E8E",
-          backgroundImage: `url(${carnivalBackground.src})`,
+          backgroundImage: 'url(/assets/Carnival/Carnival-Background.png)',
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% auto",
@@ -47,6 +49,8 @@ export default function CarnivalPage() {
         <div className="relative z-10 mt-4 md:mt-8">
           <CarnivalHeadlinesSection />
         </div>
+
+        <SharedFooter />
       </main>
     </>
   );

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
+import { gentonaBold } from "../../../../fonts";
+import { CaseStudyContent, CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 
 export default function BlissSolution() {
   const fadeInUp = {
@@ -31,51 +32,42 @@ export default function BlissSolution() {
   };
 
   return (
-    <section className="relative w-full overflow-visible bg-[#F55096]">
-      <div className="relative z-10 flex h-full flex-row justify-center overflow-visible bg-[#F55096] px-8 py-20 md:px-10 lg:px-12">
-        <div className="max-w-2xl flex min-w-0 flex-[1_1_65%] flex-col gap-6 lg:gap-12">
-          <motion.h2
-            custom={1}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal md:text-6xl lg:text-[6rem]`}
-          >
-            <span className="block text-white">The</span>
-            <span className="block text-[#5FCAF4]">Solution</span>
-          </motion.h2>
+    <CaseStudyContent className="bg-[#F55096]">
+      <div className="relative z-10 flex h-full flex-row justify-center overflow-visible">
+        <div className="flex min-w-0 flex-[1_1_65%] flex-col gap-6 lg:gap-12">
+          <CaseStudyHeader preTitle="The" title="Solution" caseStudyId="bliss" colorOverride="#5FCAF4" />
 
-          <motion.p
+          <motion.div
             custom={2}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white md:text-2xl lg:text-3xl`}
           >
-            During the campaign, we analyzed more than –{" "}
-            <span className={`${gentonaBold.className}`}>
-              312k social media posts
-            </span>{" "}
-            to guide our strategy. Our team consulted the Bliss' CMO, board of
-            directors and marketing teams weekly and monthly to optimize our
-            marketing strategy throughout the year.
-            <br />
-            <br />
-            Our AI-generated{" "}
-            <span className={`${gentonaBold.className}`}>"mind maps"</span>{" "}
-            illustrate the conversations forming and evolving over time across
-            online spaces: social, news, blogs, forums, eCommerce, reviews,
-            comments, etc. The AI analyzes sentence structure, common keywords
-            and upload time among multiple posts.
-            <br />
-            <br />
-            The numbers don't lie:{" "}
-            <span className={`${gentonaBold.className}`}>
-              Purposeful community management is key to brand loyalty.
-            </span>
-          </motion.p>
+            <CaseStudyText weight="light">
+              During the campaign, we analyzed more than –{" "}
+              <span className={`${gentonaBold.className}`}>
+                312k social media posts
+              </span>{" "}
+              to guide our strategy. Our team consulted the Bliss' CMO, board of
+              directors and marketing teams weekly and monthly to optimize our
+              marketing strategy throughout the year.
+              <br />
+              <br />
+              Our AI-generated{" "}
+              <span className={`${gentonaBold.className}`}>"mind maps"</span>{" "}
+              illustrate the conversations forming and evolving over time across
+              online spaces: social, news, blogs, forums, eCommerce, reviews,
+              comments, etc. The AI analyzes sentence structure, common keywords
+              and upload time among multiple posts.
+              <br />
+              <br />
+              The numbers don't lie:{" "}
+              <span className={`${gentonaBold.className}`}>
+                Purposeful community management is key to brand loyalty.
+              </span>
+            </CaseStudyText>
+          </motion.div>
         </div>
 
         <motion.div
@@ -93,6 +85,6 @@ export default function BlissSolution() {
           />
         </motion.div>
       </div>
-    </section>
+    </CaseStudyContent>
   );
 }

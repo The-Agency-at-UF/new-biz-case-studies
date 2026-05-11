@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,9 +35,18 @@ function NavLink({ href, children, underlineColor }: NavLinkProps) {
 }
 
 export default function PortfolioBar() {
+  const pathname = usePathname();
   const [show, setShow] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+  const [presentationHref, setPresentationHref] = useState<string>("/presentation");
+  const [caseStudiesHref, setCaseStudiesHref] = useState<string>("/portfolio");
+
+  const toCamelCase = (name: string) =>
+    name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join("");
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
@@ -71,6 +81,63 @@ export default function PortfolioBar() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const path = pathname || window.location.pathname || "/";
+
+    const isAppRoute = path === "/" || path.startsWith("/presentation") || path.startsWith("/portfolio") || path.startsWith("/admin") || path.startsWith("/login");
+    const pathSegments = path.split("/").filter(Boolean);
+
+    const companyFromPath = !isAppRoute && pathSegments.length === 1 ? pathSegments[0] : null;
+    const companyFromQuery = params.get("company");
+    const companySlug = companyFromQuery ?? companyFromPath;
+
+    setPresentationHref(companySlug ? `/${companySlug}` : "/presentation");
+
+    if (!companySlug) {
+      setCaseStudiesHref("/portfolio");
+      return;
+    }
+
+    const controller = new AbortController();
+
+    (async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const response = await fetch(`${baseUrl}/api/company/${companySlug}/casestudies`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          setCaseStudiesHref("/portfolio");
+          return;
+        }
+
+        const firstStudy = data[0];
+        const studyId = typeof firstStudy?.Name === "string" ? toCamelCase(firstStudy.Name) : null;
+        setCaseStudiesHref(
+          studyId ? `/portfolio/caseStudies/${studyId}?company=${encodeURIComponent(companySlug)}` : "/portfolio"
+        );
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          console.error("Failed to load company case studies for nav:", err);
+        }
+        setCaseStudiesHref("/portfolio");
+      }
+    })();
+
+    return () => controller.abort();
+  }, [pathname]);
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-black/55 shadow-[0_8px_30px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-in-out ${
@@ -78,18 +145,19 @@ export default function PortfolioBar() {
       }`}
     >
       <div>
-        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-12 py-2 sm:py-3 lg:py-4">
+        <div className="flex items-center justify-between px-[clamp(1rem,4vw,3rem)] py-2 sm:py-3 lg:py-4">
           {/* Logo */}
           <div className="flex flex-col items-start gap-1 min-w-0">
             <Link
               href="/"
-              className="relative h-8 sm:h-10 w-28 sm:w-40 md:w-44"
+              className="relative h-8 sm:h-10 w-[clamp(7rem,12vw,11rem)]"
               onClick={() => setMenuOpen(false)}
             >
               <Image
-                src="/Agency_logo.png"
+                src="/logos/Agency_logo.png"
                 alt="The Agency Logo"
                 fill
+                sizes="(max-width: 640px) 7rem, (max-width: 1024px) 9rem, 11rem"
                 className="object-contain object-left"
                 priority
               />
@@ -101,14 +169,14 @@ export default function PortfolioBar() {
           </div>
 
           {/* Desktop Nav */}
-          <ul className="hidden md:flex gap-6 lg:gap-12 font-sans text-sm uppercase tracking-[0.2em] lg:tracking-[0.3em] font-bold">
+          <ul className="hidden md:flex gap-[clamp(1.5rem,4vw,3rem)] font-sans text-[clamp(0.75rem,1.5vw,0.875rem)] uppercase tracking-[0.2em] lg:tracking-[0.3em] font-bold">
             <li>
-              <NavLink href="/" underlineColor="group-hover:bg-[#f34d4e]">
+              <NavLink href={presentationHref} underlineColor="group-hover:bg-[#f34d4e]">
                 Presentation
               </NavLink>
             </li>
             <li>
-              <NavLink href="/portfolio" underlineColor="group-hover:bg-[#f6b530]">
+              <NavLink href={caseStudiesHref} underlineColor="group-hover:bg-[#f6b530]">
                 Case Studies
               </NavLink>
             </li>
@@ -140,7 +208,7 @@ export default function PortfolioBar() {
             <ul className="flex flex-col gap-2 font-sans text-sm uppercase tracking-[0.2em] font-bold">
               <li>
                 <Link
-                  href="/"
+                  href={presentationHref}
                   onClick={() => setMenuOpen(false)}
                   className="block py-2 text-white hover:text-[#f34d4e]"
                 >
@@ -149,7 +217,7 @@ export default function PortfolioBar() {
               </li>
               <li>
                 <Link
-                  href="/portfolio"
+                  href={caseStudiesHref}
                   onClick={() => setMenuOpen(false)}
                   className="block py-2 text-white hover:text-[#f6b530]"
                 >

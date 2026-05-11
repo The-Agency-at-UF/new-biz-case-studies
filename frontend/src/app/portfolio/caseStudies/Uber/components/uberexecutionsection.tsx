@@ -1,20 +1,14 @@
 import { gentonaMedium } from "@/app/fonts";
+import { CaseStudyContent, CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 
 export default function UberExecutionSection() {
   return (
-    <div className="relative flex flex-col h-full px-15 md:px-30 lg:px-40 inset-0 py-38 bg-[#142328]">
+    <CaseStudyContent className="bg-[#142328]">
       <div className="max-w-none flex flex-col gap-12">
-        <h2
-          className={`${gentonaMedium.className} text-4xl lg:text-[8rem] font-black uppercase leading-[0.85] tracking-normal`}
-        >
-          <span className="block text-white">The</span>
-          <span className="block text-[#76c893]">Execution</span>
-        </h2>
+        <CaseStudyHeader preTitle="The" title="Solution" caseStudyId="uber" />
 
-        <div
-          className={`${gentonaMedium.className} text-sm lg:text-4xl font-light text-white leading-tight tracking-wide flex flex-col gap-6`}
-        >
-          <p>
+        <div className="flex flex-col gap-6">
+          <CaseStudyText weight="light">
             We collaborated with Uber&apos;s global marketing and creative teams on
             the ideation and execution of a number of creative briefs. These
             included copy for collaborations and brand activations, including{" "}
@@ -23,8 +17,8 @@ export default function UberExecutionSection() {
             With the Uber team, our data analysts moderated interviews and
             developed scripts for surveys, both of which generated insights on
             user experience.
-          </p>
-          <p>
+          </CaseStudyText>
+          <CaseStudyText weight="light">
             Each month, we presented actionable recommendations for Uber. We
             conducted an audit of Uber&apos;s current standing with social channels,
             gaming and loyalty programs to suggest new ways the technology
@@ -33,15 +27,15 @@ export default function UberExecutionSection() {
               maximize brand affinity among Gen Z and younger millennials
             </strong>
             .
-          </p>
-          <p>
+          </CaseStudyText>
+          <CaseStudyText weight="light">
             We showed Uber&apos;s teams which kinds of messaging maintain customer
             loyalty in a general market and which emerging channels would be
             most advantageous to use when targeting Gen Z.
-          </p>
+          </CaseStudyText>
         </div>
       </div>
-    </div>
+    </CaseStudyContent>
   );
 }
 

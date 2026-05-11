@@ -30,14 +30,6 @@ export function AdventureProvider({ children }: { children: React.ReactNode }): 
     setSectionOrder(BLOB_ORDER[blob]);
   }
 
-  useEffect(() => {
-    if (!sectionOrder.length) return;
-
-    requestAnimationFrame(() => {
-      firstSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }, [sectionOrder]);
-
   return (
     <AdventureContext.Provider value={{ selectedBlob, sectionOrder, selectBlob, firstSectionRef }}>
       {children}

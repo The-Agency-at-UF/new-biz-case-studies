@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
 const franklinGothicBold = localFont({
-  src: "../../../public/fonts/Franklin Gothic Bold.ttf",
+  src: "../../../src/app/fonts/franklin-gothic/Franklin Gothic Bold.ttf",
   display: "swap",
 });
 
@@ -30,7 +30,7 @@ function LoginPageContent() {
     <div className="relative z-10 flex flex-col items-center mt-20">
       <div className="w-[50%]">
         <img
-          src="/Agency_logo_2.png"
+          src="logos/Agency_logo_2.png"
           alt="The Agency Logo"
           className="w-full h-auto object-contain"
         />

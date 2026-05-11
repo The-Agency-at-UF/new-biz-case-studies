@@ -1,8 +1,9 @@
 "use client";
 
-import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
+import { gentonaBold, gentonaBook } from "../../../../fonts";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CaseStudyContent, CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 
 export default function SolutionSection() {
   const viewportSettings = {
@@ -46,44 +47,37 @@ export default function SolutionSection() {
         />
       </motion.div>
 
-      <div className="flex max-w-none flex-col gap-6 px-15 md:px-30 lg:gap-18 lg:px-40">
-        <motion.h2
-          custom={2}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportSettings}
-          variants={fadeInUp}
-          className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal lg:text-[8rem]`}
-        >
-          <span className="block text-white">The</span>
-          <span className="block text-[#5FCAF4]">Solution</span>
-        </motion.h2>
+      <CaseStudyContent className="!py-0">
+        <div className="flex max-w-none flex-col gap-6 lg:gap-18">
+          <CaseStudyHeader preTitle="The" title="Solution" caseStudyId="amazonAlexa" />
 
-        <motion.p
+        <motion.div
           custom={3}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={fadeInUp}
-          className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white lg:text-4xl`}
         >
-          After rounds of social listening and market research, members of our
-          team would present concise research packages to the Amazon Alexa
-          Personality Team on a wide range of culturally relevant, Gen Z-related
-          topics.{" "}
-          <span className={`${gentonaBold.className}`}>
-            In simple terms, we told them what is hot and what is not, according
-            to our research.
-          </span>
-          <br />
-          <br />
-          Using these insights, our copywriters collaborated with the
-          personality team in a writers’ room setting. Together, we finalized
-          over <span className={`${gentonaBold.className}`}>250</span> engaging
-          and research-based responses for some of the most frequently asked
-          questions among young audiences.
-        </motion.p>
-      </div>
+          <CaseStudyText weight="light">
+            After rounds of social listening and market research, members of our
+            team would present concise research packages to the Amazon Alexa
+            Personality Team on a wide range of culturally relevant, Gen Z-related
+            topics.{" "}
+            <span className={`${gentonaBold.className}`}>
+              In simple terms, we told them what is hot and what is not, according
+              to our research.
+            </span>
+            <br />
+            <br />
+            Using these insights, our copywriters collaborated with the
+            personality team in a writers’ room setting. Together, we finalized
+            over <span className={`${gentonaBold.className}`}>250</span> engaging
+            and research-based responses for some of the most frequently asked
+            questions among young audiences.
+          </CaseStudyText>
+        </motion.div>
+        </div>
+      </CaseStudyContent>
     </section>
   );
 }

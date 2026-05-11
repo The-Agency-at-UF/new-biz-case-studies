@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import { useWhatIsAgencyReveal } from "./animations/useWhatIsAgencyReveal";
 
 export default function WhatIsAgency() {
-  const { sectionRef, videoOverlayRef, contentRef } = useWhatIsAgencyReveal();
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { sectionRef, videoOverlayRef, contentRef, videoRef, tvOverlayRef } = useWhatIsAgencyReveal();
   const [isMuted, setIsMuted] = useState(true);
 
   const toggleMute = () => {
@@ -31,7 +30,6 @@ export default function WhatIsAgency() {
           left: "calc(50% - 25vw)",
           overflow: "hidden",
           opacity: 0,
-          borderRadius: "8px",
         }}
       >
         <video
@@ -41,12 +39,27 @@ export default function WhatIsAgency() {
           muted={isMuted}
           loop
           playsInline
+          preload="auto"
           style={{
-            width: "100%",
-            height: "100%",
+            position: "absolute",
+            left: "6.28%",
+            top: "10.60%",
+            width: "65.53%",
+            height: "75.69%",
             objectFit: "cover",
             transform: "translateZ(0)",
             backfaceVisibility: "hidden",
+          }}
+        />
+        {/* Overlay the TV mask instead of using CSS mask */}
+        <div
+          ref={tvOverlayRef}
+          className="absolute inset-0 pointer-events-none z-20"
+          style={{
+            backgroundImage: "url('/assets/Presentation/tv-mask.png')",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
           }}
         />
       </div>
@@ -54,22 +67,22 @@ export default function WhatIsAgency() {
       {/* Content — fades in after video fills section */}
       <div
         ref={contentRef}
-        className="absolute inset-0 z-30 flex flex-col items-start justify-end p-16 opacity-0"
+        className="absolute inset-0 z-30 flex flex-col items-start justify-end p-[clamp(2rem,6vw,4rem)] opacity-0"
         style={{ background: "linear-gradient(to right, rgba(0,0,0,1) 40%, rgba(0,0,0,0.20) 100%)" }}
       >
         <img 
           src="/assets/Presentation/A_LetterMark_White.png"
           alt="The Agency LetterMark"
-          className="absolute top-16 right-16 w-[60px] md:w-[80px] lg:w-[100px] h-auto object-contain opacity-90"
+          className="absolute top-[clamp(2rem,6vw,4rem)] right-[clamp(2rem,6vw,4rem)] w-[clamp(60px,8vw,100px)] h-auto object-contain opacity-90"
         />
         <p className="text-white/50 text-sm uppercase tracking-widest mb-3">
           The Agency at UF
         </p>
-        <h1 className="text-white text-5xl md:text-7xl font-bold uppercase tracking-wide mb-4">
+        <h1 className="text-white text-[clamp(2.5rem,6vw,4.5rem)] font-bold uppercase tracking-wide mb-4 leading-tight">
           Full-Service Marketing.<br />
           Communications Agency.
         </h1>
-        <p className="text-white/70 text-base max-w-xl leading-relaxed mb-6">
+        <p className="text-white/70 text-[clamp(0.875rem,2vw,1.125rem)] max-w-[clamp(300px,50vw,36rem)] leading-relaxed mb-6">
           We enable partner agencies and clients to tap into the energy, insights, diversity,
           and talent of the nation&#39;s top marketing, advertising, PR and communications students
           in a unique and scalable way.

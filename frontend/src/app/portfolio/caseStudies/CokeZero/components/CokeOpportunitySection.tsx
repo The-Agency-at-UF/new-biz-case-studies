@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import cokeAsset5 from "../assets/CokeAsset5.png";
 import { motion } from "framer-motion";
 
 export default function CokeOpportunitySection() {
@@ -62,11 +60,10 @@ export default function CokeOpportunitySection() {
             </p>
           </div>
           <div className="relative mx-auto -mt-14 aspect-square w-[24rem] overflow-hidden rounded-full sm:w-[30rem] lg:ml-auto lg:mr-[-12rem] lg:w-[34rem]">
-            <Image
-              src={cokeAsset5}
+            <img
+              src="/assets/CokeZero/CokeAsset5.png"
               alt="Game day coke advertisement"
-              fill
-              className="relative object-cover object-[40%_50%] "
+              className="relative w-full h-full object-cover object-[40%_50%]"
             />
           </div>
         </motion.div>
@@ -74,3 +71,4 @@ export default function CokeOpportunitySection() {
     </section>
   );
 }
+

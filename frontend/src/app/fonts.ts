@@ -32,31 +32,37 @@ export const gentona = localFont({
 });
 
 export const gentonaMedium = localFont({
-  src: "../../public/fonts/Gentona Medium.otf",
+  src: "./fonts/gentona/Gentona Medium.otf",
   display: "swap",
   variable: "--font-gentona",
 });
 
 export const gentonaBook = localFont({
-  src: "../../public/fonts/Gentona Book.otf",
+  src: "./fonts/gentona/Gentona Book.otf",
   display: "swap",
   variable: "--font-gentona-book",
 });
 
 export const gentonaBold = localFont({
-  src: "../../public/fonts/Gentona Bold.otf",
+  src: "./fonts/gentona/Gentona Bold.otf",
   display: "swap",
   variable: "--font-gentona-bold",
 });
 
 export const franklinGothicRegular = localFont({
-  src: "../../public/fonts/Franklin Gothic regular.ttf",
+  src: "./fonts/franklin-gothic/Franklin Gothic regular.ttf",
   display: "swap",
   variable: "--font-franklin-gothic-regular",
 });
 
+export const franklinGothicBold = localFont({
+  src: "./fonts/franklin-gothic/Franklin Gothic Bold.ttf",
+  display: "swap",
+  variable: "--font-franklin-gothic-bold",
+});
+
 export const obviouslyExtendedMedium = localFont({
-  src: "../../public/fonts/Obviously-ExtendedMedium.otf",
+  src: "./fonts/Obviously-ExtendedMedium.otf",
   display: "swap",
   variable: "--font-obviously-extended-medium",
 });

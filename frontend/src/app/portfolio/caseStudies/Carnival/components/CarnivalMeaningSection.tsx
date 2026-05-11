@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import meaningPhoto from "../assets/MeaningPhoto.png";
-import tweets from "../assets/Tweets.png";
 
 export default function CarnivalMeaningSection() {
   const fadeInUp = {
@@ -70,7 +68,7 @@ export default function CarnivalMeaningSection() {
               className="relative mx-auto w-full max-w-[38rem] lg:ml-auto lg:mr-0 lg:max-w-[44rem]"
             >
               <Image
-                src={tweets}
+                src="/assets/Carnival/Tweets.png"
                 alt="Traveler conversation tweets"
                 width={1080}
                 height={720}
@@ -102,7 +100,7 @@ export default function CarnivalMeaningSection() {
               >
                 <div className="relative z-20 overflow-hidden">
                   <Image
-                    src={meaningPhoto}
+                    src="/assets/Carnival/MeaningPhoto.png"
                     alt="Carnival travelers on deck"
                     width={1040}
                     height={1240}

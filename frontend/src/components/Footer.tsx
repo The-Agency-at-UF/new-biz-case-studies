@@ -2,7 +2,8 @@
 // component has arrived ;)
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import ContactCard from "@/app/presentation/components/ContactCard";
 
 const MailIcon = () => (
   <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
@@ -42,8 +43,55 @@ export default function AgencyFooter({
   phone = "(352) 294-3848",
   email = "theagency@jou.ufl.edu",
 }: Props) {
+  const [contactOpen, setContactOpen] = useState(false);
+
+  useEffect(() => {
+    if (!contactOpen || typeof window === "undefined") return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setContactOpen(false);
+      }
+    };
+
+    const previousOverflow = window.document.body.style.overflow;
+    window.document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [contactOpen]);
+
   return (
-    <footer className="w-full bg-black text-white">
+    <>
+      {contactOpen && (
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 px-4 py-8 backdrop-blur-sm"
+          onClick={() => setContactOpen(false)}
+          role="presentation"
+        >
+          <div
+            className="relative w-full max-w-[clamp(320px,88vw,760px)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              aria-label="Close contact form"
+              onClick={() => setContactOpen(false)}
+              className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black"
+            >
+              <span aria-hidden="true" className="text-2xl leading-none">
+                ×
+              </span>
+            </button>
+            <ContactCard />
+          </div>
+        </div>
+      )}
+
+      <footer className="mt-auto w-full bg-black text-white">
       
       {/* Gradient Bar */}
       <div className="h-[4px] w-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500" />
@@ -83,12 +131,13 @@ export default function AgencyFooter({
 
           {/* CTA */}
           <div className="p-[2px] rounded-full bg-gradient-to-r from-orange-500 via-pink-500 via-purple-500 to-indigo-500">
-              <Link
-                href="#"
+              <button
+                type="button"
+                onClick={() => setContactOpen(true)}
                 className="block px-6 py-2 text-xs font-bold uppercase tracking-widest bg-white text-black rounded-full hover:bg-transparent hover:text-white transition"
               >
                 Contact Us
-              </Link>
+              </button>
           </div>
         </div>
 
@@ -99,6 +148,7 @@ export default function AgencyFooter({
           <span>Gainesville, Florida 32611</span>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
 }

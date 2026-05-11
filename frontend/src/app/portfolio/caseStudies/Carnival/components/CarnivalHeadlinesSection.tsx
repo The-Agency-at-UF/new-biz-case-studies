@@ -3,14 +3,6 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
-import carnivalLogo from "../assets/carnival-Logo.svg";
-import photo1Col1 from "../assets/photo1Col1.png";
-import photo1Col2 from "../assets/photo1Col2.png";
-import photo1Col3 from "../assets/photo1Col3.png";
-import photo2Col1 from "../assets/photo2Col1.png";
-import photo2Col2 from "../assets/photo2Col2.png";
-import photo3Col2 from "../assets/photo3Col2.png";
 
 export default function CarnivalHeadlinesSection() {
   const colsRef = useRef(null);
@@ -57,7 +49,7 @@ export default function CarnivalHeadlinesSection() {
               >
                 <div className="relative overflow-hidden">
                   <Image
-                    src={photo1Col1}
+                    src="/assets/Carnival/photo1Col1.png"
                     alt="CruiseHive article headline"
                     fill
                     sizes="(min-width: 1280px) 20rem, (min-width: 1024px) 18rem, 100vw"
@@ -66,7 +58,7 @@ export default function CarnivalHeadlinesSection() {
                 </div>
                 <div className="relative overflow-hidden">
                   <Image
-                    src={photo2Col1}
+                    src="/assets/Carnival/photo2Col1.png"
                     alt="Carnival newsroom article"
                     fill
                     sizes="(min-width: 1280px) 20rem, (min-width: 1024px) 18rem, 100vw"
@@ -81,7 +73,7 @@ export default function CarnivalHeadlinesSection() {
               >
                 <div className="relative overflow-hidden">
                   <Image
-                    src={photo1Col2}
+                    src="/assets/Carnival/photo1Col2.png"
                     alt="University of Florida article headline"
                     fill
                     sizes="(min-width: 1280px) 12rem, (min-width: 1024px) 11rem, 100vw"
@@ -90,7 +82,7 @@ export default function CarnivalHeadlinesSection() {
                 </div>
                 <div className="relative overflow-hidden">
                   <Image
-                    src={photo2Col2}
+                    src="/assets/Carnival/photo2Col2.png"
                     alt="Study findings article excerpt"
                     fill
                     sizes="(min-width: 1280px) 12rem, (min-width: 1024px) 11rem, 100vw"
@@ -99,7 +91,7 @@ export default function CarnivalHeadlinesSection() {
                 </div>
                 <div className="relative overflow-hidden">
                   <Image
-                    src={photo3Col2}
+                    src="/assets/Carnival/photo3Col2.png"
                     alt="Traveler preference article headline"
                     fill
                     sizes="(min-width: 1280px) 12rem, (min-width: 1024px) 11rem, 100vw"
@@ -118,7 +110,7 @@ export default function CarnivalHeadlinesSection() {
               className="relative mx-auto w-full max-w-[24rem] lg:mx-0 lg:h-[26rem] lg:max-w-[24rem] xl:h-[29rem] xl:max-w-[26rem]"
             >
               <Image
-                src={photo1Col3}
+                src="/assets/Carnival/photo3Col2.png"
                 alt="Travel enthusiasm infographic"
                 fill
                 sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 24rem, 100vw"
@@ -142,15 +134,17 @@ export default function CarnivalHeadlinesSection() {
               className="relative z-10 flex flex-col items-center justify-center gap-5 text-white lg:flex-row lg:gap-6"
             >
               <Image
-                src={carnivalLogo}
+                src="/assets/Carnival/carnival-Logo.svg"
                 alt="Carnival"
+                width={300}
+                height={150}
                 className="h-auto w-full max-w-[250px] sm:max-w-[320px]"
               />
 
               <p className="text-3xl font-bold lg:text-4xl">X</p>
 
-              <Image
-                src={agencyLogo}
+              <img
+                src="/assets/CokeZero/AgencyLogoFull.png"
                 alt="The Agency at the University of Florida"
                 className="h-auto w-full max-w-[280px] sm:max-w-[380px]"
               />

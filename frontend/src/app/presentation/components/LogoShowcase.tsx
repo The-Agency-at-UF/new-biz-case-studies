@@ -112,7 +112,7 @@ function LogoRow({ logos, speed = 30, reverse = false }: {
         style={{
           display: "flex",
           flexDirection: "row",
-          gap: "48px",
+          gap: "clamp(24px, 5vw, 48px)",
           width: "max-content",
           alignItems: "center",
           padding: "12px 0",
@@ -122,8 +122,8 @@ function LogoRow({ logos, speed = 30, reverse = false }: {
           <div
             key={i}
             style={{
-              width: "120px",
-              height: "60px",
+              width: "clamp(80px, 15vw, 160px)",
+              height: "clamp(40px, 8vw, 80px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -154,17 +154,17 @@ export default function LogoScroll() {
   return (
     <section className="w-full py-16 bg-black overflow-hidden">
       {/* Header text */}
-      <div className="px-12 mb-10">
+      <div className="px-[clamp(1.5rem,5vw,3rem)] mb-10">
         <p className="text-white/50 text-sm uppercase tracking-widest mb-2">
           Trusted by
         </p>
-        <h2 className="text-white text-3xl md:text-5xl font-bold uppercase tracking-wide">
+        <h2 className="text-white text-[clamp(1.875rem,5vw,3rem)] font-bold uppercase tracking-wide">
           Our Clients
         </h2>
       </div>
 
       {/* Two row logo grid */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)" }}>
         <LogoRow logos={ROW_ONE} speed={30} />
         <LogoRow logos={ROW_TWO} speed={30} reverse />
       </div>

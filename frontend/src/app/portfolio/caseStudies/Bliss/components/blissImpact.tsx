@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { gentonaMedium, gentonaBold, gentonaBook } from "../../../../fonts";
+import { gentonaBold } from "../../../../fonts";
+import { CaseStudyContent, CaseStudyHeader, CaseStudyText } from "@/components/CaseStudy";
 
 export default function BlissImpact() {
   const fadeInUp = {
@@ -31,43 +32,34 @@ export default function BlissImpact() {
   };
 
   return (
-    <section className="relative w-full overflow-visible bg-[#F55096]">
-      <div className="relative z-10 flex h-full flex-row justify-center px-8 md:px-10 lg:px-12">
-        <div className="max-w-2xl flex min-w-0 flex-[1_1_65%] flex-col gap-6 lg:gap-12">
-          <motion.h2
-            custom={1}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className={`${gentonaMedium.className} text-4xl font-black uppercase leading-[0.8] tracking-normal md:text-6xl lg:text-[6rem]`}
-          >
-            <span className="block text-white">The</span>
-            <span className="block text-[#5FCAF4]">Impact</span>
-          </motion.h2>
+    <CaseStudyContent className="bg-[#F55096]">
+      <div className="relative z-10 flex h-full flex-row justify-center">
+        <div className="flex min-w-0 flex-[1_1_65%] flex-col gap-6 lg:gap-12">
+          <CaseStudyHeader preTitle="The" title="Impact" caseStudyId="bliss" colorOverride="#5FCAF4" />
 
-          <motion.p
+          <motion.div
             custom={2}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className={`${gentonaBook.className} text-sm font-light leading-tight tracking-wide text-white md:text-2xl lg:text-3xl`}
           >
-            Now, Bliss' TikTok glows because of our insights and suggestions.
-            Organically engaging with community-based content allowed Bliss to
-            gain clout among younger audiences. One of Bliss' comments, which we
-            wrote, garnered more than 20k likes.
-            <br />
-            <br />
-            With a following{" "}
-            <span className={`${gentonaBold.className}`}>
-              increase from 380k in March 2021 to 404K in August 2022
-            </span>
-            , the brand now holds the{" "}
-            <span className={`${gentonaBold.className}`}>7th</span> highest
-            TikTok following among direct competitors.
-          </motion.p>
+            <CaseStudyText weight="light">
+              Now, Bliss' TikTok glows because of our insights and suggestions.
+              Organically engaging with community-based content allowed Bliss to
+              gain clout among younger audiences. One of Bliss' comments, which we
+              wrote, garnered more than 20k likes.
+              <br />
+              <br />
+              With a following{" "}
+              <span className={`${gentonaBold.className}`}>
+                increase from 380k in March 2021 to 404K in August 2022
+              </span>
+              , the brand now holds the{" "}
+              <span className={`${gentonaBold.className}`}>7th</span> highest
+              TikTok following among direct competitors.
+            </CaseStudyText>
+          </motion.div>
         </div>
 
         <motion.div
@@ -85,6 +77,6 @@ export default function BlissImpact() {
           />
         </motion.div>
       </div>
-    </section>
+    </CaseStudyContent>
   );
 }

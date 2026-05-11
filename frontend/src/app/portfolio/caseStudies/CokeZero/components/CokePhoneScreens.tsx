@@ -1,9 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import phone1 from "../assets/Coke-Phone1.svg";
-import phone2 from "../assets/Coke-Phone2.svg";
-import phone3 from "../assets/Coke-Phone3.svg";
 import { motion } from "framer-motion";
 
 export default function CokePhoneScreens() {
@@ -29,11 +25,11 @@ export default function CokePhoneScreens() {
         viewport={{ once: true }}
         variants={fadeInUp}
       >
-        <Image
-          src={phone1}
+        <img
+          src="/assets/CokeZero/Coke-Phone1.svg"
           alt="Coke Zero mobile screen one"
           className="h-auto w-[14rem] sm:w-[16rem] lg:w-[18rem]"
-          priority={false}
+          draggable={false}
         />
       </motion.div>
       <motion.div
@@ -43,11 +39,11 @@ export default function CokePhoneScreens() {
         viewport={{ once: true }}
         variants={fadeInUp}
       >
-        <Image
-          src={phone2}
+        <img
+          src="/assets/CokeZero/Coke-Phone2.svg"
           alt="Coke Zero mobile screen two"
           className="h-auto w-[14rem] sm:w-[16rem] lg:w-[18rem]"
-          priority={false}
+          draggable={false}
         />
       </motion.div>
       <motion.div
@@ -57,13 +53,14 @@ export default function CokePhoneScreens() {
         viewport={{ once: true }}
         variants={fadeInUp}
       >
-        <Image
-          src={phone3}
+        <img
+          src="/assets/CokeZero/Coke-Phone3.svg"
           alt="Coke Zero mobile screen three"
           className="h-auto w-[14rem] sm:w-[16rem] lg:w-[18rem]"
-          priority={false}
+          draggable={false}
         />
       </motion.div>
     </div>
   );
 }
+

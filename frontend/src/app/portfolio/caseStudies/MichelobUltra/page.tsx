@@ -1,17 +1,20 @@
 //import Image from "next/image"; // use Next.js Image component for any images
 import NavBar from "../../../../components/NavBar";
 import BackButton from "../../../../components/BackButton";
+import CaseStudyDial from "../../../../components/CaseStudyDial";
 
 import MichelobUltra_Hero from "./components/hero";
 import MichelobUltra_PhotoGallery from "./components/Michelob_Gallery";
 import MichelobUltra_Solution from "./components/Michelob_Solution";
 import MichelobUltra_Opportunity from "./components/MichelobOpportunity";
 import MichelobUltra_Footer from "./components/MichelobUltra_Footer";
+import SharedFooter from "../../../../components/Footer";
 
 export default function MichelobUltraPage() {
   return (
     <div className="relative min-h-screen text-foreground bg-[#00346D] overflow-x-clip">
-      <BackButton />
+      <CaseStudyDial currentStudy="MichelobUltra" />
+      <BackButton currentStudy="MichelobUltra" />
 
       <NavBar />
       <MichelobUltra_Hero />
@@ -31,6 +34,7 @@ export default function MichelobUltraPage() {
 
       <MichelobUltra_Solution />
       <MichelobUltra_Footer />
+      <SharedFooter />
     </div>
   );
 }

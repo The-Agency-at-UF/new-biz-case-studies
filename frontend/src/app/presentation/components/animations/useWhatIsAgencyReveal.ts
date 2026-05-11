@@ -10,12 +10,24 @@ export function useWhatIsAgencyReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const tvOverlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const videoOverlay = videoOverlayRef.current;
     const content = contentRef.current;
-    if (!section || !videoOverlay || !content) return;
+    const video = videoRef.current;
+    const tvOverlay = tvOverlayRef.current;
+    if (!section || !videoOverlay || !content || !video || !tvOverlay) return;
+
+    const refresh = () => ScrollTrigger.refresh();
+    const startVideo = () => {
+      video.play().catch(() => {
+        // If the browser blocks autoplay on first paint, the next user gesture
+        // or layout refresh can retry playback.
+      });
+    };
 
     const ctx = gsap.context(() => {
 
@@ -41,6 +53,10 @@ export function useWhatIsAgencyReveal() {
           });
         },
       });
+
+      if (video.readyState >= 2) {
+        startVideo();
+      }
 
       // Phase 2 — scroll drives video expansion
       const tl = gsap.timeline({
@@ -80,8 +96,29 @@ export function useWhatIsAgencyReveal() {
           ),
           borderRadius: "0px",
           ease: "none",
-          duration: 0.7,
+          duration: 1.0,
         }
+      );
+
+      // Halfway through the zoom, fade out the TV frame
+      tl.to(
+        tvOverlay,
+        { opacity: 0, duration: 0.5, ease: "none" },
+        0.5 // Starts at 0.5s into the 1.0s timeline
+      );
+
+      // Pop the video out of the TV screen
+      tl.to(
+        video,
+        {
+          left: "0%",
+          top: "0%",
+          width: "100%",
+          height: "100%",
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        0.5
       );
 
       tl.fromTo(
@@ -93,8 +130,19 @@ export function useWhatIsAgencyReveal() {
 
     }, section);
 
-    return () => ctx.revert();
+    const rafId = window.requestAnimationFrame(refresh);
+    window.addEventListener("load", refresh);
+    video.addEventListener("loadeddata", startVideo, { once: true });
+    video.addEventListener("canplay", startVideo, { once: true });
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("load", refresh);
+      video.removeEventListener("loadeddata", startVideo);
+      video.removeEventListener("canplay", startVideo);
+      ctx.revert();
+    };
   }, []);
 
-  return { sectionRef, videoOverlayRef, contentRef };
+  return { sectionRef, videoOverlayRef, contentRef, videoRef, tvOverlayRef };
 }

@@ -1,10 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import cautiousTraveler from "../assets/CautiousTraveler.png";
-import dottedRedCircle from "../assets/dotted-redCircle.svg";
-import opportunityPhoto from "../assets/Opportunity-Photo.png";
-import prospectiveTraveler from "../assets/ProspectiveTraveler.png";
 import { motion } from "framer-motion";
 
 export default function CarnivalOpportunitySection() {
@@ -73,7 +69,7 @@ export default function CarnivalOpportunitySection() {
 
           <div className="relative mt-6 w-full shrink-0 overflow-hidden lg:mr-[-5rem] lg:w-[46%] xl:w-[48%]">
             <Image
-              src={opportunityPhoto}
+              src="/assets/Carnival/Opportunity-Photo.png"
               alt="Carnival Funderstruck opportunity photo"
               width={980}
               height={860}
@@ -109,14 +105,14 @@ export default function CarnivalOpportunitySection() {
               className="relative overflow-visible"
             >
               <Image
-                src={cautiousTraveler}
+                src="/assets/Carnival/CautiousTraveler.png"
                 alt="The cautious traveler"
                 width={620}
                 height={410}
                 className="h-auto w-full object-cover"
               />
               <Image
-                src={dottedRedCircle}
+                src="/assets/Carnival/dotted-redCircle.svg"
                 alt=""
                 aria-hidden
                 width={120}
@@ -147,7 +143,7 @@ export default function CarnivalOpportunitySection() {
               className="relative overflow-hidden"
             >
               <Image
-                src={prospectiveTraveler}
+                src="/assets/Carnival/ProspectiveTraveler.png"
                 alt="The prospective traveler"
                 width={620}
                 height={410}

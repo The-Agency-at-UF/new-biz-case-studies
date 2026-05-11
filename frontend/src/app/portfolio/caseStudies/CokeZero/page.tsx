@@ -1,25 +1,25 @@
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
-
-import cokeBackground from "./assets/Coke-Background.svg";
+import CaseStudyDial from "@/components/CaseStudyDial";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
 import CokePhoneScreens from "./components/CokePhoneScreens";
 import CokeOpportunitySection from "./components/CokeOpportunitySection";
 import CokeSolutionSection from "./components/CokeSolutionSection";
 import CokeFooter from "./components/CokeFooter";
+import SharedFooter from "../../../../components/Footer";
 
 import localFont from "next/font/local";
 
 const gentona = localFont({
   src: [
     {
-      path: "../../../../../public/fonts/Gentona Book.otf",
+      path: "../../../../../src/app/fonts/gentona/Gentona Book.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../../../../public/fonts/Gentona Medium.otf",
+      path: "../../../../../src/app/fonts/gentona/Gentona Medium.otf",
       weight: "500",
       style: "normal",
     },
@@ -30,14 +30,15 @@ const gentona = localFont({
 export default function CokeZeroPage() {
   return (
     <>
-      <BackButton />
+      <CaseStudyDial currentStudy="CokeZero" />
+      <BackButton currentStudy="CokeZero" />
       <NavBar />
 
       <div
         className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#EC1C24] text-white`}
         style={{
           backgroundColor: "#EC1C24",
-          backgroundImage: `url(${cokeBackground.src})`,
+          backgroundImage: "url('/assets/CokeZero/Coke-Background.svg')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "top center",
           backgroundSize: "100% auto",
@@ -63,9 +64,11 @@ export default function CokeZeroPage() {
           <CokePhoneScreens />
         </div>
 
-        <div className="relative z-10 mt-25 bg-[#EC1C24] md:mt-45">
+        <div className="relative z-10 mt-25 md:mt-45">
           <CokeFooter />
         </div>
+
+        <SharedFooter />
       </div>
     </>
   );

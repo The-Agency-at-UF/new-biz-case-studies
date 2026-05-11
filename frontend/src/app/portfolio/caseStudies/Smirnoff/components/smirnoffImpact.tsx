@@ -2,11 +2,11 @@ import type { CSSProperties } from "react";
 import localFont from "next/font/local";
 
 const gentonaMedium = localFont({
-  src: "../../../../../../public/fonts/Gentona Medium.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Medium.otf",
   display: "swap",
 });
 const gentonaBook = localFont({
-  src: "../../../../../../public/fonts/Gentona Book.otf",
+  src: "../../../../../../src/app/fonts/gentona/Gentona Book.otf",
   display: "swap",
 });
 
@@ -27,7 +27,7 @@ const IMPACT_RED_UNDER_VECTOR: CSSProperties = {
 
 export default function SmirnoffImpact() {
   return (
-    <section className="relative -mt-10 flex w-full flex-col items-end gap-10 overflow-hidden px-15 pb-16 md:-mt-12 md:px-30 md:pb-24 md:pt-1 lg:flex-row lg:gap-40 lg:px-40">
+    <section className="relative -mt-10 flex w-full flex-col items-center gap-10 overflow-hidden px-6 pb-16 md:-mt-12 md:px-12 md:pb-24 md:pt-1 lg:flex-row lg:items-center lg:gap-40 lg:px-20">
       <div className="pointer-events-none absolute inset-0 z-0 bg-black" aria-hidden />
       <div
         className="pointer-events-none absolute inset-0 z-[1]"
@@ -56,7 +56,7 @@ export default function SmirnoffImpact() {
         aria-hidden
       />
 
-      <div className="relative z-10 -mt-32 -translate-y-[156px] flex min-w-0 flex-1 flex-col gap-2 md:-mt-36 md:-translate-y-[192px] lg:-mt-44 lg:-translate-y-[244px] lg:gap-8">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col gap-2 lg:gap-8">
         <h2
           className={`${gentonaMedium.className} text-[2rem] font-black uppercase leading-[0.95] tracking-wide md:text-[4rem] lg:text-[5.5rem]`}
           style={{ color: MAROON }}
