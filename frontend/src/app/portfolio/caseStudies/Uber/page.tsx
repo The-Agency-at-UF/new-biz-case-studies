@@ -1,5 +1,6 @@
 import NavBar from "../../../../components/NavBar";
 import BackButton from "../../../../components/BackButton";
+import CaseStudyDial from "../../../../components/CaseStudyDial";
 
 import UberHero from "./components/hero";
 import OpportunitySection from "./components/opportunity";
@@ -15,6 +16,7 @@ import SharedFooter from "../../../../components/Footer";
 export default function UberPage() {
   return (
     <div className="relative min-h-screen w-full text-foreground bg-[#142328]">
+      <CaseStudyDial currentStudy="Uber" />
       <BackButton currentStudy="Uber" />
 
       <NavBar />

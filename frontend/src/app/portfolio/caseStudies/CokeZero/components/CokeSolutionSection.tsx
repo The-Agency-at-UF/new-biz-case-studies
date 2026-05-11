@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Hat1 from "../assets/CokeHat1.png";
-import Hat2 from "../assets/CokeHat2.svg";
 import CokeAccentLinesV2 from "./CokeAccentLinesV2";
 import { motion } from "framer-motion";
 
@@ -56,8 +53,8 @@ export default function CokeSolutionSection() {
                 sunburns, hoarseness-you name it.
               </p>
             </div>
-            <Image
-              src={Hat1}
+            <img
+              src="/assets/CokeZero/CokeHat1.png"
               alt="Coke Bucket Hat"
               className="absolute -top-[2.5rem] -right-[5rem] z-20 h-auto w-[10rem] md:-top-[3.25rem] md:-right-[9rem] md:w-[13rem] lg:-top-20 lg:-right-72 lg:w-85"
             />
@@ -94,8 +91,8 @@ export default function CokeSolutionSection() {
                 We suggested entirely new directions, some traditional and some digital, through our Gen Z lens.
               </p>
             </div>
-            <Image
-              src={Hat2}
+            <img
+              src="/assets/CokeZero/CokeHat2.svg"
               alt="Coke promotional hat"
               className="absolute -top-[4rem] -left-[6rem] z-20 h-auto w-[10rem] md:-top-[6rem] md:-left-[9rem] md:w-[14rem] lg:-top-45 lg:-left-35 lg:w-75"
             />
@@ -106,3 +103,4 @@ export default function CokeSolutionSection() {
     </section>
   );
 }
+

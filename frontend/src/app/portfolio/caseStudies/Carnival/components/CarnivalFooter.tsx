@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
 
 export default function CarnivalFooter() {
   return (
@@ -24,8 +23,8 @@ export default function CarnivalFooter() {
 
         <p className="text-3xl font-bold lg:text-4xl">X</p>
 
-        <Image
-          src={agencyLogo}
+        <img
+          src="/assets/CokeZero/AgencyLogoFull.png"
           alt="The Agency at the University of Florida"
           className="h-auto w-full max-w-[320px] sm:max-w-[420px]"
         />

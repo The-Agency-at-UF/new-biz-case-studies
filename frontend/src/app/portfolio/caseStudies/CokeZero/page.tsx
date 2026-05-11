@@ -1,7 +1,6 @@
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
-
-import cokeBackground from "./assets/Coke-Background.svg";
+import CaseStudyDial from "@/components/CaseStudyDial";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
 import CokePhoneScreens from "./components/CokePhoneScreens";
@@ -31,6 +30,7 @@ const gentona = localFont({
 export default function CokeZeroPage() {
   return (
     <>
+      <CaseStudyDial currentStudy="CokeZero" />
       <BackButton currentStudy="CokeZero" />
       <NavBar />
 
@@ -38,7 +38,7 @@ export default function CokeZeroPage() {
         className={`${gentona.className} min-h-screen overflow-x-hidden bg-[#EC1C24] text-white`}
         style={{
           backgroundColor: "#EC1C24",
-          backgroundImage: `url(${cokeBackground.src})`,
+          backgroundImage: "url('/assets/CokeZero/Coke-Background.svg')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "top center",
           backgroundSize: "100% auto",

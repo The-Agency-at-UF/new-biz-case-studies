@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import agencyLogo from "../../CokeZero/assets/AgencyLogoFull.png";
 
 export default function CarnivalHeadlinesSection() {
   const colsRef = useRef(null);
@@ -144,8 +143,8 @@ export default function CarnivalHeadlinesSection() {
 
               <p className="text-3xl font-bold lg:text-4xl">X</p>
 
-              <Image
-                src={agencyLogo}
+              <img
+                src="/assets/CokeZero/AgencyLogoFull.png"
                 alt="The Agency at the University of Florida"
                 className="h-auto w-full max-w-[280px] sm:max-w-[380px]"
               />

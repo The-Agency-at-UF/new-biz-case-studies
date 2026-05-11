@@ -1,5 +1,6 @@
 import NavBar from "../../../../components/NavBar";
 import BackButton from "../../../../components/BackButton";
+import CaseStudyDial from "../../../../components/CaseStudyDial";
 
 import NewHero from "./components/newHero";
 import OpportunitySection from "./components/Opportunity";
@@ -12,6 +13,7 @@ import SharedFooter from "../../../../components/Footer";
 export default function AmazonAlexaPage() {
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#1D3B57]">
+      <CaseStudyDial currentStudy="AmazonAlexa" />
       <BackButton currentStudy="AmazonAlexa" />
 
       <NavBar />

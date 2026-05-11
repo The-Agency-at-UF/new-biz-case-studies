@@ -1,6 +1,7 @@
 import { gentona } from "@/app/fonts";
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
+import CaseStudyDial from "@/components/CaseStudyDial";
 
 import CarnivalHeadlinesSection from "./components/CarnivalHeadlinesSection";
 import CarnivalLandingSection from "./components/CarnivalLandingSection";
@@ -13,6 +14,7 @@ import SharedFooter from "../../../../components/Footer";
 export default function CarnivalPage() {
   return (
     <>
+      <CaseStudyDial currentStudy="Carnival" />
       <BackButton currentStudy="Carnival" />
       <NavBar />
 

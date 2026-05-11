@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import cokeZero from "../assets/CokeZeroWhite.png";
-import agencyLogo from "../assets/AgencyLogoFull.png";
 import { motion } from "framer-motion";
 
 export default function CokeFooter() {
@@ -29,16 +26,16 @@ export default function CokeFooter() {
         variants={fadeInUp}
         className="flex flex-col items-center justify-center gap-5 text-white lg:flex-row lg:gap-6"
       >
-        <Image
-          src={cokeZero}
+        <img
+          src="/assets/CokeZero/CokeZeroWhite.png"
           alt="Coca Cola Zero Sugar"
           className="h-auto w-full max-w-[280px] sm:max-w-[360px]"
         />
 
         <p className="text-3xl font-bold lg:text-4xl">X</p>
 
-        <Image
-          src={agencyLogo}
+        <img
+          src="/assets/CokeZero/AgencyLogoFull.png"
           alt="The Agency at the University of Florida"
           className="h-auto w-full max-w-[320px] sm:max-w-[460px]"
         />

@@ -1,10 +1,6 @@
 ﻿"use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
-import cokeZero from "../assets/CokeZeroWhite.png";
-import agencyLogo from "../assets/AgencyLogoFull.png";
-import cokeSpilling from "../assets/CokeSpilling.png";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -35,8 +31,8 @@ export default function CokeLandingSection() {
         transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
         className="absolute inset-0 z-38 pointer-events-none overflow-visible"
       >
-        <Image
-          src={cokeSpilling}
+        <img
+          src="/assets/CokeZero/CokeSpilling.png"
           alt=""
           className="absolute -left-[16%] top-[40%] w-[860px] h-auto rotate-[43deg]"
         />
@@ -63,16 +59,16 @@ export default function CokeLandingSection() {
           variants={fadeInUp}
           className="flex items-center gap-4 mt-6 mb-6"
         >
-          <Image
-            src={cokeZero}
+          <img
+            src="/assets/CokeZero/CokeZeroWhite.png"
             alt="Coca Cola Zero Sugar"
             className="w-75 h-auto pr-2"
           />
 
           <p className="font-bold text-4xl">X</p>
 
-          <Image
-            src={agencyLogo}
+          <img
+            src="/assets/CokeZero/AgencyLogoFull.png"
             alt="The Agency at the University of Florida"
             className="w-110 h-auto pl-2"
           />
