@@ -7,7 +7,7 @@ import { CASE_STUDY_ROUTE_IDS, type CaseStudyRouteId } from "@/config/caseStudyR
 import { CASE_STUDY_LOGOS } from "@/config/caseStudyLogos";
 
 const ITEM_HEIGHT = 72; // px — height of each cell including gap
-const VISIBLE_ITEMS = 7; // odd number — center ± n
+const VISIBLE_ITEMS = 9; // odd number — center ± n
 const DIAL_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS;
 const CENTER_OFFSET = Math.floor(VISIBLE_ITEMS / 2);
 
@@ -28,16 +28,29 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   const lastTimestamp = useRef(0);
   const [renderOffset, setRenderOffset] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  // Track scroll to hide after hero section
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const heroThreshold = 800;
+  const heroOpacity = scrollY < heroThreshold
+    ? 1
+    : Math.max(0, 1 - (scrollY - heroThreshold) / 200);
 
   const count = CASE_STUDY_ROUTE_IDS.length;
+  const clamp = useCallback(
+    (v: number) => Math.max(0, Math.min(v, (count - 1) * ITEM_HEIGHT)),
+    [count]
+  );
 
-  // Clamp offset to valid range
-  const clamp = (v: number) =>
-    Math.max(0, Math.min(v, (count - 1) * ITEM_HEIGHT));
-
-  // Active index derived from offset
-  const activeIndex = Math.round(offsetY.current / ITEM_HEIGHT);
-  const clampedActive = Math.max(0, Math.min(activeIndex, count - 1));
+  // Ref so snap always reads the latest currentStudy without stale closure
+  const currentStudyRef = useRef(currentStudy);
+  useEffect(() => { currentStudyRef.current = currentStudy; }, [currentStudy]);
 
   // Initialize position from currentStudy prop
   useEffect(() => {
@@ -59,7 +72,8 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
       // Navigate on snap settle
       const idx = Math.round(target / ITEM_HEIGHT);
       const studyId = CASE_STUDY_ROUTE_IDS[Math.max(0, Math.min(idx, count - 1))];
-      if (studyId && studyId !== currentStudy) {
+      if (studyId && studyId !== currentStudyRef.current) {
+        window.scrollTo({ top: 0, behavior: "instant" });
         router.push(`/portfolio?study=${studyId}`);
       }
       return;
@@ -69,7 +83,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     offsetY.current = clamp(offsetY.current + velocity.current);
     setRenderOffset(offsetY.current);
     rafId.current = requestAnimationFrame(snap);
-  }, [currentStudy, count, router]);
+  }, [clamp, count, router]);
 
   // Momentum flick after drag release
   const fling = useCallback(() => {
@@ -123,6 +137,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   // ── Wheel support ───────────────────────────────────────────────
   const onWheel = useCallback(
     (e: React.WheelEvent) => {
+      e.preventDefault();
       cancelRaf();
       offsetY.current = clamp(offsetY.current + e.deltaY * 0.6);
       velocity.current = e.deltaY * 0.6;
@@ -144,8 +159,8 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     // Scale falloff
     const scale = 1 - Math.min(absD * 0.09, 0.4);
 
-    // Opacity falloff — sharp center, fades fast
-    const opacity = Math.max(0, 1 - absD * 0.28);
+    // Opacity falloff — steep curve so center pops hard
+    const opacity = Math.max(0, 1 - Math.pow(absD, 1.4) * 0.45);
 
     // Vertical translation to follow the arc
     const translateY = Math.sin((distanceFromCenter * Math.PI) / (VISIBLE_ITEMS)) * 8;
@@ -168,59 +183,71 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     };
   };
 
+  // ── Derived visibility ───────────────────────────────────────────
+  const inHero = scrollY < heroThreshold;
+  // Dial: always visible in hero; past hero only on hover at full opacity
+  const dialOpacity = inHero ? 1 : (isHovered ? 1 : 0);
+  const dialSlide = (inHero || isHovered) ? 0 : 12;
+  // Dot: hidden in hero (dial is the indicator); past hero inverse of dial
+  const dotOpacity = inHero ? 0 : (isHovered ? 0 : (1 - heroOpacity));
+
   // ── Render ───────────────────────────────────────────────────────
   return (
     <>
-      {/* Always-visible indicator dot on right edge */}
+      {/* Indicator dot — complementary to dial, hidden in hero */}
       <div
-        className="fixed right-4 top-1/2 z-35 pointer-events-none"
+        className="fixed top-1/2 z-35 pointer-events-none"
         style={{
+          right: 44 - 3,
           transform: "translateY(-50%)",
-          width: 8,
-          height: 8,
+          width: 6,
+          height: 6,
           borderRadius: "50%",
-          background: "rgba(255,255,255,0.6)",
-          boxShadow: `0 0 12px rgba(255,255,255,${isHovered ? 0.8 : 0.4})`,
-          transition: "box-shadow 300ms ease, background 300ms ease",
+          background: "rgba(255,255,255,0.55)",
+          boxShadow: "0 0 6px rgba(255,255,255,0.35)",
+          opacity: dotOpacity,
+          transition: "opacity 300ms ease",
         }}
       />
-      
-      {/* Wide invisible hover trigger — easy to reach from anywhere near the right edge */}
+
+      {/* Wide invisible hover trigger — always active so user can reveal dial from anywhere */}
       <div
         className="fixed right-0 top-0 bottom-0 z-30"
         style={{ width: 120, pointerEvents: "auto" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       />
-      
+
       <div
-      className="fixed right-0 top-1/2 z-40 flex items-center justify-end"
-      style={{
-        height: DIAL_HEIGHT,
-        width: 88,
-        opacity: isHovered ? 1 : 0.3,
-        transform: `translateY(-50%) translateX(${isHovered ? 0 : 12}px)`,
-        transition: "opacity 300ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1)",
-        pointerEvents: isHovered ? "auto" : "none",
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Selection highlight pill */}
-      <div
-        className="absolute inset-x-2 pointer-events-none z-0"
+        className="fixed right-0 top-1/2 z-40 flex items-center"
         style={{
-          height: ITEM_HEIGHT - 8,
-          top: "50%",
-          transform: "translateY(-50%)",
-          borderRadius: 18,
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)",
-          backdropFilter: "blur(12px) saturate(1.5)",
-          WebkitBackdropFilter: "blur(12px) saturate(1.5)",
-          border: "1px solid rgba(255,255,255,0.13)",
-          boxShadow:
-            "0 2px 24px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+          height: DIAL_HEIGHT,
+          width: 88,
+          opacity: dialOpacity,
+          transform: `translateY(-50%) translateX(${dialSlide}px)`,
+          transition: "opacity 300ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1)",
+          pointerEvents: dialOpacity > 0 ? "auto" : "none",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+      {/* Top hairline rule */}
+      <div
+        className="absolute left-0 right-0 pointer-events-none z-0"
+        style={{
+          top: `calc(50% - ${ITEM_HEIGHT / 2}px)`,
+          height: 1,
+          background: "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%)",
+        }}
+      />
+      
+      {/* Bottom hairline rule */}
+      <div
+        className="absolute left-0 right-0 pointer-events-none z-0"
+        style={{
+          top: `calc(50% + ${ITEM_HEIGHT / 2}px)`,
+          height: 1,
+          background: "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%)",
         }}
       />
 
@@ -283,8 +310,8 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
                     alignItems: "center",
                     justifyContent: "center",
                     background: isActive
-                      ? "rgba(255,255,255,0.12)"
-                      : "rgba(255,255,255,0.04)",
+                      ? "rgba(255,255,255,0.28)"
+                      : "rgba(255,255,255,0.12)",
                     transition: "background 200ms ease",
                     position: "relative",
                   }}
@@ -296,8 +323,8 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
                         position: "absolute",
                         inset: -2,
                         borderRadius: "50%",
-                        border: "1.5px solid rgba(255,255,255,0.55)",
-                        boxShadow: "0 0 12px 2px rgba(255,255,255,0.15)",
+                        border: "1.5px solid rgba(255,255,255,0.8)",
+                        boxShadow: "0 0 16px 4px rgba(255,255,255,0.2)",
                         pointerEvents: "none",
                       }}
                     />
