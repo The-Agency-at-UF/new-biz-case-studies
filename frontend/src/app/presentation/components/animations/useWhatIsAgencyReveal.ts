@@ -116,17 +116,14 @@ export function useWhatIsAgencyReveal() {
         }
       );
 
-      // Fade out the TV frame over the entire zoom duration so it finishes with the video
+      // Fade out the TV frame in lockstep with the zoom (both 0 → 1.0) so the frame
+      // is gone exactly when the video reaches full screen.
       tl.to(
         tvOverlay,
         {
           opacity: 0,
           duration: 1.0,
           ease: "none",
-          // The old onComplete scroll-lock is gone: `scroll` events aren't cancelable,
-          // so its preventDefault() was a no-op, and it fired on every scrub pass.
-          // The snap settle at progress 1 (see scrollTrigger.snap) now provides the
-          // "let it rest at the framed state" beat instead.
         },
         0 // Starts at the same time as the video zoom (0s)
       );
@@ -145,11 +142,15 @@ export function useWhatIsAgencyReveal() {
         0.5
       );
 
+      // Content fades in over the tail of the zoom and finishes exactly when the
+      // scaling / TV-frame fade / pop all complete (t = 1.0). It used to end ~0.2
+      // later, so the video looked "done" while the copy was still arriving — the
+      // awkward gap where you had to scroll again to reach the final state.
       tl.fromTo(
         content,
         { opacity: 0, y: 40 },
         { opacity: 1, y: 0, ease: "none", duration: 0.3 },
-        "-=0.08"
+        0.7 // absolute position → ends at 1.0, together with the video scaling
       );
 
       if (prefersReduced) {
@@ -157,10 +158,10 @@ export function useWhatIsAgencyReveal() {
         // full-screen video and the copy are fully shown and readable.
         tl.progress(1);
       } else {
-        // Plateau — hold the finished full-screen reveal so stopping here rests on
-        // the completed state (the "pause to appreciate" the old snap gave us),
-        // without the page ever scrolling on its own.
-        tl.to({}, { duration: 0.9 });
+        // Short settle after the complete final state (already reached at t = 1.0)
+        // — just a beat before further scroll leaves the section, not a long dead
+        // zone the user has to scrub through.
+        tl.to({}, { duration: 0.25 });
       }
 
     }, section);
