@@ -13,6 +13,16 @@ gsap.registerPlugin(ScrollTrigger);
 import { useAdventure } from '../context/AdventureContext';
 import { gentonaBook } from '../../fonts';
 
+// Scroll-progress milestones across the 200dvh stage (0 = top, 1 = bottom bottom).
+// The transition is a NARROW band so the logo and the finished menu each occupy a
+// wide, stable plateau — wherever you stop, you land on a clean state, and the page
+// never scrolls on its own. Logo plateau: 0–0.15. Transition: ~0.15–0.35. Menu
+// plateau: 0.35–1.0 (footer stays off-screen until you scroll past the stage).
+const LOGO_HOLD_END = 0.15;    // logo fully visible up to here
+const LOGO_EXIT_END = 0.32;    // logo fully gone by here
+const MENU_ENTER_START = 0.18; // menu starts fading in (slight overlap = leave-behind)
+const MENU_FULL_AT = 0.35;     // menu fully visible; plateaus from here to 1.0
+
 type MainHeroProps = {
     /**
      * Content rendered in the second viewport of the stage
@@ -32,14 +42,27 @@ export default function MainHero({ children }: MainHeroProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const { selectBlob } = useAdventure();
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
     function handleBlobClick(blob: 1 | 2 | 3) {
         selectBlob(blob);
     }
 
+    // Respect the OS "reduce motion" setting — we keep the opacity cross-dissolve
+    // (a fade is not vestibular motion) but suppress the translate/scale movement.
+    useEffect(() => {
+        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const update = () => setPrefersReducedMotion(mq.matches);
+        update();
+        mq.addEventListener('change', update);
+        return () => mq.removeEventListener('change', update);
+    }, []);
+
     useEffect(() => {
         if (!sectionRef.current) return;
 
+        // No scroll snapping: the plateaus (see milestone constants) guarantee a
+        // clean resting state without ever moving the page for the user.
         const ctx = gsap.context(() => {
             ScrollTrigger.create({
                 trigger: sectionRef.current,
@@ -74,21 +97,22 @@ export default function MainHero({ children }: MainHeroProps) {
     }, [selectBlob]);
 
     // Opacity / transform calculations
-    // Make State 1 exit earlier and faster so it feels like it's being left behind.
-    const state1End = 0.45; // State1 fully exited by 45% progress
-    const state1Progress = Math.max(0, Math.min(1, scrollProgress / state1End));
+    // State 1 holds visible through LOGO_HOLD_END, then exits over a short band so
+    // it feels left behind. Outside that band it's a stable plateau (fully in / out).
+    const state1Progress = Math.max(0, Math.min(1, (scrollProgress - LOGO_HOLD_END) / (LOGO_EXIT_END - LOGO_HOLD_END)));
     const state1Opacity = Math.max(0, 1 - Math.pow(state1Progress, 2.5));
 
-    // State 2 will begin slightly before state1 fully finishes so it can come
-    // into place, but because state1 drops quickly it will feel left behind.
-    const state2Start = 0.42;
-    const state2Progress = Math.max(0, Math.min(1, (scrollProgress - state2Start) / (1 - state2Start)));
+    // State 2 fades in over the same narrow band and reaches full opacity at
+    // MENU_FULL_AT, then plateaus all the way to the section end — so wherever you
+    // stop past the transition, the menu is fully shown and the footer stays hidden.
+    const state2Progress = Math.max(0, Math.min(1, (scrollProgress - MENU_ENTER_START) / (MENU_FULL_AT - MENU_ENTER_START)));
     const state2Opacity = Math.pow(state2Progress, 0.95);
 
-    // Transforms for push/leave-behind effect
-    const state1TranslateY = -state1Progress * 16; // vh (faster lift)
-    const state1Scale = 1 - state1Progress * 0.12;
-    const state2TranslateY = (1 - state2Progress) * 6; // vh (comes up into place)
+    // Push/leave-behind movement — suppressed under reduced motion (the fades stay).
+    const moveFactor = prefersReducedMotion ? 0 : 1;
+    const state1TranslateY = -state1Progress * 16 * moveFactor; // vh (faster lift)
+    const state1Scale = 1 - state1Progress * 0.12 * moveFactor;
+    const state2TranslateY = (1 - state2Progress) * 6 * moveFactor; // vh (comes up into place)
 
     return (
         <section

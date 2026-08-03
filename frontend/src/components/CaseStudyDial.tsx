@@ -11,6 +11,15 @@ const VISIBLE_ITEMS = 9; // odd number — center ± n
 const DIAL_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS;
 const CENTER_OFFSET = Math.floor(VISIBLE_ITEMS / 2);
 
+// ── Physics tuning (all time-based, so behavior is identical at 60Hz and 120Hz) ──
+const FRICTION_TAU = 0.35;       // s — momentum e-folding time (higher = longer glide)
+const SETTLE_ENTER_SPEED = 220;  // px/s — below this, momentum hands off to the snap spring
+const SPRING_OMEGA = 15;         // rad/s — critically damped snap stiffness (higher = snappier)
+const MAX_SPEED = 6000;          // px/s — clamp wild flicks
+const WHEEL_VELOCITY = 2.0;      // px/s injected per unit of wheel deltaY
+const DT_MAX = 0.05;             // s — cap per-frame dt so a tab-switch stall can't teleport
+const clampSpeed = (v: number) => Math.max(-MAX_SPEED, Math.min(MAX_SPEED, v));
+
 interface CaseStudyDialProps {
   currentStudy: CaseStudyRouteId;
 }
@@ -26,6 +35,11 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   const isDragging = useRef(false);
   const lastY = useRef(0);
   const lastTimestamp = useRef(0);
+  const pointerDownY = useRef(0); // clientY at pointerdown — used to tell a tap from a drag
+  const movedRef = useRef(false); // set once the pointer travels past the tap threshold
+  const targetRef = useRef<number | null>(null); // offsetY goal when settling to a row
+  const modeRef = useRef<"idle" | "momentum" | "settle">("idle");
+  const lastFrameRef = useRef(0); // timestamp of previous rAF frame (0 = fresh start)
   const [renderOffset, setRenderOffset] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -61,43 +75,82 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     }
   }, []); // only on mount
 
-  // Spring snap to nearest item
-  const snap = useCallback(() => {
-    const target = Math.round(offsetY.current / ITEM_HEIGHT) * ITEM_HEIGHT;
-    const diff = target - offsetY.current;
-    if (Math.abs(diff) < 0.1 && Math.abs(velocity.current) < 0.1) {
-      offsetY.current = target;
-      velocity.current = 0;
-      setRenderOffset(target);
-      // Navigate on snap settle
-      const idx = Math.round(target / ITEM_HEIGHT);
-      const studyId = CASE_STUDY_ROUTE_IDS[Math.max(0, Math.min(idx, count - 1))];
-      if (studyId && studyId !== currentStudyRef.current) {
-        window.scrollTo({ top: 0, behavior: "instant" });
-        router.push(`/portfolio?study=${studyId}`);
+  const settleAndNavigate = useCallback((target: number) => {
+    offsetY.current = target;
+    velocity.current = 0;
+    targetRef.current = null;
+    modeRef.current = "idle";
+    rafId.current = null;
+    setRenderOffset(target);
+    const idx = Math.round(target / ITEM_HEIGHT);
+    const studyId = CASE_STUDY_ROUTE_IDS[Math.max(0, Math.min(idx, count - 1))];
+    if (studyId && studyId !== currentStudyRef.current) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      router.push(`/portfolio?study=${studyId}`);
+    }
+  }, [count, router]);
+
+  // Single time-based loop. Two phases, both frame-rate independent:
+  //   momentum — velocity decays exponentially while spinning through rows
+  //   settle   — a critically damped spring eases into the target row (no overshoot,
+  //              no ringing) seeded with the current velocity, so the handoff from
+  //              momentum is seamless. This is what kills the old jitter.
+  const tick = useCallback((now: number) => {
+    const last = lastFrameRef.current || now;
+    let dt = (now - last) / 1000;
+    lastFrameRef.current = now;
+    if (dt > DT_MAX) dt = DT_MAX;
+    if (dt <= 0) { rafId.current = requestAnimationFrame(tick); return; }
+
+    const maxOff = (count - 1) * ITEM_HEIGHT;
+
+    if (modeRef.current === "momentum") {
+      velocity.current *= Math.exp(-dt / FRICTION_TAU); // time-based friction
+      offsetY.current += velocity.current * dt;
+
+      // Stop dead at the ends rather than fighting the clamp frame after frame.
+      if (offsetY.current <= 0) { offsetY.current = 0; velocity.current = 0; }
+      else if (offsetY.current >= maxOff) { offsetY.current = maxOff; velocity.current = 0; }
+
+      // Slow enough → hand the residual velocity to the snap spring.
+      if (Math.abs(velocity.current) < SETTLE_ENTER_SPEED) {
+        targetRef.current = clamp(Math.round(offsetY.current / ITEM_HEIGHT) * ITEM_HEIGHT);
+        modeRef.current = "settle";
       }
+      setRenderOffset(offsetY.current);
+      rafId.current = requestAnimationFrame(tick);
       return;
     }
-    // Spring: pull toward target + dampen velocity
-    velocity.current = velocity.current * 0.82 + diff * 0.18;
-    offsetY.current = clamp(offsetY.current + velocity.current);
-    setRenderOffset(offsetY.current);
-    rafId.current = requestAnimationFrame(snap);
-  }, [clamp, count, router]);
 
-  // Momentum flick after drag release
-  const fling = useCallback(() => {
-    if (isDragging.current) return;
-    velocity.current *= 0.93; // friction
-    offsetY.current = clamp(offsetY.current + velocity.current);
-    setRenderOffset(offsetY.current);
+    if (modeRef.current === "settle") {
+      const target = targetRef.current ??
+        clamp(Math.round(offsetY.current / ITEM_HEIGHT) * ITEM_HEIGHT);
+      // Exact critically damped spring: x(t) = target + (A + B t) e^(-ω t)
+      const omega = SPRING_OMEGA;
+      const A = offsetY.current - target;      // current displacement
+      const B = velocity.current + omega * A;  // set so x'(0) == current velocity
+      const decay = Math.exp(-omega * dt);
+      offsetY.current = target + (A + B * dt) * decay;
+      velocity.current = (B - omega * (A + B * dt)) * decay;
 
-    if (Math.abs(velocity.current) < 0.5) {
-      rafId.current = requestAnimationFrame(snap);
-    } else {
-      rafId.current = requestAnimationFrame(fling);
+      if (Math.abs(offsetY.current - target) < 0.3 && Math.abs(velocity.current) < 4) {
+        settleAndNavigate(target);
+        return;
+      }
+      setRenderOffset(offsetY.current);
+      rafId.current = requestAnimationFrame(tick);
+      return;
     }
-  }, [snap]);
+
+    rafId.current = null; // idle
+  }, [clamp, count, settleAndNavigate]);
+
+  const ensureRunning = useCallback(() => {
+    if (rafId.current === null) {
+      lastFrameRef.current = 0; // first frame measures a zero dt
+      rafId.current = requestAnimationFrame(tick);
+    }
+  }, [tick]);
 
   const cancelRaf = () => {
     if (rafId.current !== null) {
@@ -107,9 +160,14 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   };
 
   // ── Pointer events ──────────────────────────────────────────────
+  const TAP_THRESHOLD = 6; // px of travel before a press counts as a drag rather than a tap
+
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     cancelRaf();
+    modeRef.current = "idle";
     isDragging.current = true;
+    movedRef.current = false;
+    pointerDownY.current = e.clientY;
     lastY.current = e.clientY;
     lastTimestamp.current = performance.now();
     velocity.current = 0;
@@ -118,33 +176,70 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;
+    if (Math.abs(e.clientY - pointerDownY.current) > TAP_THRESHOLD) {
+      movedRef.current = true;
+    }
     const now = performance.now();
-    const dt = Math.max(1, now - lastTimestamp.current);
-    const dy = lastY.current - e.clientY;
-    velocity.current = (dy / dt) * 16; // scale to ~frame units
+    const dtMs = Math.max(1, now - lastTimestamp.current);
+    const dy = lastY.current - e.clientY; // finger up ⇒ positive ⇒ advance to later rows
     offsetY.current = clamp(offsetY.current + dy);
     setRenderOffset(offsetY.current);
+
+    // Smooth the release velocity (px/s) with an EMA so one noisy sample can't
+    // seed a wild flick, and pausing before release naturally cancels momentum.
+    const instantaneous = (dy / dtMs) * 1000;
+    velocity.current = velocity.current * 0.7 + instantaneous * 0.3;
+
     lastY.current = e.clientY;
     lastTimestamp.current = now;
-  }, []);
+  }, [clamp]);
 
   const onPointerUp = useCallback(() => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    rafId.current = requestAnimationFrame(fling);
-  }, [fling]);
+
+    // A press that never traveled past the threshold is a click: figure out which
+    // item sits under the pointer and spring it to center (which then navigates).
+    if (!movedRef.current) {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        const relFromCenter = pointerDownY.current - rect.top - DIAL_HEIGHT / 2;
+        const rawIdx = Math.round((offsetY.current + relFromCenter) / ITEM_HEIGHT);
+        const idx = Math.max(0, Math.min(rawIdx, count - 1));
+        targetRef.current = clamp(idx * ITEM_HEIGHT);
+        velocity.current = 0;
+        modeRef.current = "settle";
+        ensureRunning();
+        return;
+      }
+    }
+
+    // Drag release → glide with the smoothed velocity, then snap.
+    velocity.current = clampSpeed(velocity.current);
+    modeRef.current = "momentum";
+    ensureRunning();
+  }, [clamp, count, ensureRunning]);
+
+  const onPointerCancel = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    targetRef.current = clamp(Math.round(offsetY.current / ITEM_HEIGHT) * ITEM_HEIGHT);
+    modeRef.current = "settle";
+    ensureRunning();
+  }, [clamp, ensureRunning]);
 
   // ── Wheel support ───────────────────────────────────────────────
   const onWheel = useCallback(
     (e: React.WheelEvent) => {
       e.preventDefault();
-      cancelRaf();
-      offsetY.current = clamp(offsetY.current + e.deltaY * 0.6);
-      velocity.current = e.deltaY * 0.6;
-      setRenderOffset(offsetY.current);
-      rafId.current = requestAnimationFrame(fling);
+      // Feed velocity into the running loop instead of overwriting + restarting it,
+      // so a trackpad's stream of small deltas accumulates smoothly rather than
+      // thrashing. deltaY > 0 (scroll down) advances to later rows.
+      velocity.current = clampSpeed(velocity.current + e.deltaY * WHEEL_VELOCITY);
+      modeRef.current = "momentum";
+      ensureRunning();
     },
-    [fling]
+    [ensureRunning]
   );
 
   // ── Per-item visual transform ────────────────────────────────────
@@ -268,7 +363,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        onPointerCancel={onPointerCancel}
         onWheel={onWheel}
       >
         {/* Items — rendered at absolute positions */}
@@ -294,8 +389,12 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
                 href={`/portfolio?study=${studyId}`}
                 draggable={false}
                 onClick={(e) => {
-                  // If we're dragging, swallow the click
-                  if (Math.abs(velocity.current) > 1) e.preventDefault();
+                  // Let modifier-clicks (open in new tab) and keyboard activation
+                  // (e.detail === 0) use the anchor's native navigation.
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.detail === 0) return;
+                  // Otherwise this is a mouse tap — the pointerup handler already
+                  // spins the dial to center and navigates, so block the hard nav.
+                  e.preventDefault();
                 }}
                 className="flex items-center justify-center"
                 title={studyId}
