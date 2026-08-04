@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import gsap from "gsap";
 
 const services = [
@@ -91,30 +92,31 @@ export default function ServiceRotator() {
         slotAContent.current = nextService;
       }
 
-      forceUpdate(n => n + 1);
+      // Commit the incoming label to the DOM synchronously so the measurement
+      // below reads the NEW element's width, not the previous one. The old
+      // rAF-after-setState raced React's async commit and usually measured the
+      // stale (previous) label — which is why the container came out too small
+      // (clipped) or too big (gap).
+      flushSync(() => forceUpdate(n => n + 1));
 
-      requestAnimationFrame(() => {
-        // use the incoming (offStage) element's natural width
-        const newW = offStage.current?.offsetWidth ?? 200;
-        const h = onStage.current?.offsetHeight ?? 143;
+      // offStage now holds the incoming label; measure its natural width.
+      const newW = offStage.current?.offsetWidth ?? 200;
+      const h = onStage.current?.offsetHeight ?? 143;
 
-        // Animate the container width smoothly in the timeline below
-        gsap.set(containerRef.current, { height: h });
-        
-        gsap.set(offStage.current, { y: h });
+      gsap.set(containerRef.current, { height: h });
+      gsap.set(offStage.current, { y: h });
 
-        gsap.timeline({
-          defaults: { duration: 0.5, ease: "power2.inOut" },
-          onComplete: () => {
-            indexRef.current = nextIndex;
-            activeSlot.current = activeSlot.current === "a" ? "b" : "a";
-            isAnimating.current = false;
-          },
-        })
-          .to(onStage.current, { y: -h }, 0)
-          .to(offStage.current, { y: 0 }, 0)
-          .to(containerRef.current, { width: newW }, 0);
-      });
+      gsap.timeline({
+        defaults: { duration: 0.5, ease: "power2.inOut" },
+        onComplete: () => {
+          indexRef.current = nextIndex;
+          activeSlot.current = activeSlot.current === "a" ? "b" : "a";
+          isAnimating.current = false;
+        },
+      })
+        .to(onStage.current, { y: -h }, 0)
+        .to(offStage.current, { y: 0 }, 0)
+        .to(containerRef.current, { width: newW }, 0);
     }, 2000);
 
     return () => clearInterval(interval);
