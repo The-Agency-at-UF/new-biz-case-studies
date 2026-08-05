@@ -3,8 +3,19 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CASE_STUDY_ROUTE_IDS, type CaseStudyRouteId } from "@/config/caseStudyRoutes";
+import { CASE_STUDY_ROUTE_IDS, isCaseStudyRouteId, type CaseStudyRouteId } from "@/config/caseStudyRoutes";
 import { CASE_STUDY_LOGOS } from "@/config/caseStudyLogos";
+
+const toCamelCase = (name: string) =>
+  name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
+
+// Module-scope so the list survives a remount when the dial navigates between case
+// studies — without it, every switch re-fetches and the dial visibly reshuffles from
+// the full list down to the filtered one each time.
+const companyStudyIdsCache = new Map<string, CaseStudyRouteId[]>();
 
 const ITEM_HEIGHT = 72; // px — height of each cell including gap
 const VISIBLE_ITEMS = 9; // odd number — center ± n
@@ -61,12 +72,60 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
 
   const companyQuery = company ? `&company=${encodeURIComponent(company)}` : "";
 
+  // Restrict the dial to the prospect's own case studies, same lookup BackButton uses
+  const [companyStudyIds, setCompanyStudyIds] = useState<CaseStudyRouteId[] | null>(null);
+  useEffect(() => {
+    if (!company) {
+      setCompanyStudyIds(null);
+      return;
+    }
+
+    // Already fetched for this company on an earlier case-study page this session —
+    // apply it synchronously instead of re-fetching, so the dial never has to fall
+    // back to the full list while a duplicate request is in flight.
+    const cached = companyStudyIdsCache.get(company);
+    if (cached) {
+      setCompanyStudyIds(cached);
+      return;
+    }
+
+    let mounted = true;
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const res = await fetch(`${baseUrl}/api/company/${company}/casestudies`, { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          if (mounted) setCompanyStudyIds(null);
+          return;
+        }
+        const ids = data
+          .map((s: any) => toCamelCase(s.Name))
+          .filter(isCaseStudyRouteId);
+        const resolved = ids.length > 0 ? ids : null;
+        if (resolved) companyStudyIdsCache.set(company, resolved);
+        if (mounted) setCompanyStudyIds(resolved);
+      } catch (err) {
+        if ((err as any)?.name !== "AbortError") console.error("Failed to load company case studies for dial:", err);
+        if (mounted) setCompanyStudyIds(null);
+      }
+    })();
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, [company]);
+
+  const studyIds = companyStudyIds ?? CASE_STUDY_ROUTE_IDS;
+
   const heroThreshold = 800;
   const heroOpacity = scrollY < heroThreshold
     ? 1
     : Math.max(0, 1 - (scrollY - heroThreshold) / 200);
 
-  const count = CASE_STUDY_ROUTE_IDS.length;
+  const count = studyIds.length;
   const clamp = useCallback(
     (v: number) => Math.max(0, Math.min(v, (count - 1) * ITEM_HEIGHT)),
     [count]
@@ -76,14 +135,15 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   const currentStudyRef = useRef(currentStudy);
   useEffect(() => { currentStudyRef.current = currentStudy; }, [currentStudy]);
 
-  // Initialize position from currentStudy prop
+  // Initialize position from currentStudy prop — re-runs once the company-filtered
+  // list resolves, since that's an async fetch that lands after the initial mount
   useEffect(() => {
-    const idx = CASE_STUDY_ROUTE_IDS.indexOf(currentStudy);
+    const idx = studyIds.indexOf(currentStudy);
     if (idx !== -1) {
       offsetY.current = idx * ITEM_HEIGHT;
       setRenderOffset(offsetY.current);
     }
-  }, []); // only on mount
+  }, [studyIds, currentStudy]);
 
   const settleAndNavigate = useCallback((target: number) => {
     offsetY.current = target;
@@ -93,12 +153,12 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     rafId.current = null;
     setRenderOffset(target);
     const idx = Math.round(target / ITEM_HEIGHT);
-    const studyId = CASE_STUDY_ROUTE_IDS[Math.max(0, Math.min(idx, count - 1))];
+    const studyId = studyIds[Math.max(0, Math.min(idx, count - 1))];
     if (studyId && studyId !== currentStudyRef.current) {
       window.scrollTo({ top: 0, behavior: "instant" });
       router.push(`/portfolio?study=${studyId}${companyQuery}`);
     }
-  }, [count, router, companyQuery]);
+  }, [count, router, companyQuery, studyIds]);
 
   // Single time-based loop. Two phases, both frame-rate independent:
   //   momentum — velocity decays exponentially while spinning through rows
@@ -377,7 +437,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
         onWheel={onWheel}
       >
         {/* Items — rendered at absolute positions */}
-        {CASE_STUDY_ROUTE_IDS.map((studyId, index) => {
+        {studyIds.map((studyId, index) => {
           const isActive = studyId === currentStudy;
           const logoPath = CASE_STUDY_LOGOS[studyId];
           const posY = index * ITEM_HEIGHT - offsetY.current + DIAL_HEIGHT / 2 - ITEM_HEIGHT / 2;

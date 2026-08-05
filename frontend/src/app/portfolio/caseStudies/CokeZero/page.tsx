@@ -1,6 +1,5 @@
 import NavBar from "@/components/NavBar";
 import BackButton from "@/components/BackButton";
-import CaseStudyDial from "@/components/CaseStudyDial";
 import CokeAccentLines from "./components/CokeAccentLines";
 import CokeLandingSection from "./components/CokeLandingSection";
 import CokePhoneScreens from "./components/CokePhoneScreens";
@@ -30,7 +29,6 @@ const gentona = localFont({
 export default function CokeZeroPage() {
   return (
     <>
-      <CaseStudyDial currentStudy="CokeZero" />
       <BackButton currentStudy="CokeZero" />
       <NavBar />
 
