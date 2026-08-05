@@ -43,6 +43,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
   const [renderOffset, setRenderOffset] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [company, setCompany] = useState<string | null>(null);
 
   // Track scroll to hide after hero section
   useEffect(() => {
@@ -50,6 +51,15 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Preserve the prospect's company query param across dial navigation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URL(window.location.href).searchParams;
+    setCompany(params.get("company"));
+  }, []);
+
+  const companyQuery = company ? `&company=${encodeURIComponent(company)}` : "";
 
   const heroThreshold = 800;
   const heroOpacity = scrollY < heroThreshold
@@ -86,9 +96,9 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
     const studyId = CASE_STUDY_ROUTE_IDS[Math.max(0, Math.min(idx, count - 1))];
     if (studyId && studyId !== currentStudyRef.current) {
       window.scrollTo({ top: 0, behavior: "instant" });
-      router.push(`/portfolio?study=${studyId}`);
+      router.push(`/portfolio?study=${studyId}${companyQuery}`);
     }
-  }, [count, router]);
+  }, [count, router, companyQuery]);
 
   // Single time-based loop. Two phases, both frame-rate independent:
   //   momentum — velocity decays exponentially while spinning through rows
@@ -386,7 +396,7 @@ export default function CaseStudyDial({ currentStudy }: CaseStudyDialProps) {
               }}
             >
               <Link
-                href={`/portfolio?study=${studyId}`}
+                href={`/portfolio?study=${studyId}${companyQuery}`}
                 draggable={false}
                 onClick={(e) => {
                   // Let modifier-clicks (open in new tab) and keyboard activation

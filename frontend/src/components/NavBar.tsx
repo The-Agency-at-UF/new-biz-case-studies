@@ -149,7 +149,7 @@ export default function PortfolioBar() {
           {/* Logo */}
           <div className="flex flex-col items-start gap-1 min-w-0">
             <Link
-              href="/"
+              href={presentationHref}
               className="relative h-8 sm:h-10 w-[clamp(7rem,12vw,11rem)]"
               onClick={() => setMenuOpen(false)}
             >
