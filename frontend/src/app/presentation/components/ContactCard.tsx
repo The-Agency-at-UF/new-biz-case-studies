@@ -78,7 +78,10 @@ export default function ContactCard() {
       )}
 
       {/* Card */}
-      <div className="w-[clamp(280px,80vw,360px)] rounded-[28px] bg-[#f3f3f3] p-6 shadow-xl">
+      {/* The card is always light, so pin the text color here rather than letting
+          it inherit the body's foreground — in dark mode that's near-white and
+          the field values disappear against the light background. */}
+      <div className="w-[clamp(280px,80vw,360px)] rounded-[28px] bg-[#f3f3f3] p-6 shadow-xl text-black [color-scheme:light]">
 
         {/* Title */}
         <h2 className="text-[18px] font-medium text-black mb-6 text-center">
@@ -96,7 +99,7 @@ export default function ContactCard() {
               placeholder="Your Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1"
+              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 text-black placeholder:text-gray-500"
             />
           </div>
 
@@ -108,7 +111,7 @@ export default function ContactCard() {
               placeholder="Your Company Name"
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
-              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1"
+              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 text-black placeholder:text-gray-500"
             />
           </div>
 
@@ -120,7 +123,7 @@ export default function ContactCard() {
               placeholder="Your Work Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1"
+              className="w-full bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 text-black placeholder:text-gray-500"
             />
           </div>
 
@@ -130,12 +133,12 @@ export default function ContactCard() {
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full appearance-none bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 pr-6"
+              className="w-full appearance-none bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 pr-6 text-black"
             >
-              <option value="">Select One</option>
-              <option>Founder</option>
-              <option>Manager</option>
-              <option>Designer</option>
+              <option className="bg-white text-black" value="">Select One</option>
+              <option className="bg-white text-black">Founder</option>
+              <option className="bg-white text-black">Manager</option>
+              <option className="bg-white text-black">Designer</option>
             </select>
             <ChevronDown className="absolute right-0 bottom-2 text-gray-500" size={16} />
           </div>
@@ -146,12 +149,12 @@ export default function ContactCard() {
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="w-full appearance-none bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 pr-6"
+              className="w-full appearance-none bg-transparent border-b border-gray-400 focus:outline-none focus:border-black text-sm py-1 pr-6 text-black"
             >
-              <option value="">Select Organization Type</option>
-              <option>Startup</option>
-              <option>Enterprise</option>
-              <option>Agency</option>
+              <option className="bg-white text-black" value="">Select Organization Type</option>
+              <option className="bg-white text-black">Startup</option>
+              <option className="bg-white text-black">Enterprise</option>
+              <option className="bg-white text-black">Agency</option>
             </select>
             <ChevronDown className="absolute right-0 bottom-2 text-gray-500" size={16} />
           </div>
